@@ -5,9 +5,12 @@ Having completed this setup, the GitHub Page can be reached via:
 * https://arthurneudeck.github.io/improskop.github.io/
 * https://www.improskop.ch
 
+It can be configured on GitHub at:
+* https://github.com/ArthurNeudeck/improskop.github.io
+
 ## Setting Up GitHubPages
 ### Setup git
-The following command allows to sync more than 1MB with GitHub:
+The following command allows to sync more than 1MB (here 150 MB) with GitHub:
 ```git config --global http.postBuffer 157286400```
 
 ### [Creating a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
