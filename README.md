@@ -1,14 +1,19 @@
 # improskop.github.io
+The web site improskop.ch is a dedicated for a small club coping with improvisation theater.
+
 Having completed this setup, the GitHub Page can be reached via:
-https://arthurneudeck.github.io/improskop.github.io/
-http://www.improskop.ch
+* https://arthurneudeck.github.io/improskop.github.io/
+* https://www.improskop.ch
 
 ## Setting Up GitHubPages
 ### Setup git
+The following command allows to sync more than 1MB with GitHub:
 ```git config --global http.postBuffer 157286400```
 
 ### [Creating a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
-We publish on the "main" branch using the "docs" directory (as proposed as default).
+* we provide the sources at https://github.com/ArthurNeudeck/improskop.github.io.git
+* We publish on the ```main``` branch using the ```docs``` directory (as proposed as default).
+* We adapted the DNS settings for the domain improskop.ch on [Infomaniak](https://manager.infomaniak.com/v3/293740/ng/domain/1614105/dns/manage-zone/list) as follows:<br/><img alt="DNS Settings" src="/images/dns-domain.png" width="800"/> 
 
 ### [Configuring a publishing source for your GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
@@ -20,8 +25,9 @@ The response should be:
 ```
 ; <<>> DiG 9.10.6 <<>> www.improskop.ch +noall +answer -t A
 ;; global options: +cmd
-www.improskop.ch.       3600    IN      A       185.199.109.153
-www.improskop.ch.       3600    IN      A       185.199.111.153
-www.improskop.ch.       3600    IN      A       185.199.108.153
-www.improskop.ch.       3600    IN      A       185.199.110.153
+www.improskop.ch.       3577    IN      CNAME   arthurneudeck.github.io.
+arthurneudeck.github.io. 3600   IN      A       185.199.111.153
+arthurneudeck.github.io. 3600   IN      A       185.199.108.153
+arthurneudeck.github.io. 3600   IN      A       185.199.109.153
+arthurneudeck.github.io. 3600   IN      A       185.199.110.153
 ```
