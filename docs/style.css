@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+  --base-color: #f4f4f4;
+  --text-color: #000000;
+  --primary-color: #f6f3ed; /* Im Button*/
+  --secondary-color: #101010; /* Im Button 2*/
+  --line-color: #000000;/* Um Button*/
+  --color-1: #ffffff; /* Boxes */
+  --color-2: #ffffff; /* Boxen über uns */
+  --color-3: #500f0f; 
+  --color-4: #b2c18a; /* Text in Buttons */
+  --color-5: #b2c18a; /*Nummer Farbe in Countdown*/
+  --color-6: #b2c18a; /*Farbe in Button Countdown*/
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: Helvetica, DM Serif Display, Arial, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    padding: 1em;
+    background-color: var(--base-color);
+}
+
+h1, h2, h3 {
+    font-family: DM Serif Display, Helvetica;
+}
+
+.center-text {
+  text-align: center;
+  padding: 1em;
+}
+
+.bilder-img {
+    display: block;          /* Bild als Block, damit margin funktioniert */
+    margin: 0 auto;          /* horizontal zentrieren */
+    border-radius: 1em;
+    width: 100%;             /* Bild kann schrumpfen */
+    max-width: 1000px;       /* aber nicht größer als 1000px */
+    height: auto;            /* Höhe proportional */
+}
+
+.portrait-img {
+    width: 400px;   /* gleiche Breite und Höhe */
+    height: 400px;
+    border-radius: 50%; /* 50% für perfekten Kreis */
+    object-fit: cover;  /* Bild wird zugeschnitten, bleibt proportional */
+}
+
+nav{
+    margin: 1em auto 3em auto;
+    width: min(1000px, 100%);
+}
+
+/* Brand-Container links */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-right: auto; /* drückt den Rest der Links nach rechts */
+}
+
+/* Logo-Stil */
+.brand img {
+  width: 60px;
+  height: auto;
+  border-radius: 0.4em;
+}
+
+/* Entferne Standard-Styling von ul */
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 2em;
+}
+
+nav li:first-child{
+    margin-right: auto;
+    font-family: Helvetica;
+    font-weight: bold;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+header, section {
+    margin: 2em auto;
+    width: min(200em, 100%); /* Grösse der Boxen */
+    background-color: var(--color-1);
+    padding: min(2em,15%);
+    border-radius: 1em;
+    max-width: 1500px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+
+/* Show Bild */ 
+header img {
+    max-width: 100%;
+    border-radius: 1em;
+    object-fit: cover;
+    object-position: bottom;
+}
+
+.text-container {
+    flex: 0 1 34em;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+.text-container p {
+    margin: .75em 0 1em 0;
+    font-size: 1.25rem;
+}
+
+/* Wird nicht mehr benutzt */
+.cta-button {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--color-4);
+    background-color: var(--primary-color);
+    padding: .75em 1.25em;
+    border-radius: .5em;
+    font-weight: 600; 
+
+        /* Umrandung und Vorbereitung für Hover */
+    border: 2px solid transparent; 
+    transition: border-color 0.2s ease;
+}
+
+.cta-button:hover {
+    border-color: var(--line-color); /* Wird bei Hover sichtbar */
+}
+
+
+.secondary {
+    background-color: var(--secondary-color);
+}
+
+.button-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em; /* Abstand zwischen Buttons */
+  margin-top: 1em;
+}
+
+section {
+    padding: 3em min(2em, 15%);
+    background-color: var(--color-2);
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+section p {
+    margin-top: 1em;
+    font-size: 1.25rem;
+}
+section#mywork {
+    background-color: var(--color-3);
+}
+
+.grid-container {
+    display: grid;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+      "img-1 img-1 img-2"
+      "img-1 img-1 img-3";
+    gap: 1em;
+}
+
+.grid-container img {
+    height: 100%;
+    width: 100%;
+    border-radius: 5em;
+    transition: 100ms ease;
+}
+
+.grid-container img:hover {
+    scale: 1.05;
+}
+
+details {
+    margin-top: 1em;
+    background-color: var(--base-color);
+    border-radius: 1em;
+}
+
+details summary {
+    padding: 1em;
+    font-size: 1.7rem;
+    font-family: limelight, Helvetica;
+}
+
+details p {
+    padding: 0 2em 2em 2em;
+}
+
+
+/* NEUER VERSUCH*/
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+    align-self: center;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    text-align: center;
+    background: var(--base-color);
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    min-width: 100px;
+}
+
+.countdown-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-5);
+    line-height: 1;
+}
+
+.countdown-label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.hero-buttons {
+    text-align: center;
+    margin: 1em;
+}
+
+.cta-btn {
+  text-decoration: none; /* Entfernt die Unterstreichung */
+  background: var(--color-6);
+  color: var(--primary-color);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 1.1rem; 
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(131, 205, 111, 0.3);
+  display: inline-block; /* wichtig für <a>-Elemente */
+}
+
+.cta-btn:hover {
+    background: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(115, 144, 81, 0.4);
+}
+
+/* Cookies */ 
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background:var(--primary-color);
+  color: var(--text-color);
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.cookie-buttons button {
+  margin-left: 10px;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#accept-cookies {
+  background: var(--color-1);
+  color: var(--color-4);
+}
+
+#decline-cookies {
+  background: var(--color-1);
+  color: var(--color-4);
+}
