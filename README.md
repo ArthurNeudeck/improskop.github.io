@@ -1,5 +1,5 @@
 # improskop.github.io
-The web site improskop.ch is a dedicated for a small club coping with improvisation theater.
+The website improskop.ch is a dedicated for a small club coping with improvisation theater.
 
 Having completed this setup, the GitHub Page can be reached via:
 * https://arthurneudeck.github.io/improskop.github.io/

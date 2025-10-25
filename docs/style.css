@@ -395,3 +395,90 @@ details p {
     background: var(--color-1);
     color: var(--color-4);
 }
+
+/* Footer */
+.footer {
+    background:var(--color-2);
+    color: var(--color-1);
+    padding: 3rem 0 1rem;
+    border-radius: 1em;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.footer-logo h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color)
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+    margin: 1em;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--color-4);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--secondary-color);
+    color: var(--text-color);
+}
+
+/* Contact Section */
+.contact .section-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.contact-details {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.contact-item h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.contact-item p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+/*NEWSLETTER*/
+.newsletter-form {
+    text-align: justify;
+}
+
+.newsletter-form h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.newsletter-links {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    text-align: center;
+}
