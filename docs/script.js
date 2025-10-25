@@ -62,3 +62,18 @@ document.addEventListener("DOMContentLoaded", () => {
 function enableCookies() {
   console.log("Cookies wurden akzeptiert — hier kannst du Scripts starten.");
 }
+
+// --- Burger-Menü Steuerung ---
+const toggleButton = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+
+toggleButton.addEventListener('click', () => {
+	navLinks.classList.toggle('show');
+});
+
+// Menü automatisch schließen, wenn ein Link angeklickt wird
+navLinks.querySelectorAll('a').forEach(link => {
+	link.addEventListener('click', () => {
+		navLinks.classList.remove('show');
+	});
+});

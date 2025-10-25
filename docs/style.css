@@ -8,10 +8,10 @@
   --line-color: #000000;/* Um Button*/
   --color-1: #ffffff; /* Boxes */
   --color-2: #ffffff; /* Boxen über uns */
-  --color-3: #500f0f; 
-  --color-4: #b2c18a; /* Text in Buttons */
-  --color-5: #b2c18a; /*Nummer Farbe in Countdown*/
-  --color-6: #b2c18a; /*Farbe in Button Countdown*/
+  --color-3: #500f0f;
+  --color-4: #8a9fc1; /* Text in Buttons */
+  --color-5: #8a9fc1; /*Nummer Farbe in Countdown*/
+  --color-6: #8a9fc1; /*Farbe in Button Countdown*/
 }
 
 * {
@@ -55,11 +55,6 @@ h1, h2, h3 {
     object-fit: cover;  /* Bild wird zugeschnitten, bleibt proportional */
 }
 
-nav{
-    margin: 1em auto 3em auto;
-    width: min(1000px, 100%);
-}
-
 /* Brand-Container links */
 .brand {
   display: flex;
@@ -77,6 +72,17 @@ nav{
   width: 60px;
   height: auto;
   border-radius: 0.4em;
+}
+
+nav{
+    margin: 1em auto 3em auto;
+    width: min(1000px, 100%);
+}
+
+.nav-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 /* Entferne Standard-Styling von ul */
@@ -102,6 +108,52 @@ nav a:hover {
     text-decoration: underline;
 }
 
+/* Burger-Button */
+.menu-toggle {
+	font-size: 28px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	display: none; /* wird nur auf kleinen Screens angezeigt */
+}
+
+/* Navigation */
+#nav-links {
+	list-style: none;
+	display: flex;
+	gap: 20px;
+}
+
+#nav-links a {
+	text-decoration: none;
+	color: black;
+	font-weight: 500;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+	.menu-toggle {
+		display: block;
+	}
+
+	#nav-links {
+		display: none;
+		flex-direction: column;
+		gap: 10px;
+		background: white;
+		position: absolute;
+		top: 70px;
+		right: 20px;
+		padding: 15px;
+		border-radius: 10px;
+		box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+	}
+
+	#nav-links.show {
+		display: flex;
+	}
+}
+
 header, section {
     margin: 2em auto;
     width: min(200em, 100%); /* Grösse der Boxen */
@@ -117,9 +169,10 @@ header, section {
     align-items: center;
     flex-wrap: wrap;
     gap: 2em;
+    text-align: center;
 }
 
-/* Show Bild */ 
+/* Show Bild */
 header img {
     max-width: 100%;
     border-radius: 1em;
@@ -128,7 +181,7 @@ header img {
 }
 
 .text-container {
-    flex: 0 1 34em;
+    flex: 1 1 300px;             /* Mindestbreite 300px, wächst bei Platz */
 }
 
 h1 {
@@ -148,10 +201,10 @@ h1 {
     background-color: var(--primary-color);
     padding: .75em 1.25em;
     border-radius: .5em;
-    font-weight: 600; 
+    font-weight: 600;
 
         /* Umrandung und Vorbereitung für Hover */
-    border: 2px solid transparent; 
+    border: 2px solid transparent;
     transition: border-color 0.2s ease;
 }
 
@@ -197,7 +250,7 @@ section#mywork {
     width: 100%;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr 1fr;
-    grid-template-areas: 
+    grid-template-areas:
       "img-1 img-1 img-2"
       "img-1 img-1 img-3";
     gap: 1em;
@@ -290,55 +343,55 @@ details p {
 }
 
 .cta-btn {
-  text-decoration: none; /* Entfernt die Unterstreichung */
-  background: var(--color-6);
-  color: var(--primary-color);
-  border: none;
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-size: 1.1rem; 
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(131, 205, 111, 0.3);
-  display: inline-block; /* wichtig für <a>-Elemente */
+    text-decoration: none; /* Entfernt die Unterstreichung */
+    background: var(--color-6);
+    color: var(--primary-color);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px var(--color-6);
+    display: inline-block; /* wichtig für <a>-Elemente */
 }
 
 .cta-btn:hover {
     background: #000000;
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(115, 144, 81, 0.4);
+    box-shadow: 0 8px 30px var(--color-5);
 }
 
-/* Cookies */ 
+/* Cookies */
 .cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background:var(--primary-color);
-  color: var(--text-color);
-  padding: 1em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background:var(--primary-color);
+    color: var(--text-color);
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
 }
 
 .cookie-buttons button {
-  margin-left: 10px;
-  padding: 0.5em 1em;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    margin-left: 10px;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 #accept-cookies {
-  background: var(--color-1);
-  color: var(--color-4);
+    background: var(--color-1);
+    color: var(--color-4);
 }
 
 #decline-cookies {
-  background: var(--color-1);
-  color: var(--color-4);
+    background: var(--color-1);
+    color: var(--color-4);
 }
