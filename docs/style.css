@@ -57,7 +57,7 @@ h1, h2, h3 {
     display: block;          /* Bild als Block, damit margin funktioniert */
     margin: 0 auto;          /* horizontal zentrieren */
     border-radius: 1em;
-    width: 100%;             /* Bild kann schrumpfen */
+    width: 90%;             /* Bild kann schrumpfen */
     max-width: 1000px;       /* aber nicht größer als 1000px */
     height: auto;            /* Höhe proportional */
     max-height: 60vh;        /* 60% der Bildschirmhöhe*/
@@ -181,6 +181,7 @@ header, section {
     padding: 15px 20px;
     border-radius: 1em;
     box-shadow: 0 4px 20px var(--bilder-shadow);
+    width: 90%;             /* Bild kann schrumpfen */
 }
 
 .flex-container {
