@@ -57,7 +57,7 @@ h1, h2, h3 {
     display: block;          /* Bild als Block, damit margin funktioniert */
     margin: 0 auto;          /* horizontal zentrieren */
     border-radius: 1em;
-    width: 90%;             /* Bild kann schrumpfen */
+    width: 90%;             /* Bild kann schrumpfen und füllt 90% seines Divs aus */
     max-width: 1000px;       /* aber nicht größer als 1000px */
     height: auto;            /* Höhe proportional */
     max-height: 60vh;        /* 60% der Bildschirmhöhe*/
@@ -440,7 +440,7 @@ details p {
 .newsletter-form input[type="email"] {
 	tab-size: 1em;
 	padding: 15px 20px;
-    margin: 50px;
+    margin: 20px;
 	border: 1px solid var(--line-color);
 	border-radius: 8px;
 	font-size: 1rem;
