@@ -12,6 +12,9 @@
   --color-4: #8a9fc1; /* Text in Buttons */
   --color-5: #8a9fc1; /*Nummer Farbe in Countdown*/
   --color-6: #8a9fc1; /*Farbe in Button Countdown*/
+  --border-block: #f4f4f4;
+  --bilder-shadow: #6b6b6b;
+
 }
 
 * {
@@ -43,16 +46,23 @@ h1, h2, h3 {
     display: block;          /* Bild als Block, damit margin funktioniert */
     margin: 0 auto;          /* horizontal zentrieren */
     border-radius: 1em;
+    width: 90%;             /* Bild kann schrumpfen */
+    max-width: 1000px;       /* aber nicht größer als 1000px */
+    max-height: 60vh;        /* 60% der Bildschirmhöhe*/
+    height: auto;            /* Höhe proportional */
+    object-fit: cover; /* Bild wird beschnitten statt verzerrt */
+    box-shadow: 0 4px 20px var(--bilder-shadow);
+}
+.bild-front{
+    display: block;          /* Bild als Block, damit margin funktioniert */
+    margin: 0 auto;          /* horizontal zentrieren */
+    border-radius: 1em;
     width: 100%;             /* Bild kann schrumpfen */
     max-width: 1000px;       /* aber nicht größer als 1000px */
     height: auto;            /* Höhe proportional */
-}
-
-.portrait-img {
-    width: 400px;   /* gleiche Breite und Höhe */
-    height: 400px;
-    border-radius: 50%; /* 50% für perfekten Kreis */
-    object-fit: cover;  /* Bild wird zugeschnitten, bleibt proportional */
+    max-height: 60vh;        /* 60% der Bildschirmhöhe*/
+    height: auto;            /* Höhe proportional */
+    object-fit: contain;     /* Bild füllt aus statt beschnitten zu werden und wird kleiner */
 }
 
 /* Brand-Container links */
@@ -74,6 +84,7 @@ h1, h2, h3 {
   border-radius: 0.4em;
 }
 
+/* Navigation */
 nav{
     margin: 1em auto 3em auto;
     width: min(1000px, 100%);
@@ -154,6 +165,7 @@ nav a:hover {
 	}
 }
 
+/* Layout */
 header, section {
     margin: 2em auto;
     width: min(200em, 100%); /* Grösse der Boxen */
@@ -161,6 +173,14 @@ header, section {
     padding: min(2em,15%);
     border-radius: 1em;
     max-width: 1500px;
+}
+
+.border-block {
+    margin: 2em auto;
+    background-color: var(--border-block);
+    padding: 15px 20px;
+    border-radius: 1em;
+    box-shadow: 0 4px 20px var(--bilder-shadow);
 }
 
 .flex-container {
@@ -193,38 +213,8 @@ h1 {
     font-size: 1.25rem;
 }
 
-/* Wird nicht mehr benutzt */
-.cta-button {
-    display: inline-block;
-    text-decoration: none;
-    color: var(--color-4);
-    background-color: var(--primary-color);
-    padding: .75em 1.25em;
-    border-radius: .5em;
-    font-weight: 600;
 
-        /* Umrandung und Vorbereitung für Hover */
-    border: 2px solid transparent;
-    transition: border-color 0.2s ease;
-}
-
-.cta-button:hover {
-    border-color: var(--line-color); /* Wird bei Hover sichtbar */
-}
-
-
-.secondary {
-    background-color: var(--secondary-color);
-}
-
-.button-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1em; /* Abstand zwischen Buttons */
-  margin-top: 1em;
-}
-
+/* Sektionen */
 section {
     padding: 3em min(2em, 15%);
     background-color: var(--color-2);
@@ -243,6 +233,8 @@ section#mywork {
     background-color: var(--color-3);
 }
 
+
+/* Grid-Bereich */
 .grid-container {
     display: grid;
     margin-top: 3em;
@@ -283,8 +275,7 @@ details p {
     padding: 0 2em 2em 2em;
 }
 
-
-/* NEUER VERSUCH*/
+/* Countdown */
 .hero-title {
     font-size: 3.5rem;
     font-weight: 700;
@@ -327,6 +318,8 @@ details p {
     letter-spacing: 0.05em;
 }
 
+
+/* Hero-Bereich */
 .hero-subtitle {
     font-size: 1.25rem;
     color: var(--text-color);
@@ -440,45 +433,19 @@ details p {
     color: var(--text-color);
 }
 
-/* Contact Section */
-.contact .section-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-}
 
-.contact-details {
-    display: grid;
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.contact-item h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
-}
-
-.contact-item p {
-    color: var(--text-color);
-    font-size: 1.1rem;
-}
 
 /*NEWSLETTER*/
-.newsletter-form {
-    text-align: justify;
+.newsletter-form input[type="email"] {
+	tab-size: 1em;
+	padding: 15px 20px;
+    margin: 50px;
+	border: 1px solid var(--line-color);
+	border-radius: 8px;
+	font-size: 1rem;
 }
 
-.newsletter-form h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 1rem;
-}
-
-.newsletter-links {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    text-align: center;
+.newsletter-form input[type="email"]:focus {
+	outline: none;
+	border-color: var(--color-4);
 }
