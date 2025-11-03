@@ -438,6 +438,7 @@ details p {
 
 /*NEWSLETTER*/
 .newsletter-form input[type="email"] {
+    width: 80%;
 	tab-size: 1em;
 	padding: 15px 20px;
     margin: 20px;
