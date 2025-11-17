@@ -1,3 +1,19 @@
+// --- Burger-Menü Steuerung ---
+const toggleButton = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+
+if (toggleButton && navLinks) {
+	toggleButton.addEventListener('click', () => {
+		navLinks.classList.toggle('show');
+	});
+
+	navLinks.querySelectorAll('a').forEach(link => {
+		link.addEventListener('click', () => {
+			navLinks.classList.remove('show');
+		});
+	});
+}
+
 function initCountdown() {
     const targetDate = new Date('2026-01-31T19:00:00').getTime();
     
@@ -5,6 +21,10 @@ function initCountdown() {
     const hoursElement = document.getElementById('hours');
     const minutesElement = document.getElementById('minutes');
     const secondsElement = document.getElementById('seconds');
+
+    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
+        return;
+    }
     
     function updateCountdown() {
         const now = new Date().getTime();
@@ -33,7 +53,7 @@ function initCountdown() {
     setInterval(updateCountdown, 1000);
 }
 
-initCountdown(); // Startet den Countdown
+initCountdown(); // Startet den Countdown, falls Elemente vorhanden sind
 
 //Cookies
 
@@ -42,7 +62,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const acceptBtn = document.getElementById("accept-cookies");
   const declineBtn = document.getElementById("decline-cookies");
 
-  // Prüfen, ob Nutzer schon gewählt hat
+  if (!banner || !acceptBtn || !declineBtn) {
+    return;
+  }
+
   if (!localStorage.getItem("cookiesChoice")) {
     banner.style.display = "flex";
   }
@@ -62,18 +85,3 @@ document.addEventListener("DOMContentLoaded", () => {
 function enableCookies() {
   console.log("Cookies wurden akzeptiert — hier kannst du Scripts starten.");
 }
-
-// --- Burger-Menü Steuerung ---
-const toggleButton = document.getElementById('menu-toggle');
-const navLinks = document.getElementById('nav-links');
-
-toggleButton.addEventListener('click', () => {
-	navLinks.classList.toggle('show');
-});
-
-// Menü automatisch schließen, wenn ein Link angeklickt wird
-navLinks.querySelectorAll('a').forEach(link => {
-	link.addEventListener('click', () => {
-		navLinks.classList.remove('show');
-	});
-});

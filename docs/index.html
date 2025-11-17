@@ -7,8 +7,8 @@
     <title>Improskop</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
+<body>
 <!-- COOKIE BANNER -->
 <div id="cookie-banner" class="cookie-banner">
     <p>
@@ -21,14 +21,14 @@
     </div>
 </div>
 
-<!-- HEADER & NAVIGATION -->
-<header>
+<!-- NAV-LEISTE -->
+<header class="header-banner">
     <nav>
         <div class="nav-container">
             <!-- Logo & Branding -->
             <div class="brand">
                 <img width="100px" src="Images/Logo2_final.png" alt="Improskop Logo">
-                <span>Improskop</span>
+                <a href="index.html">Improskop</a>
             </div>
 
             <!-- Burger Icon (nur sichtbar auf Handy) -->
@@ -43,10 +43,14 @@
                         Tickets
                     </a>
                 </li>
+                <li><a href="shop.html">Shop</a></li>
             </ul>
         </div>
     </nav>
+</header>
 
+<!-- WELCOME PAGE -->
+<header>
     <!-- HERO SECTION -->
     <div class="hero-container">
         <!-- Bild links -->
@@ -85,12 +89,12 @@
 
             <!-- HERO BUTTONS -->
             <div class="hero-buttons">
-                <a href="https://eventfrog.ch/en/p/theatre-stage/theatre/zu-besuch-bei-hanna-max-improskop-7369292101224247637.html" class="cta-btn">
+                <a href="https://eventfrog.ch/en/p/theatre-stage/theatre/zu-besuch-bei-hanna-max-improskop-7369292101224247637.html" class="cta-btn primary">
                     Jetzt Tickets sichern
                 </a>
             </div>
             <div class="hero-buttons">
-                <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="cta-btn">
+                <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="cta-btn primary">
                     Folgt uns auf Instagram
                 </a>
             </div>
@@ -122,6 +126,8 @@
         </div>
 
         <div class="text-container">
+            <a href="https://www.icloud.com/shortcuts/b796cc80774d4261bca4d12a1c8f2f3d" class="cta-btn"> Newsletter on IPhone</a>
+
             <h1>NEU: VIP-Sitzplätze</h1>
             <p>
                 Mit dem neu erhältlichen VIP-Sitzplatz geniesst du Theater hautnah: ein Platz in der ersten Reihe, ein Gratis-Getränk sowie ein Snackbecher
@@ -306,23 +312,25 @@
 </section>
 
 <!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="Logo">
-                <img width="100px" src="Images/Logo2_final.png" alt="">
+<section>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="Logo">
+                    <img width="100px" src="Images/Logo2_final.png" alt="">
+                </div>
+                <div class="footer-links">
+                    <!--<a href="#ueber-uns">Über uns</a>-->
+                    <a href="impressum.html">Impressum</a>
+                    <a href="datenschutz.html">Datenschutz</a>
+                </div>
             </div>
-            <div class="footer-links">
-                <!--<a href="#ueber-uns">Über uns</a>-->
-                <a href="impressum.html">Impressum</a>
-                <a href="datenschutz.html">Datenschutz</a>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
-        </div>
-    </div>
-</footer>
+    </footer>
+</section>
 
 <!-- JS SCRIPT -->
 <script src="script.js"></script>
