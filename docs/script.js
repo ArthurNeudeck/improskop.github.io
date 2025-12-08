@@ -16,7 +16,7 @@ if (toggleButton && navLinks) {
 
 function initCountdown() {
     const targetDate = new Date('2026-01-31T19:00:00').getTime();
-    
+
     const daysElement = document.getElementById('days');
     const hoursElement = document.getElementById('hours');
     const minutesElement = document.getElementById('minutes');
@@ -25,11 +25,11 @@ function initCountdown() {
     if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
         return;
     }
-    
+
     function updateCountdown() {
         const now = new Date().getTime();
         const distance = targetDate - now;
-        
+
         if (distance < 0) {
             daysElement.textContent = '00';
             hoursElement.textContent = '00';
@@ -37,18 +37,18 @@ function initCountdown() {
             secondsElement.textContent = '00';
             return;
         }
-        
+
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
+
         daysElement.textContent = days.toString().padStart(2, '0');
         hoursElement.textContent = hours.toString().padStart(2, '0');
         minutesElement.textContent = minutes.toString().padStart(2, '0');
         secondsElement.textContent = seconds.toString().padStart(2, '0');
     }
-    
+
     updateCountdown();
     setInterval(updateCountdown, 1000);
 }
@@ -85,3 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
 function enableCookies() {
   console.log("Cookies wurden akzeptiert — hier kannst du Scripts starten.");
 }
+
+
+const target = document.querySelector('.highlight-word');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) target.classList.add('active');
+    else target.classList.remove('active');
+  });
+});

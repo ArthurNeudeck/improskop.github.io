@@ -45,7 +45,7 @@ h1, h2, h3 {
 
 .center-text {
   text-align: center;
-  padding: 1em;
+  padding: 1px;
 }
 
 .bilder-img {
@@ -173,7 +173,7 @@ nav a:hover {
     nav{
     margin: 1em auto 1em auto;
     width: min(700px, 100%);
-}
+    }
 
 }
 
@@ -228,6 +228,15 @@ header{
     flex-wrap: wrap;
     gap: 2em;
     text-align: center;
+}
+
+/* Effekt Highlight */
+.highlight-word {
+  transition: color 1s;
+  color: var(--text-color);
+}
+.highlight-word.active {
+  color: var(--color-4);
 }
 
 /* Show Bild */
@@ -294,10 +303,14 @@ section#shop{
     margin-top: 8em;
     max-width: 100% ;
 }
+
 section#shopcontent{
     max-width: 100%;
 }
 
+section#shopcontent2{
+    max-width: 100%;
+}
 
 /* Grid-Bereich */
 .grid-container {
@@ -333,7 +346,7 @@ details {
 details summary {
     padding: 1em;
     font-size: 1.7rem;
-    font-family: limelight, Helvetica;
+    font-family: DM Serif Display, Helvetica;
 }
 
 details p {
@@ -530,4 +543,37 @@ details p {
 .newsletter-form input[type="email"]:focus {
 	outline: none;
 	border-color: var(--color-4);
+}
+
+.text-container-funsec {
+    flex: 1 1 300px;             /* Mindestbreite 300px, wächst bei Platz */
+    text-align: justify;
+}
+
+header#funsec{
+    background-image: url(Images/Ballone.jpg);
+    background-position: center;
+    background-size: auto 100%;
+    height: 500px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--shop-text-farbe);
+    margin-top: 8em;
+    max-width: 1500px ;
+}
+
+.text-container-funsec-2{
+    flex: 1 1 300px;
+    background-color:var(--shop-hintergrund-text);
+    border-radius: 1em;
+    text-align: center;
+    padding: 2em;
+
+}
+
+.text-container-funsec-2 p{
+    margin: .75em 0 1em 0;
+    font-size: 1.25rem;
 }
