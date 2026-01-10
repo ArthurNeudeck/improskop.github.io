@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+    <!-- Meta-Tags: Definiert Zeichensatz, Beschreibung für Suchmaschinen und Viewport-Einstellungen für responsive Darstellung -->
     <meta charset="UTF-8">
     <meta name="description" content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titel: Wird im Browser-Tab angezeigt -->
     <title>Improskop</title>
+    <!-- Stylesheet-Verbindung: Lädt die CSS-Datei für das Styling der Website -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- Header-Banner: Fixierte Navigationsleiste am oberen Bildschirmrand, bleibt beim Scrollen sichtbar -->
 <header class="header-banner" id="shopheader">
+    <!-- Navigation: Hauptnavigationsbereich mit Logo, Menü-Button und Links -->
     <nav>
         <div class="nav-container">
-            <!-- Logo & Branding -->
+            <!-- Logo & Branding: Zeigt Logo und Link zur Startseite, bildet die Markenidentität -->
             <div class="brand">
                 <img width="100px" src="Images/Logo2_final.png" alt="Improskop Logo">
                 <a href="index.html">Improskop</a>
             </div>
 
-            <!-- Burger Icon (nur sichtbar auf Handy) -->
+            <!-- Burger Icon (nur sichtbar auf Handy): Toggle-Button für mobiles Menü, öffnet/schließt Navigation auf kleinen Bildschirmen -->
             <button class="menu-toggle" id="menu-toggle">☰</button>
 
-            <!-- Navigation Links -->
+            <!-- Navigation Links: Hauptmenü mit Links zu verschiedenen Seitenbereichen -->
             <ul id="nav-links">
                 <li><a href="index.html">Shows</a></li>
                 <li>
@@ -34,10 +39,13 @@
     </nav>
 </header>
 
+<!-- Shop-Hero-Bereich: Hero-Section mit Hintergrundbild und Call-to-Action für Limited Edition -->
 <section id="shop">
     <div class="flex-container">
+        <!-- Limited Edition-Text: Präsentiert die Limited Edition mit Kauf-Button -->
         <div class="text-container-shop">
             <h2>Limeted Edition</h2>
+            <!-- Instagram-Link: Verweist auf Instagram für Bestellung per DM -->
             <div class="hero-buttons">
                 <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="cta-btn">Jetzt per DM auf Insta sichern</a>
             </div>
@@ -45,20 +53,23 @@
     </div>
 </section>
 
-
+<!-- Shop-Inhalt: Zeigt Produktbilder und Produktinformationen -->
 <section id="shopcontent">
     <section>
         <div class="">
             <!-- Grid um Kleider zu zeigen-->
+            <!-- Produktbilder-Grid: Drei-spaltiges Grid-Layout für T-Shirt-Bilder -->
             <div class="grid-container">
                 <img style="grid-area: img-1;" src="Images/Sternentod_Shirt_prof.jpg" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png">
                 <img style="grid-area: img-2;" src="Images/Sternentod_motiv_prof.jpg" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png">
                 <img style="grid-area: img-3;" src="Images/Sternentod_Shirt_prof.jpg" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png">
             </div>
+            <!-- Bestell-Button: Call-to-Action für Produktbestellung -->
             <div class="hero-buttons">
                 <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="cta-btn">Jetzt per DM auf Insta sichern</a>
             </div>
         </div>
+        <!-- Produktbeschreibung: Erklärt das Produkt, Preis und Bestellinformationen -->
         <div class="text-container">
             <p><strong>Improskops</strong> Sternentod am 25.10.2025 im Kammertheater war unvergesslich – aber du hast gemerkt, du hättest doch gern ein Andenken? </p>
             <p>Kein Problem! Schreib uns bis <i>30.11.2025</i> per DM und sichere dir dein T-Shirt für nur 45.– CHF in deiner Größe.</p>
@@ -67,19 +78,23 @@
 </section>
 
 <!-- Footer -->
-<section id="shopcontent2">
+<!-- Footer-Bereich: Enthält Logo, rechtliche Links und Copyright-Informationen -->
+<section id="shopcontent">
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
+                <!-- Logo: Zeigt das Vereinslogo im Footer -->
                 <div class="Logo">
                     <img width="100px" src="Images/Logo2_final.png" alt="">
                 </div>
+                <!-- Footer-Links: Rechtliche Links zu Impressum und Datenschutz -->
                 <div class="footer-links">
                     <!--<a href="#ueber-uns">Über uns</a>-->
                     <a href="impressum.html">Impressum</a>
                     <a href="datenschutz.html">Datenschutz</a>
                 </div>
             </div>
+            <!-- Copyright: Zeigt Copyright-Informationen -->
             <div class="footer-bottom">
                 <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
             </div>
@@ -88,6 +103,7 @@
 </section>
 
 <!-- JS SCRIPT -->
+<!-- JavaScript-Einbindung: Lädt die JavaScript-Datei für interaktive Funktionen wie Navigation -->
 <script src="script.js"></script>
 </body>
 </html>
