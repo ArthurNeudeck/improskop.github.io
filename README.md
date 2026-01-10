@@ -16,7 +16,19 @@ The following command allows to sync more than 1MB (here 150 MB) with GitHub:
 ### [Creating a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
 * we provide the sources at https://github.com/ArthurNeudeck/improskop.github.io.git
 * We publish on the ```main``` branch using the ```docs``` directory (as proposed as default).
-* We adapted the DNS settings for the domain improskop.ch on [Infomaniak](https://manager.infomaniak.com/v3/293740/ng/domain/1614105/dns/manage-zone/list) as follows:<br/><img alt="DNS Settings" src="/images/dns-domain.png" width="800"/> 
+* We adapted the DNS settings for the domain improskop.ch on [Infomaniak](https://manager.infomaniak.com/v3/293740/ng/domain/1614105/dns/manage-zone/list) as follows:<br/>
+
+| Name             | Type   | IP                      |
+|------------------|--------|-------------------------|
+| improskop.ch     | A      | 185.199.108.153         |
+| improskop.ch     | AAAA   | 2606:50c0:8000::153     |
+| improskop.ch     | A      | 185.199.109.153         |
+| improskop.ch     | AAAA   | 2606:50c0:8001::153     |
+| improskop.ch     | A      | 185.199.110.153         |
+| improskop.ch     | AAAA   | 2606:50c0:8002::153     |
+| improskop.ch     | A      | 185.199.111.153         |
+| improskop.ch     | AAAA   | 2606:50c0:8003::153     |
+| www.improskop.ch | CNAME  | arthurneudeck.github.io |
 
 ### [Configuring a publishing source for your GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
