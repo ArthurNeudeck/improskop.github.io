@@ -28,6 +28,24 @@
 
     html.classList.add('kamera');
 
+    // Sparmodus für schwache Geräte: wenig Speicher/Kerne, Datensparen – oder (siehe
+    // ruckelWaechter) wenn die Seite beim Scrollen messbar ruckelt. Zum Testen: ?leicht
+    let leicht = false;
+    function sparmodus() {
+        if (leicht) return;
+        leicht = true;
+        html.classList.add('leicht');
+        html.classList.remove('brechung');
+        if (format) { bilderLaden(); aufbauen(); planen(); }
+    }
+    if (datenSparen || location.search.includes('leicht') ||
+        (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
+        (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)) {
+        leicht = true;
+        html.classList.add('leicht');
+        html.classList.remove('brechung');
+    }
+
     const begrenze = (w, min = 0, max = 1) => Math.min(max, Math.max(min, w));
     const bereich = (w, von, bis) => begrenze((w - von) / (bis - von));
     const sanft = t => t * t * (3 - 2 * t);
@@ -63,22 +81,25 @@
             .then(daten => { if (ordner === format) { linsen = daten; planen(); } })
             .catch(() => { /* ohne Linsendaten bleibt der Objektträger bis zur Linse verborgen */ });
 
-        // Schlussbild zuerst (erster Bildschirm), dann grob nach fein
+        // Schlussbild zuerst (erster Bildschirm), dann grob nach fein.
+        // Sparmodus: nur jedes 2. Bild in 60 % Grösse (Ordner *-leicht) → ¼ des Speichers.
+        const quelle = leicht ? `${ordner}-leicht` : ordner;
+        const vorhanden = i => !leicht || i % 2 === 0 || i === BILDER - 1;
         const reihenfolge = [BILDER - 1];
         if (!datenSparen) {
             for (const schritt of [16, 8, 4, 2, 1])
                 for (let i = 0; i < BILDER; i += schritt)
-                    if (!reihenfolge.includes(i)) reihenfolge.push(i);
+                    if (vorhanden(i) && !reihenfolge.includes(i)) reihenfolge.push(i);
         }
         let naechstes = 0;
         const laden = () => {
-            if (naechstes >= reihenfolge.length || ordner !== format) return;
+            if (naechstes >= reihenfolge.length || ordner !== format || quelle !== (leicht ? `${format}-leicht` : format)) return;
             const i = reihenfolge[naechstes++];
             const img = new Image();
             img.decoding = 'async';
             img.onload = () => { letztesBild = -1; planen(); laden(); };
             img.onerror = laden;
-            img.src = `media/outro/${ordner}/${String(i + 1).padStart(4, '0')}.webp`;
+            img.src = `media/outro/${quelle}/${String(i + 1).padStart(4, '0')}.webp`;
             bilder[i] = img;
         };
         // Erst das Schlussbild (= erster Bildschirm), den Rest erst nach dem Laden der Seite
@@ -276,7 +297,7 @@
         scrollweg.style.setProperty('--scrollweg', `${gesamt + vh}px`);
         welt.dataset.anker = `${ax},${ay}`;
 
-        const dpr = Math.min(devicePixelRatio || 1, 1.5);
+        const dpr = leicht ? 1 : Math.min(devicePixelRatio || 1, 1.5);
         leinwand.width = Math.round(vw * dpr);
         leinwand.height = Math.round(vh * dpr);
         letztesBild = -1;
@@ -321,12 +342,16 @@
         setze(objekttraeger, '--ls', '1');
     }
 
+    const organellenJeZelle = zellen.map(z => [...z.querySelectorAll('.organell')]);
+    const bewegt = new Set();      // Zellen, deren Fotos gerade verschoben sind
+
     function organellenTreiben(a, t) {
         // Im Übergang treiben die Fotos der beiden Zellen hinterher und drehen sich leicht
         const welle = Math.sin(Math.PI * t);
         const richtung = Math.sign(a.nach.x - a.von.x) || 1;
         [a.zelle, a.zelle + 1].forEach(i => {
-            zellen[i].querySelectorAll('.organell').forEach(o => {
+            bewegt.add(i);
+            organellenJeZelle[i].forEach(o => {
                 const tiefe = Number(o.dataset.tiefe || 1) - 1;
                 setze(o, '--dx', `${-richtung * welle * tiefe * 160}px`);
                 setze(o, '--dy', `${-welle * tiefe * 120}px`);
@@ -336,19 +361,23 @@
     }
 
     function organellenRuhig(ausser) {
-        zellen.forEach((z, i) => {
+        bewegt.forEach(i => {
             if (ausser.includes(i)) return;
-            z.querySelectorAll('.organell').forEach(o => {
+            organellenJeZelle[i].forEach(o => {
                 o.style.removeProperty('--dx'); o.style.removeProperty('--dy'); o.style.removeProperty('--dr');
             });
+            bewegt.delete(i);
         });
     }
 
+    let letzteAktive = null;
     function aktiveZelle(i, nahBei) {
+        const schluessel = `${i}|${nahBei}`;
+        if (schluessel === letzteAktive) return;   // nur ändern, was sich ändert
+        letzteAktive = schluessel;
         zellen.forEach((z, k) => {
             z.classList.toggle('aktiv', k === i);
             z.classList.toggle('nah', Math.abs(k - nahBei) <= 1);
-            if (Math.abs(k - nahBei) <= 1) z.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
         });
     }
 
@@ -445,6 +474,26 @@
     function planen() {
         if (!geplant) { geplant = true; requestAnimationFrame(takt); }
     }
+
+    // Ruckel-Wächter: Solange gescrollt wird, misst eine Bildschleife die echten Abstände
+    // zwischen zwei gezeichneten Bildern. Liegt der Median der letzten 30 Bilder über 30 ms
+    // (unter ~33 Bilder/s), schaltet die Seite einmalig in den Sparmodus.
+    const abstaende = [];
+    let letzterScroll = 0, schleifeLaeuft = false;
+    function messen(t, vorher) {
+        if (leicht) return;
+        if (vorher !== undefined) {
+            abstaende.push(t - vorher);
+            if (abstaende.length > 30) abstaende.shift();      // gleitendes Fenster: letzte 30 Bilder
+            if (abstaende.length === 30 && [...abstaende].sort((x, y) => x - y)[15] > 30) { sparmodus(); return; }
+        }
+        if (performance.now() - letzterScroll < 300) requestAnimationFrame(t2 => messen(t2, t));
+        else { schleifeLaeuft = false; abstaende.length = 0; }   // Pause: neu messen
+    }
+    addEventListener('scroll', () => {
+        letzterScroll = performance.now();
+        if (!schleifeLaeuft && !leicht) { schleifeLaeuft = true; requestAnimationFrame(t => messen(t)); }
+    }, { passive: true });
 
     // =================================================================
     // Anker, Tastatur, Grössenänderung

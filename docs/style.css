@@ -403,7 +403,7 @@ em { font-style: italic; }
     inset 0 1.5px 0 rgb(255 255 255 / 0.9),
     inset 0 -1px 0 rgb(59 42 99 / 0.08),
     0 0 0 1px rgb(59 42 99 / 0.09),
-    0 50px 100px -60px rgb(59 42 99 / 0.5);
+    0 30px 60px -40px rgb(59 42 99 / 0.45);
 }
 /* Membran mit Farbsaum, wie an einer Linse */
 .zelle::after {
@@ -426,9 +426,24 @@ em { font-style: italic; }
   --blase: 21%;
   --form: 34% 46% 30% 52% / 38% 30% 48% 36%;
 }
-.kamera .zelle::before, .kamera .zelle::after { animation: atmen 15s ease-in-out infinite alternate; }
-.kamera .zelle:nth-of-type(2n)::before, .kamera .zelle:nth-of-type(2n)::after { animation-duration: 18s; animation-delay: -6s; }
-.kamera .zelle:nth-of-type(3n)::before, .kamera .zelle:nth-of-type(3n)::after { animation-duration: 13s; animation-delay: -3s; }
+/* Jede Zelle hat ihre eigene, feste Bakterienform. (Eine sich ständig ändernde Form
+   müsste der Browser bei jedem Bild neu malen – auf schwachen Handys ruckelt das stark.) */
+.kamera .zelle:nth-of-type(2)  { --form: 48% 30% 44% 34% / 30% 46% 32% 50%; }
+.kamera .zelle:nth-of-type(3)  { --form: 30% 52% 36% 42% / 46% 34% 52% 30%; }
+.kamera .zelle:nth-of-type(4)  { --form: 42% 38% 50% 30% / 34% 50% 30% 46%; }
+.kamera .zelle:nth-of-type(5)  { --form: 36% 50% 32% 46% / 50% 32% 44% 38%; }
+.kamera .zelle:nth-of-type(6)  { --form: 50% 34% 46% 30% / 36% 44% 34% 52%; }
+.kamera .zelle:nth-of-type(7)  { --form: 32% 46% 50% 36% / 44% 36% 50% 32%; }
+.kamera .zelle:nth-of-type(8)  { --form: 46% 36% 30% 50% / 32% 50% 38% 44%; }
+.kamera .zelle:nth-of-type(9)  { --form: 38% 50% 42% 34% / 50% 34% 46% 36%; }
+.kamera .zelle:nth-of-type(10) { --form: 50% 46% 48% 52% / 54% 48% 52% 46%; }
+/* Atmen nur in Kameranähe und nur per transform (rechnet der Grafikchip, ohne Neumalen) */
+.kamera:not(.leicht) .zelle.nah::before,
+.kamera:not(.leicht) .zelle.nah::after {
+  animation: atmen 9s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.kamera .zelle:nth-of-type(2n).nah::before, .kamera .zelle:nth-of-type(2n).nah::after { animation-duration: 11s; animation-delay: -4s; }
 /* Echte Lichtbrechung nur bei Zellen in der Nähe der Kamera (Leistung) */
 .kamera .zelle.nah { --zell-farbe: rgb(255 255 255 / 0.34); }
 .kamera .zelle.nah::before {
@@ -436,10 +451,27 @@ em { font-style: italic; }
   backdrop-filter: blur(14px) saturate(150%);
 }
 @keyframes atmen {
-  0%   { border-radius: 34% 46% 30% 52% / 38% 30% 48% 36%; }
-  50%  { border-radius: 48% 30% 44% 34% / 30% 46% 32% 50%; }
-  100% { border-radius: 30% 52% 36% 42% / 46% 34% 52% 30%; }
+  from { transform: scale(1, 1) rotate(0deg); }
+  to   { transform: scale(1.022, 0.986) rotate(0.7deg); }
 }
+
+/* =====================================================================
+   SPARMODUS für schwache Geräte (zellen.js setzt html.leicht)
+   ===================================================================== */
+.leicht .glas, .leicht .brechung .glas,
+.leicht .kamera .zelle.nah::before, .leicht .zelle.nah::before {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.leicht .glas { --toenung: rgb(244 238 225 / 0.94); }
+.leicht .glas--dunkel { --toenung: rgb(28 20 48 / 0.9); }
+.leicht .glas--licht { --toenung: rgb(234 178 91); }
+.leicht .nav[data-auf-dunkel] { --toenung: rgb(28 20 48 / 0.9); }
+.leicht .zelle.nah { --zell-farbe: rgb(255 255 255 / 0.55); }
+.leicht .zelle--rueckblick.nah { --zell-farbe: rgb(59 42 99 / 0.92); }
+.leicht .bakterie { animation: none; }
+.leicht .tiefe--vorne { display: none; }
+.leicht .zelle::before { box-shadow: inset 0 1.5px 0 rgb(255 255 255 / 0.9), 0 0 0 1px rgb(59 42 99 / 0.12); }
 /* Deko-Bakterien zwischen den Zellen */
 .bakterie {
   position: absolute;

@@ -3,11 +3,13 @@
   Blender --background blender/mikroskop.blend --python blender/render_web.py            # alles
   Blender --background blender/mikroskop.blend --python blender/render_web.py -- --test  # nur Testbilder
   Blender --background blender/mikroskop.blend --python blender/render_web.py -- --nur quer  # nur ein Format (quer/hoch/okular)
+  Blender --background blender/mikroskop.blend --python blender/render_web.py -- --nur leicht # nur Sparversion neu erzeugen
 
 Ergebnis:
   docs/media/okular-rand.webp          Okular-Rand mit transparenter Mitte (Seiteneinstieg)
   docs/media/outro/quer/0001-0096.webp Rueckfahrt fuer Laptop (1600x900)
   docs/media/outro/hoch/0001-0096.webp Rueckfahrt fuer Handy (900x1600)
+  docs/media/outro/*-leicht/           Sparversion fuer schwache Geraete: jedes 2. Bild, 60 % Groesse
 """
 import bpy, sys, json, math
 from pathlib import Path
@@ -105,6 +107,21 @@ def rueckfahrt(kamera, breite, hoehe, ordner, bilder):
     (ordner.parent / f"linse-{ordner.name}.json").write_text(json.dumps(linsen))
 
 
+def leichte_folge(ordner, bilder):
+    """Sparversion fuer schwache Handys: jedes zweite Bild, 60 % Groesse (gleiche Dateinamen)."""
+    ziel = ordner.parent / f"{ordner.name}-leicht"
+    ziel.mkdir(parents=True, exist_ok=True)
+    webp(70, alpha=True)
+    for b in bilder:
+        if b % 2 == 0 and b != bilder[-1]:   # erstes und letztes Bild immer behalten
+            continue
+        img = bpy.data.images.load(str(ordner / f"{b:04d}.webp"))
+        img.scale(round(img.size[0] * 0.6), round(img.size[1] * 0.6))
+        img.save_render(str(ziel / f"{b:04d}.webp"), scene=scene)
+        bpy.data.images.remove(img)
+    print("Sparversion", ziel.name)
+
+
 gpu_an()
 scene.render.resolution_percentage = 100
 if TEST:
@@ -121,4 +138,8 @@ else:
         rueckfahrt("CAM_Rueckfahrt_Quer", 1600, 900, MEDIA / "outro" / "quer", alle)
     if NUR in (None, "hoch"):
         rueckfahrt("CAM_Rueckfahrt_Hoch", 900, 1600, MEDIA / "outro" / "hoch", alle)
+    if NUR in (None, "quer", "hoch", "leicht"):
+        for name in ("quer", "hoch"):
+            if NUR in (None, "leicht", name):
+                leichte_folge(MEDIA / "outro" / name, alle)
 print("RENDER FERTIG")

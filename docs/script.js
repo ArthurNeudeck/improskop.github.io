@@ -6,7 +6,9 @@
 
 // --- Liquid Glass ---------------------------------------------------------
 // Lichtbrechung per SVG-Filter kann nur Chromium; alle anderen nutzen den Blur.
-if (navigator.userAgentData && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand))) {
+// Nur auf starken Geräten: der SVG-Filter ist der teuerste Glas-Effekt.
+const starkesGeraet = (navigator.hardwareConcurrency || 0) >= 8 && !(navigator.deviceMemory && navigator.deviceMemory <= 4);
+if (starkesGeraet && navigator.userAgentData && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand))) {
     document.documentElement.classList.add('brechung');
 }
 
