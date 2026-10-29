@@ -1,395 +1,350 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <!-- Meta-Tags: Definiert Zeichensatz, Beschreibung für Suchmaschinen und Viewport-Einstellungen für responsive Darstellung -->
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Improskop – Improtheater in Riehen und Basel</title>
     <meta name="description" content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Titel: Wird im Browser-Tab angezeigt -->
-    <title>Improskop</title>
-    <!-- Stylesheet-Verbindung: Lädt die CSS-Datei für das Styling der Website -->
+    <meta name="theme-color" content="#1c1430">
+    <script>document.documentElement.classList.add("js")</script>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Improskop">
+    <meta property="og:description" content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!">
+    <meta property="og:image" content="https://www.improskop.ch/media/og-vorschau.jpg">
+    <meta property="og:url" content="https://www.improskop.ch/">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="media/favicon-48.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
+    <link rel="preload" href="fonts/gloock.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" as="image" href="media/outro/quer/0096.webp" media="(min-aspect-ratio: 9/10)">
+    <link rel="preload" as="image" href="media/outro/hoch/0096.webp" media="(max-aspect-ratio: 9/10)">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<!-- Cookie-Banner: Zeigt Cookie-Hinweis am unteren Bildschirmrand an, ermöglicht Akzeptieren/Ablehnen -->
-<div id="cookie-banner" class="cookie-banner">
+<a class="skip-link" href="#zelle-1" data-textcheck="ignore">Zum Inhalt</a>
+
+<!-- Linsen-Filter für Liquid Glass (Lichtbrechung, nur Chromium) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="linse" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="rauschen"/>
+        <feGaussianBlur in="rauschen" stdDeviation="2" result="weich"/>
+        <feDisplacementMap in="SourceGraphic" in2="weich" scale="38" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+</svg>
+
+<!-- Cookie-Banner -->
+<div id="cookie-banner" class="cookie-banner glas" role="region" aria-label="Cookie-Hinweis">
     <p>
         Diese Website verwendet Cookies, um deine Erfahrung zu verbessern.
         <a href="datenschutz.html">Mehr erfahren</a>
     </p>
-    <!-- Cookie-Buttons: Ermöglichen dem Nutzer die Cookie-Einstellungen zu speichern -->
     <div class="cookie-buttons">
-        <button id="accept-cookies">Akzeptieren</button>
-        <button id="decline-cookies">Ablehnen</button>
+        <button id="accept-cookies" class="knopf glas glas--licht">Akzeptieren</button>
+        <button id="decline-cookies" class="knopf glas">Ablehnen</button>
     </div>
 </div>
 
-<!-- NAV-LEISTE -->
-<!-- Header-Banner: Fixierte Navigationsleiste am oberen Bildschirmrand, bleibt beim Scrollen sichtbar -->
-<header class="header-banner">
-    <!-- Navigation: Hauptnavigationsbereich mit Logo, Menü-Button und Links -->
-    <nav>
-        <div class="nav-container">
-            <!-- Logo und Branding: Zeigt Logo und Link zur Startseite, bildet die Markenidentität -->
-            <div class="brand">
-                <img width="100px" src="Images/Logo2_final.png" alt="Improskop Logo">
-                <a href="index.html">Improskop</a>
-            </div>
-
-            <!-- Burger Icon (nur sichtbar auf dem Handy): Toggle-Button für mobiles Menü, öffnet/schließt Navigation auf kleinen Bildschirmen -->
-            <button class="menu-toggle" id="menu-toggle">☰</button>
-
-            <!-- Navigation Links: Hauptmenü mit Links zu verschiedenen Seitenbereichen -->
-            <ul id="nav-links">
-                <li><a href="#shows">Shows</a></li>
-                <li><a href="#ueber-uns">Über uns</a></li>
-                <li>
-                    <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html">
-                        Tickets
-                    </a>
-                </li>
-                <li><a href="shop.html">Shop</a></li>
-            </ul>
+<!-- Navigation: Glas-Kapsel -->
+<header>
+    <nav class="nav glas" aria-label="Hauptnavigation">
+        <div class="marke">
+            <img class="logo-dunkel" src="media/logo-dunkel-160.webp" width="40" height="40" alt="">
+            <img class="logo-hell" src="media/logo-hell-160.webp" width="40" height="40" alt="">
+            <a href="index.html">Improskop</a>
         </div>
+        <ul class="nav-liste" id="nav-links">
+            <li><a href="#shows">Shows</a></li>
+            <li><a href="#ueber-uns">Über uns</a></li>
+            <li class="nav-tickets">
+                <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html">
+                    Tickets
+                </a>
+            </li>
+            <li><a href="shop.html">Shop</a></li>
+        </ul>
+        <button class="menu-knopf" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menü öffnen"><span></span></button>
     </nav>
 </header>
 
+<main id="inhalt">
 
-<!-- WELCOME PAGE -->
-<!-- Hero-Section: Hauptbereich der Startseite mit visueller Präsentation und Call-to-Action -->
-<header id="hero-header">
-    <!-- HERO SECTION -->
-    <!-- Hero-Container: Flexbox-Layout für Bild und Inhalte nebeneinander -->
-    <div class="hero-container">
-        <!-- Text und Countdown rechts: Enthält Überschrift, Countdown-Timer und Aktions-Buttons -->
-        <div class="hero-content">
-            <div class="bild-front">
-                <img src="Images/Show_2/hanna & Max.png" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png" class="bild-front">
+<!-- BÜHNE: das Mikroskop von aussen (Blender-Bildfolge, Linse durchsichtig) -->
+<div class="buehne" aria-hidden="true">
+    <picture>
+        <source media="(max-aspect-ratio: 9/10)" srcset="media/outro/hoch/0096.webp">
+        <img class="buehne__standbild" src="media/outro/quer/0096.webp" width="1600" height="900" alt="" fetchpriority="high">
+    </picture>
+    <canvas class="buehne__film"></canvas>
+</div>
+
+<!-- NÄCHSTE SHOW: sofort sichtbar, begleitet hinein und dockt oben an -->
+<section class="show-panel glas glas--dunkel" aria-label="Nächste Show">
+    <h2 class="center-text">Die nächste <span class="highlight-word">Show</span> kommt...</h2>
+
+    <div class="countdown" id="countdown" data-ziel="2026-01-31T19:00:00">
+            <div class="countdown-item glas glas--dunkel">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">Tage</span>
             </div>
-            <!-- Überschrift: Haupttitel mit hervorgehobenem Wort "SHOW" -->
-            <h2 class="center-text">Die nächste <span class="highlight-word">Show</span> kommt...</h2>
-
-            <!-- COUNTDOWN -->
-            <!-- Countdown-Timer: Zeigt verbleibende Zeit bis zur nächsten Show in Tagen, Stunden, Minuten, Sekunden -->
-            <div class="countdown" id="countdown">
-                <div class="countdown-item">
-                    <span class="countdown-number" id="days">00</span>
-                    <span class="countdown-label">Tage</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="hours">00</span>
-                    <span class="countdown-label">Stunden</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="minutes">00</span>
-                    <span class="countdown-label">Minuten</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="seconds">00</span>
-                    <span class="countdown-label">Sekunden</span>
-                </div>
+            <div class="countdown-item glas glas--dunkel">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">Stunden</span>
             </div>
-
-            <!-- Untertitel: Beschreibender Text unter dem Countdown -->
-            <p class="hero-subtitle">
-                Erlebe unvergessliche Momente voller Spontanität und Humor
-            </p>
-
-            <!-- Show-Datum: Zeigt das Datum der nächsten Show -->
-            <h2 class="center-text">Samstag, 31. Januar 2026</h2>
-
-            <!-- HERO BUTTONS -->
-            <!-- Call-to-Action-Buttons: Führen zu Ticketverkauf und Social Media -->
-            <div class="hero-buttons">
-                <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html" class="cta-btn primary">
-                    Jetzt Tickets sichern
-                </a>
+            <div class="countdown-item glas glas--dunkel">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">Minuten</span>
             </div>
-            <div class="hero-buttons">
-                <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="cta-btn primary">
-                    Folgt uns auf Instagram
-                </a>
+            <div class="countdown-item glas glas--dunkel">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">Sekunden</span>
             </div>
         </div>
-    </div>
-</header>
 
-<!-- Gast und musikalische Begleitung: Präsentiert den Gastdarsteller und die Pianistin -->
-<section>
-    <div class="flex-container">
-        <!-- Text -->
-        <!-- Gastdarsteller: Informationen über den Gast bei der Show -->
-        <div class="text-container">
-            <h1>DER GAST</h1>
-            <h2 class="gäste-text">Sebastian Barnstorf</h2>
+    <p class="hero-subtitle">
+            Erlebe unvergessliche Momente voller Spontanität und Humor
+        </p>
+
+    <h2 class="show__datum">Samstag, 31. Januar 2026</h2>
+
+    <div class="knopf-reihe">
+            <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html" class="knopf glas glas--licht">
+                Jetzt Tickets sichern
+            </a>
+            <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="knopf glas glas--dunkel">
+                Folgt uns auf Instagram
+            </a>
         </div>
-        <!-- Musikalische Begleitung: Informationen über die Pianistin -->
-        <div class="text-container">
-            <h1>DIE MUSIKALISCHE BEGLEITUNG </h1>
-            <h2 class="gäste-text">Andreas Bohl</h2>
-        </div>
-    </div>
 </section>
+<div class="show-leiste glas" data-textcheck="ignore" aria-label="Nächste Show" role="region">
+    <p class="show-leiste__titel" aria-hidden="true">Die nächste Show kommt...</p>
+    <p class="show-leiste__datum" aria-hidden="true">Samstag, 31. Januar 2026</p>
+    <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html" class="knopf glas glas--licht">Jetzt Tickets sichern</a>
+</div>
 
-<!--Newsletter und VIP-Sitze-->
-<section>
-    <div class="flex-container">
-        <div class="text-container newsletter-form">
-            <h1 class="section-title">Newsletter</h1>
-            <p class="section-description">
+<!-- OBJEKTTRÄGER: die Website unter dem Mikroskop -->
+<div class="objekttraeger">
+    <div class="tiefe tiefe--hinten" data-faktor="0.8" aria-hidden="true"></div>
+    <div class="welt">
+        <div class="flecken" aria-hidden="true"></div>
+
+        <!-- Erste Zelle im Mikroskop: die nächste Show (Wiederholung der Show-Infos vom Start) -->
+        <section class="zelle zelle--show" id="zelle-1" tabindex="-1" data-textcheck="ignore">
+            <figure class="organell organell--plakat" data-tiefe="1.3"><img src="media/show-hanna-max-1600.webp" srcset="media/show-hanna-max-800.webp 800w, media/show-hanna-max-1600.webp 1600w" sizes="(max-width: 760px) 90vw, 560px" width="1920" height="1080" decoding="async" fetchpriority="low" alt="Plakat: Hanna &amp; Max – Neujahrsgeschichten, zu Gast Sebastian Barnstorf, 31. Januar 2026, 19:30, Kammertheater"></figure>
+            <h2 class="zelle-show__titel">Die nächste Show kommt...</h2>
+            <p class="zelle-show__untertitel">Erlebe unvergessliche Momente voller Spontanität und Humor</p>
+            <h2 class="zelle-show__datum">Samstag, 31. Januar 2026</h2>
+        </section>
+
+        <section class="zelle zelle--besetzung">
+            <div class="besetzung">
+        <div>
+            <h2>DER GAST</h2>
+            <p class="gaeste-name">Sebastian Barnstorf</p>
+        </div>
+        <div>
+            <h2>DIE MUSIKALISCHE BEGLEITUNG </h2>
+            <p class="gaeste-name">Andreas Bohl</p>
+        </div>
+    
+            </div>
+        </section>
+
+        <section class="zelle zelle--newsletter">
+            <div class="newsletter-vip">
+        <div class="newsletter">
+            <h2>Newsletter</h2>
+            <p>
                 Bleib auf dem Laufenden über unsere neuesten Shows und Events.
                 Melde dich für unseren Newsletter an und verpasse nie wieder eine Vorstellung!
             </p>
-            <div class="border-block">
-                <h2>Newsletter abonnieren</h2>
-                <form class="form" action="https://getform.io/f/bmdyvkoa" method="POST" enctype="multipart/form-data">
+            <div class="anmeldung">
+                <h3>Newsletter abonnieren</h3>
+                <form action="https://getform.io/f/bmdyvkoa" method="POST" enctype="multipart/form-data">
                     <label>
-                        <input type="email" placeholder="E-Mail-Adresse" required>
+                        <input type="email" name="email" placeholder="E-Mail-Adresse" autocomplete="email" aria-label="E-Mail-Adresse" required>
                     </label>
-                    <!-- add hidden Honeypot input to prevent spams - von Einbettlink -->
+                    <!-- Honeypot gegen Spam -->
                     <input type="hidden" name="_gotcha" style="display:none !important">
-                    <button class="cta-btn" type="submit">Anmelden</button>
+                    <button class="knopf glas glas--licht" type="submit">Anmelden</button>
                 </form>
             </div>
         </div>
 
-        <div class="text-container">
-            <a href="https://www.icloud.com/shortcuts/f009cb4562c441f58469d48bca17a26d" class="cta-btn"> Newsletter on IPhone</a>
+        <a href="https://www.icloud.com/shortcuts/f009cb4562c441f58469d48bca17a26d" class="knopf iphone-link" style="background:var(--glas-tief)"> Newsletter on IPhone</a>
 
-            <h1>NEU: VIP-Sitzplätze</h1>
+        <div class="vip">
+            <h2>NEU: VIP-Sitzplätze</h2>
             <p>
                 Mit dem neu erhältlichen VIP-Sitzplatz geniesst du Theater hautnah: ein Platz in der ersten Reihe, ein Gratis-Getränk sowie ein Snackbecher
                 nach Wahl (süss oder salzig) sind inklusive. Zusätzlich erhältst du im Anschluss einen exklusiven Merchartikel mit abendspezifischem Design –
                 als ganz besonderes Andenken an die Show
             </p>
         </div>
-    </div>
-</section>
+    
+            </div>
+        </section>
 
-
-<!-- Shows-Sektion: Präsentiert Informationen zur letzten Aufführung -->
-<section id="shows">
-    <!-- Letzte Aufführung -->
-    <div class="flex-container">
-        <!-- Text -->
-        <!-- Show-Beschreibung: Detaillierte Informationen über die letzte Show mit Datum, Zeit und Beschreibung -->
-        <div class="text-container">
+        <section class="zelle zelle--auffuehrung" id="shows">
+            <figure class="organell organell--buehne" data-tiefe="1.2"><img src="media/rueckblick-boden-1280.webp" srcset="media/rueckblick-boden-640.webp 640w, media/rueckblick-boden-1280.webp 1280w, media/rueckblick-boden-2000.webp 2000w" sizes="(max-width: 760px) 90vw, 520px" width="2000" height="1333" decoding="async" fetchpriority="low" alt="Szene auf der Bühne: Ein Spieler liegt auf dem Boden, den Kopf auf einer blauen Decke"></figure>
+            <div class="auffuehrung__kopf">
             <h2>Letzte Aufführung</h2>
-            <!-- Show-Titel und Datum: Name der Show mit Datum und Uhrzeit -->
             <h3>Zu Besuch bei Hanna & | 25. Oktober 2025, Showstart: 19.30 Uhr</h3>
-            <!-- Show-Text: Beschreibt die Show, die Schauspielenden, den Gast und die musikalische Begleitung -->
-            <p>Nach ihren gefeierten Auftritten kehren Hanna <strong>Lea Waldner</strong> und Max <strong>Arthur Neudeck</strong> auf die Bühne des Kammertheaters zurück – dieses Mal in mit neuem Format, neuen Ideen – und neuer Konstellation: Gemeinsam mit dem Gast <strong>Matthias Baumann</strong> entsteht ein Abend, an dem nichts vorher feststeht und doch alles möglich ist.
-
-                Doch auch für die musikalische untermalung ist gesorgt: <strong>Barbara Lenz</strong> begleitet besagtes Geschehen live am Klavier. Die professionelle Pianistin verleiht mit ihren Improvisationen dem gesagten eine Kraft, welche die Emotionen unmittelbar hörbar macht.
-
-                Im Zusammenspiel der drei entsteht eine eigene Welt: überraschend, humorvoll, manchmal berührend – und immer einzigartig. Jede Szene lebt nur in genau dem Moment in dem sie entsteht, getragen von einer Spielfreude, die spielerisch leicht, höchst amüsant und präzise geerdet sein kann.
-
-                Das Publikum darf lachen, staunen, vielleicht auch den Atem anhalten – und wird vor allem erleben, wie Theater entstehen kann, wenn man ihm den Raum für echtes Risiko gibt.
-
-                Was bedeutet dieser Auftritt für Hanna und Max? Und ist diese Frage überhaupt wichtig, solange ein Abend entsteht, den man so nur einmal erleben kann?</p>
         </div>
-    </div>
-</section>
-
-<!-- ÜBER UNS SECTION-->
-<!-- Über-uns-Sektion: Stellt den Verein Improskop vor, seine Geschichte, Werte und Ziele -->
-<section id="ueber-uns">
-    <div class="flex-container">
-        <!-- Text -->
-        <!-- Vereinsbeschreibung: Erklärt die Entstehung, Mission und Werte des Vereins -->
-        <div class="text-container">
-            <h1>IMPROSKOP – der Verein</h1>
-            <p>
-                Gegründet im Jahr 2023 von Arthur Neudeck, ist unser Verein aus dem Wunsch entstanden, die kulturelle Landschaft in und um Riehen mit der Lebendigkeit der Improvisations-Kunst zu bereichern. Wir verstehen Improvisation aber nicht nur als Kunstform, sondern als Einladung – an alle Menschen, unabhängig von Alter oder Erfahrung –, gemeinsam zu kreieren, zu staunen und sich vom Moment tragen zu lassen.
-
-                Wir glauben daran, dass ein Funke Spontaneität selbst den grausten Alltag erhellen kann. Deshalb leben wir die Werte, die Improtheater ausmachen: Offenheit, Kreativität, gegenseitige Wertschätzung und den Mut, einfach loszulassen und Neues zu wagen.
-
-                Unser Verein ist ein Raum des Entdeckens – ein Ort, an dem Lachen und Geschichten entstehen, an dem Menschen zusammenkommen und das Unerwartete gefeiert wird.
-
-                Ob als Teilnehmer:in unserer Workshops, als Zuschauer:in unserer Aufführungen oder als Teil unserer wachsenden Gemeinschaft – jede und jeder ist eingeladen, die Magie des Improvisierens zu erleben und mit uns gemeinsam weiterzuspinnen.
-            </p>
+            <div class="auffuehrung__text">
+            <p>Nach ihren gefeierten Auftritten kehren Hanna <strong>Lea Waldner</strong> und Max <strong>Arthur Neudeck</strong> auf die Bühne des Kammertheaters zurück – dieses Mal in mit neuem Format, neuen Ideen – und neuer Konstellation: Gemeinsam mit dem Gast <strong>Matthias Baumann</strong> entsteht ein Abend, an dem nichts vorher feststeht und doch alles möglich ist.</p>
+            <p>Doch auch für die musikalische untermalung ist gesorgt: <strong>Barbara Lenz</strong> begleitet besagtes Geschehen live am Klavier. Die professionelle Pianistin verleiht mit ihren Improvisationen dem gesagten eine Kraft, welche die Emotionen unmittelbar hörbar macht.</p>
+            <p>Im Zusammenspiel der drei entsteht eine eigene Welt: überraschend, humorvoll, manchmal berührend – und immer einzigartig. Jede Szene lebt nur in genau dem Moment in dem sie entsteht, getragen von einer Spielfreude, die spielerisch leicht, höchst amüsant und präzise geerdet sein kann.</p>
+            <p>Das Publikum darf lachen, staunen, vielleicht auch den Atem anhalten – und wird vor allem erleben, wie Theater entstehen kann, wenn man ihm den Raum für echtes Risiko gibt.</p>
+            <p>Was bedeutet dieser Auftritt für Hanna und Max? Und ist diese Frage überhaupt wichtig, solange ein Abend entsteht, den man so nur einmal erleben kann?</p>
         </div>
+        </section>
 
-        <!-- Bild-Bereich: Zeigt Foto der Schauspielenden als visuelle Ergänzung -->
-        <div class="text-container">
-            <!-- Bild -->
-            <img width="350px" src="Images/DRAUSSEN_HM_Lachen.png" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png" class="bilder-img">
+        <section class="zelle zelle--verein" id="ueber-uns">
+            <div class="verein">
+                <div>
+            <h2>IMPROSKOP&nbsp;– der Verein</h2>
+            <p>Gegründet im Jahr 2023 von Arthur Neudeck, ist unser Verein aus dem Wunsch entstanden, die kulturelle Landschaft in und um Riehen mit der Lebendigkeit der Improvisations-Kunst zu bereichern. Wir verstehen Improvisation aber nicht nur als Kunstform, sondern als Einladung – an alle Menschen, unabhängig von Alter oder Erfahrung –, gemeinsam zu kreieren, zu staunen und sich vom Moment tragen zu lassen.</p>
+            <p>Wir glauben daran, dass ein Funke Spontaneität selbst den grausten Alltag erhellen kann. Deshalb leben wir die Werte, die Improtheater ausmachen: Offenheit, Kreativität, gegenseitige Wertschätzung und den Mut, einfach loszulassen und Neues zu wagen.</p>
+            <p>Unser Verein ist ein Raum des Entdeckens – ein Ort, an dem Lachen und Geschichten entstehen, an dem Menschen zusammenkommen und das Unerwartete gefeiert wird.</p>
+            <p>Ob als Teilnehmer:in unserer Workshops, als Zuschauer:in unserer Aufführungen oder als Teil unserer wachsenden Gemeinschaft – jede und jeder ist eingeladen, die Magie des Improvisierens zu erleben und mit uns gemeinsam weiterzuspinnen.</p>
         </div>
-    </div>
-</section>
-
-<!-- Schaupielenden-->
-<!-- Schauspielenden-Sektion: Präsentiert die Hauptdarsteller mit ihren Biografien und Hintergründen -->
-<section>
-    <!-- Überschrift: Titel der Sektion -->
-    <div class="flex-container">
-        <h1>DIE SCHAUSPIELENDEN</h1>
-    </div>
-    <div class="flex-container">
-        <!-- Text -->
-        <!-- Arthur Neudeck: Biografie des Vereinsgründers und Schauspielers -->
-        <div class="text-container">
-            <h2>Arthur Neudeck – Schauspieler & Vereinsgründer</h2>
-            <p>
-                <strong>Arthur</strong>, geboren und aufgewachsen in Freiburg (mit dunklen Umwegen über den Schwarzwald), war ein Spätzünder: 1998 entdeckte er dort zum ersten Mal das Theater. Doch erst 2016 traute er sich, diese ungewöhnliche „Liebe" zuzulassen und zu vertiefen. In verschiedenen Gruppen sowie auf zahlreichen deutschen und internationalen Workshops und Festivals lernte er immer mehr Facetten kennen.
-
-                2019 fasste er den Entschluss, eigene Wege zu gehen und neue Formate (mit) zu entwickeln. 2023 gründete er gemeinsam mit Lea den Verein „improskop" sowie das Format „Hanna & Max" – ein Duo, das immer zu dritt spielt.
-
-                Seither gibt er Workshops für die unterschiedlichsten Zielgruppen: Kinder, Jugendliche und Erwachsene. Dabei entstanden Abschlussvideos, Schulveranstaltungen und Business-Theater.
-
-                <br>Für Arthur steht heute fest: <em>„Embrace failure, let him/her shine, be in the moment – das sind die Grundlagen eines glücklichen Lebens!"</em>
-            </p>
-        </div>
-
-        <!-- Bild-Bereich: Zeigt Foto von Arthur und Lea -->
-        <div class="text-container">
-            <!-- Bild -->
-            <img width="300px" src="Images/HuM_Txt2.JPG" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png" class="bilder-img">
-        </div>
-
-        <!-- Lea Waldner: Biografie der Schauspielerin -->
-        <div class="text-container">
-            <h2>Lea Waldner – Schauspielerin</h2>
-            <p>
-                <strong>Lea Waldner</strong>, geboren und aufgewachsen in Frauenfeld im Thurgau, steht sie seit 1992 auf den Brettern, die die Welt bedeuten. Von klassischen Theaterproduktionen auf kleinen und großen Bühnen bis hin zu ausgefallenen Projekten hat sie schon Vieles gespielt, was Herz, Kopf und Publikum bewegt.
-
-                2015 entdeckte sie in Basel das Improtheater – und damit eine neue Leidenschaft: Spontanität auf der Bühne! Seither besucht sie Kurse und Workshops, spielte schon in diversen Formationen und Formaten und bringt das Publikum regelmäßig zum Lachen, Staunen oder Nachdenken.
-
-                Mit der Zeit schlich sich die Impro auch in ihren Berufsalltag und heute nutzt sie Improelemente nicht nur auf der Bühne, sondern auch im echten Leben.
-
-                <br>Ihr Motto: <em>„Das Leben hat kein Skript – also improvisieren wir!"</em>
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- BILDER UNSERER SHOWS -->
-<!-- Rückblicke-Sektion: Zeigt Bilder vergangener Shows in einem Grid-Layout -->
-<section id="my-work">
-    <!-- Überschrift: Titel der Rückblicke-Sektion -->
-    <h2>RÜCKBLICKE</h2>
-    <!-- Grid-Container: Drei-spaltiges Grid-Layout für Show-Bilder -->
-    <div class="grid-container">
-        <img style="grid-area: img-1;" src="Images/Rueckblicke/Lang2.jpg" alt="Show Bild 1" class="bilder-img">
-        <img style="grid-area: img-2;" src="Images/Rueckblicke/Hoch1.jpg" alt="Show Bild 2" class="bilder-img">
-        <img style="grid-area: img-3;" src="Images/Rueckblicke/Hoch0.jpg" alt="Show Bild 3" class="bilder-img">
-        <img style="grid-area: img-4;" src="Images/Rueckblicke/Lang1.jpg" alt="Show Bild 3" class="bilder-img">
-    </div>
-    <!-- Instagram-Link: Verweist auf Instagram-Profil für weitere Bilder -->
-    <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="cta-btn">Mehr auf unserem Insta</a>
-</section>
-
-<!-- Organisations-Team: Stellt die Mitglieder des Organisationsteams vor -->
-<section>
-    <!-- Überschrift: Titel der Organisations-Sektion -->
-    <h1>DIE ORGA</h1>
-    <div class="flex-container">
-        <!-- Text -->
-        <!-- Mika Neudeck: Beschreibung des Webdesigners und Entwicklers -->
-        <div class="text-container">
-            <h3>Mika Neudeck – Webdesigner & Entwickler</h3>
-            <p>
-                Der 16-jähriger Gymnasiast aus Riehen hat schon seit Kindesalter eine beeindruckendes Talent für Technik und Design. Was ursprünglich als einfaches Schulprojekt begann, entwickelte sich schnell zu einer professionellen Website welche er eigenhändig für den Verein <strong>Improskop</strong> aufsetzte.
-
-                Trotz seines jungen Alters bringt Mika ein ausgeprägtes Gespür für Gestaltung, Benutzerfreundlichkeit und Struktur mit. Er kombiniert technisches Wissen mit einem klaren ästhetischen Verständnis und sorgt so dafür, dass Inhalte nicht nur funktionieren, sondern auch ansprechend präsentiert werden.
-
-                Mit Eigeninitiative, Lernfreude und Präzision hat er sich in kurzer Zeit ein breites Wissen in Webentwicklung und Design angeeignet – und zeigt damit, dass Talent und Professionalität keine Frage des Alters sind.
-            </p>
-        </div>
-
-        <!-- Malte Mickisch: Beschreibung des Betriebskoordinators -->
-        <div class="text-container">
-            <h3>Malte Mickisch – Betriebskoordination & Gästebetreuung</h3>
-            <p>
-                Malte sorgt dafür, dass an den Events selbst alles reibungslos abläuft – sowohl vor als auch hinter den Kulissen. Ob an der Bar, beim Aufbau oder in der Koordination des Teams: Er behält den Überblick, erkennt, wo Hilfe gebraucht wird, und sorgt dafür, dass jede Veranstaltung rundum gelingt.
-
-                Mit einem ausgeprägten Organisationstalent, Ruhe in stressigen Momenten und einem offenen Ohr für Gäste und Teammitglieder ist Malte die verlässliche Stütze im Hintergrund. Durch seine strukturierte Arbeitsweise und seinen Sinn für praktische Lösungen trägt er entscheidend dazu bei, dass das Publikum einen unvergesslichen Abend erlebt.
-            </p>
-        </div>
-
-        <!-- Kim Neudeck: Beschreibung der Organisatorin und Marketing-Verantwortlichen -->
-        <div class="text-container">
-            <h3>Kim Neudeck – Organisation & Marketing</h3>
-            <p>
-                Kim ist die treibende Kraft hinter der Planung und Durchführung der <strong>Improskop</strong> -Events. Sie behält stets den Überblick über Projekte, Termine und Abläufe und sorgt dafür, dass alles – oder zumindest fast alles – reibungslos funktioniert. Neben ihrer organisatorischen Stärke verantwortet sie Marketing und Kommunikation und trifft dabei zahlreiche kreative Entscheidungen, die das Event erst möglich machen.
-
-                Mit ihrer strukturierten Arbeitsweise, ihrem Engagement, einer klaren Vision und einem feinen Gespür für Ästhetik und Wirkung bringt Kim Ordnung, Dynamik und Tatendrang zugleich ins Team. Sie versteht es, Ideen in konkrete Konzepte zu verwandeln und den Überblick zu behalten, selbst wenn es turbulent wird.
-            </p>
-        </div>
-    </div>
-</section>
-<!-- Q&A SECTION -->
-<!-- FAQ-Sektion: Häufig gestellte Fragen mit ausklappbaren Antworten -->
-<section>
-    <!-- Überschrift: Titel der FAQ-Sektion -->
-    <h2>Q&A</h2>
-
-    <!-- FAQ-Einträge: Details-Elemente für ausklappbare Fragen und Antworten -->
-    <details>
-        <!-- Ticket-Preise: Erklärt verfügbare Ticketarten und Preise -->
-        <summary>Was für Tickets gibt es und wie viel kosten diese?</summary>
-        <p>Wir bieten normale Tickets für 25 CHF und Schüler*innen/AHV,IV-Tickets für 15 CHF an.</p>
-        <p>Mit einem VIP-Platz sitzt du ganz vorne, siehst jedes Lächeln und jede spontane Reaktion hautnah – quasi mitten im Geschehen.
-            Ausserdem unterstüzt ihr uns damit sehr
-        </p>
-    </details>
-
-    <details>
-        <!-- Veranstaltungsort: Gibt Auskunft über den Ort der Aufführungen -->
-        <summary>Wo finden die Aufführungen statt?</summary>
-        <p>Die Shows finden im Kammerthater Riehen statt.</p>
-    </details>
-
-    <details>
-        <!-- Ticket-Reservierung: Erklärt den Ticketkauf-Prozess -->
-        <summary>Wie kann ich Tickets reservieren?</summary>
-        <p>Tickets können über den Link dieser Website zu Eventfrog organisiert werden.</p>
-    </details>
-
-    <details>
-        <!-- Kontakt: Gibt Kontaktinformationen für Anfragen -->
-        <summary>Wie kann ich die Impro-Gruppe kontaktieren?</summary>
-        <p>Schreibe uns einfach eine E-Mail!</p>
-    </details>
-</section>
-
-<!-- Funsection-Link: Verweist auf die Funsection-Seite mit Improspielen -->
-<section>
-    <div class="flex-container">
-        <div >
-            <a href="Funsec.html" class="cta-btn">Funsection!</a>
-        </div>
-    </div>
-</section>
-
-
-<!-- Footer -->
-<!-- Footer-Bereich: Enthält Logo, rechtliche Links und Copyright-Informationen -->
-<section>
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <!-- Logo: Zeigt das Vereinslogo im Footer -->
-                <div class="Logo">
-                    <img width="100px" src="Images/Logo2_final.png" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png">
-                </div>
-                <!-- Footer-Links: Rechtliche Links zu Impressum und Datenschutz -->
-                <div class="footer-links">
-                    <!--<a href="#ueber-uns">Über uns</a>-->
-                    <a href="impressum.html">Impressum</a>
-                    <a href="datenschutz.html">Datenschutz</a>
-                </div>
+                <figure class="organell organell--rund" data-tiefe="1.4"><img src="media/hanna-max-lachen-908.webp" srcset="media/hanna-max-lachen-640.webp 640w, media/hanna-max-lachen-908.webp 908w" sizes="(max-width: 760px) 80vw, 380px" width="908" height="1372" decoding="async" fetchpriority="low" alt="Arthur Neudeck und Lea Waldner lachen draussen in der Herbstsonne"></figure>
             </div>
-            <!-- Copyright: Zeigt Copyright-Informationen -->
-            <div class="footer-bottom">
-                <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
+        </section>
+
+        <section class="zelle zelle--ensemble">
+            <h2 class="ensemble__titel">DIE SCHAUSPIELENDEN</h2>
+            <figure class="organell organell--band" data-tiefe="1.15"><img src="media/arthur-lea-breit-1600.webp" srcset="media/arthur-lea-breit-960.webp 960w, media/arthur-lea-breit-1600.webp 1600w, media/arthur-lea-breit-2400.webp 2400w" sizes="(max-width: 760px) 90vw, 760px" width="2400" height="1145" decoding="async" fetchpriority="low" alt="Lea Waldner und Arthur Neudeck vor hellem Hintergrund, im Gespräch"></figure>
+            <div class="ensemble">
+                <div>
+            <h3>Arthur Neudeck – Schauspieler & Vereinsgründer</h3>
+            <p><strong>Arthur</strong>, geboren und aufgewachsen in Freiburg (mit dunklen Umwegen über den Schwarzwald), war ein Spätzünder: 1998 entdeckte er dort zum ersten Mal das Theater. Doch erst 2016 traute er sich, diese ungewöhnliche „Liebe" zuzulassen und zu vertiefen. In verschiedenen Gruppen sowie auf zahlreichen deutschen und internationalen Workshops und Festivals lernte er immer mehr Facetten kennen.</p>
+            <p>2019 fasste er den Entschluss, eigene Wege zu gehen und neue Formate (mit) zu entwickeln. 2023 gründete er gemeinsam mit Lea den Verein „improskop" sowie das Format „Hanna & Max" – ein Duo, das immer zu dritt spielt.</p>
+            <p>Seither gibt er Workshops für die unterschiedlichsten Zielgruppen: Kinder, Jugendliche und Erwachsene. Dabei entstanden Abschlussvideos, Schulveranstaltungen und Business-Theater.</p>
+            <p>Für Arthur steht heute fest: <em>„Embrace failure, let him/her shine, be in the moment – das sind die Grundlagen eines glücklichen Lebens!"</em></p>
+        </div>
+                <figure class="organell organell--rund" data-tiefe="1.35"><img style="object-position:50% 62%" src="media/arthur-lea-1280.webp" srcset="media/arthur-lea-640.webp 640w, media/arthur-lea-1280.webp 1280w" sizes="(max-width: 900px) 70vw, 300px" width="1280" height="1920" decoding="async" fetchpriority="low" alt="Arthur Neudeck und Lea Waldner Rücken an Rücken"></figure>
+                <div>
+            <h3>Lea Waldner – Schauspielerin</h3>
+            <p><strong>Lea Waldner</strong>, geboren und aufgewachsen in Frauenfeld im Thurgau, steht sie seit 1992 auf den Brettern, die die Welt bedeuten. Von klassischen Theaterproduktionen auf kleinen und großen Bühnen bis hin zu ausgefallenen Projekten hat sie schon Vieles gespielt, was Herz, Kopf und Publikum bewegt.</p>
+            <p>2015 entdeckte sie in Basel das Improtheater – und damit eine neue Leidenschaft: Spontanität auf der Bühne! Seither besucht sie Kurse und Workshops, spielte schon in diversen Formationen und Formaten und bringt das Publikum regelmäßig zum Lachen, Staunen oder Nachdenken.</p>
+            <p>Mit der Zeit schlich sich die Impro auch in ihren Berufsalltag und heute nutzt sie Improelemente nicht nur auf der Bühne, sondern auch im echten Leben.</p>
+            <p>Ihr Motto: <em>„Das Leben hat kein Skript – also improvisieren wir!"</em></p>
+        </div>
+            </div>
+        </section>
+
+        <section class="zelle zelle--rueckblick" id="my-work">
+            <div class="rueckblick__kopf">
+        <h2>RÜCKBLICKE</h2>
+        <div class="rueckblick__pfeile">
+            <button class="knopf glas glas--dunkel" data-streifen="-1" aria-label="Vorheriges Bild">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button class="knopf glas glas--dunkel" data-streifen="1" aria-label="Nächstes Bild">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+            <div class="streifen" tabindex="0" aria-label="Bilder unserer Shows">
+            <figure><img src="media/rueckblick-boden-1280.webp" srcset="media/rueckblick-boden-640.webp 640w, media/rueckblick-boden-1280.webp 1280w, media/rueckblick-boden-2000.webp 2000w" sizes="(max-width: 760px) 82vw, 60vh" width="2000" height="1333" decoding="async" fetchpriority="low" alt="Show Bild 1"></figure>
+            <figure><img src="media/rueckblick-staunen-960.webp" srcset="media/rueckblick-staunen-480.webp 480w, media/rueckblick-staunen-960.webp 960w, media/rueckblick-staunen-1440.webp 1440w" sizes="(max-width: 760px) 82vw, 40vh" width="1440" height="2160" decoding="async" fetchpriority="low" alt="Show Bild 2"></figure>
+            <figure><img src="media/rueckblick-flasche-960.webp" srcset="media/rueckblick-flasche-480.webp 480w, media/rueckblick-flasche-960.webp 960w, media/rueckblick-flasche-1440.webp 1440w" sizes="(max-width: 760px) 82vw, 40vh" width="1440" height="2160" decoding="async" fetchpriority="low" alt="Show Bild 3"></figure>
+            <figure><img src="media/rueckblick-verbeugung-1280.webp" srcset="media/rueckblick-verbeugung-640.webp 640w, media/rueckblick-verbeugung-1280.webp 1280w, media/rueckblick-verbeugung-2000.webp 2000w" sizes="(max-width: 760px) 82vw, 60vh" width="2000" height="1333" decoding="async" fetchpriority="low" alt="Show Bild 4: das Ensemble verbeugt sich"></figure>
+            <figure><img src="media/rueckblick-umarmung-960.webp" srcset="media/rueckblick-umarmung-480.webp 480w, media/rueckblick-umarmung-960.webp 960w, media/rueckblick-umarmung-1440.webp 1440w" sizes="(max-width: 760px) 82vw, 40vh" width="1440" height="2160" decoding="async" fetchpriority="low" alt="Show Bild 5: zwei Spielende umarmen sich"></figure>
+            <figure><img src="media/rueckblick-applaus-960.webp" srcset="media/rueckblick-applaus-480.webp 480w, media/rueckblick-applaus-960.webp 960w, media/rueckblick-applaus-1440.webp 1440w" sizes="(max-width: 760px) 82vw, 40vh" width="1440" height="2160" decoding="async" fetchpriority="low" alt="Show Bild 6"></figure>
+            </div>
+            <div class="knopf-reihe">
+                <a href="https://www.instagram.com/improskop?igsh=MTJoeXlkMHFqczR4cw==" class="knopf glas glas--dunkel">Mehr auf unserem Insta</a>
+            </div>
+        </section>
+
+        <section class="zelle zelle--orga">
+            <div class="orga">
+            <h2>DIE ORGA</h2>
+        <div class="orga__spalten">
+            <div>
+                <h3>Mika Neudeck – Webdesigner & Entwickler</h3>
+                <p>Der 16-jähriger Gymnasiast aus Riehen hat schon seit Kindesalter eine beeindruckendes Talent für Technik und Design. Was ursprünglich als einfaches Schulprojekt begann, entwickelte sich schnell zu einer professionellen Website welche er eigenhändig für den Verein <strong>Improskop</strong> aufsetzte.</p>
+                <p>Trotz seines jungen Alters bringt Mika ein ausgeprägtes Gespür für Gestaltung, Benutzerfreundlichkeit und Struktur mit. Er kombiniert technisches Wissen mit einem klaren ästhetischen Verständnis und sorgt so dafür, dass Inhalte nicht nur funktionieren, sondern auch ansprechend präsentiert werden.</p>
+                <p>Mit Eigeninitiative, Lernfreude und Präzision hat er sich in kurzer Zeit ein breites Wissen in Webentwicklung und Design angeeignet – und zeigt damit, dass Talent und Professionalität keine Frage des Alters sind.</p>
+            </div>
+            <div>
+                <h3>Malte Mickisch – Betriebskoordination & Gästebetreuung</h3>
+                <p>Malte sorgt dafür, dass an den Events selbst alles reibungslos abläuft – sowohl vor als auch hinter den Kulissen. Ob an der Bar, beim Aufbau oder in der Koordination des Teams: Er behält den Überblick, erkennt, wo Hilfe gebraucht wird, und sorgt dafür, dass jede Veranstaltung rundum gelingt.</p>
+                <p>Mit einem ausgeprägten Organisationstalent, Ruhe in stressigen Momenten und einem offenen Ohr für Gäste und Teammitglieder ist Malte die verlässliche Stütze im Hintergrund. Durch seine strukturierte Arbeitsweise und seinen Sinn für praktische Lösungen trägt er entscheidend dazu bei, dass das Publikum einen unvergesslichen Abend erlebt.</p>
+            </div>
+            <div>
+                <h3>Kim Neudeck – Organisation & Marketing</h3>
+                <p>Kim ist die treibende Kraft hinter der Planung und Durchführung der <strong>Improskop</strong> -Events. Sie behält stets den Überblick über Projekte, Termine und Abläufe und sorgt dafür, dass alles – oder zumindest fast alles – reibungslos funktioniert. Neben ihrer organisatorischen Stärke verantwortet sie Marketing und Kommunikation und trifft dabei zahlreiche kreative Entscheidungen, die das Event erst möglich machen.</p>
+                <p>Mit ihrer strukturierten Arbeitsweise, ihrem Engagement, einer klaren Vision und einem feinen Gespür für Ästhetik und Wirkung bringt Kim Ordnung, Dynamik und Tatendrang zugleich ins Team. Sie versteht es, Ideen in konkrete Konzepte zu verwandeln und den Überblick zu behalten, selbst wenn es turbulent wird.</p>
             </div>
         </div>
-    </footer>
-</section>
+            </div>
+        </section>
 
-<!-- JS SCRIPT -->
+        <section class="zelle zelle--fragen">
+            <div class="fragen">
+            <h2>Q&A</h2>
+        <div>
+            <details>
+                <summary>Was für Tickets gibt es und wie viel kosten diese?</summary>
+                <div class="antwort glas">
+                    <p>Wir bieten normale Tickets für 25 CHF und Schüler*innen/AHV,IV-Tickets für 15 CHF an.</p>
+                    <p>Mit einem VIP-Platz sitzt du ganz vorne, siehst jedes Lächeln und jede spontane Reaktion hautnah – quasi mitten im Geschehen.
+                        Ausserdem unterstüzt ihr uns damit sehr
+                    </p>
+                </div>
+            </details>
+            <details>
+                <summary>Wo finden die Aufführungen statt?</summary>
+                <div class="antwort glas"><p>Die Shows finden im Kammerthater Riehen statt.</p></div>
+            </details>
+            <details>
+                <summary>Wie kann ich Tickets reservieren?</summary>
+                <div class="antwort glas"><p>Tickets können über den Link dieser Website zu Eventfrog organisiert werden.</p></div>
+            </details>
+            <details>
+                <summary>Wie kann ich die Impro-Gruppe kontaktieren?</summary>
+                <div class="antwort glas"><p>Schreibe uns einfach eine <a href="mailto:arthur@improskop.ch">E-Mail!</a></p></div>
+            </details>
+        </div>
+    
+            </div>
+        </section>
+
+        <section class="zelle zelle--fun">
+            <a href="Funsec.html" class="knopf">Funsection!</a>
+        </section>
+    </div>
+    <div class="tiefe tiefe--vorne" data-faktor="1.25" aria-hidden="true"></div>
+</div>
+
+<!-- Okular-Rand für den Übergang ins Präparat -->
+<img class="okular-rand" src="media/okular-rand-klein.webp" srcset="media/okular-rand-klein.webp 1200w, media/okular-rand.webp 2400w" sizes="(max-width: 760px) 170vw, 115vmin" width="2400" height="2400" alt="" aria-hidden="true">
+
+<footer class="footer glas glas--dunkel">
+    <div class="container">
+                <div class="footer-content">
+                    <div class="Logo">
+                        <img src="media/logo-hell-512.webp" width="512" height="512" alt="Improskop Logo" decoding="async">
+                    </div>
+                    <div class="footer-links">
+                        <a href="impressum.html">Impressum</a>
+                        <a href="datenschutz.html">Datenschutz</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
+                </div>
+            </div>
+</footer>
+
+<div class="scrollweg" aria-hidden="true"></div>
+</main>
+
 <script src="script.js"></script>
+<script src="zellen.js"></script>
 </body>
 </html>

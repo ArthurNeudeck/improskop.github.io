@@ -1,120 +1,123 @@
-// --- Burger-Menü Steuerung ---
-// Burger-Menü: Steuert das mobile Navigationsmenü, öffnet/schließt Menü beim Klick auf Burger-Icon
+// =====================================================================
+// IMPROSKOP – Interaktion auf allen Seiten
+// Navigation, Countdown, Cookies, Glanzlicht, Rückblick-Pfeile.
+// Die Kamera der Startseite steckt in zellen.js.
+// =====================================================================
+
+// --- Liquid Glass ---------------------------------------------------------
+// Lichtbrechung per SVG-Filter kann nur Chromium; alle anderen nutzen den Blur.
+if (navigator.userAgentData && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand))) {
+    document.documentElement.classList.add('brechung');
+}
+
+// Glanzlicht folgt dem Mauszeiger (nur mit Maus)
+if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.addEventListener('pointermove', e => {
+        const glas = e.target.closest && e.target.closest('.glas');
+        if (!glas) return;
+        const r = glas.getBoundingClientRect();
+        glas.style.setProperty('--gx', `${((e.clientX - r.left) / r.width) * 100}%`);
+        glas.style.setProperty('--gy', `${((e.clientY - r.top) / r.height) * 100}%`);
+    });
+}
+
+// --- Navigation -------------------------------------------------------------
+const nav = document.querySelector('.nav');
 const toggleButton = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
 
-if (toggleButton && navLinks) {
-	// Toggle-Event: Öffnet oder schließt das Menü beim Klick auf Burger-Button
-	toggleButton.addEventListener('click', () => {
-		navLinks.classList.toggle('show');
-	});
-
-	// Link-Klick-Event: Schließt das Menü automatisch nach Klick auf einen Link
-	navLinks.querySelectorAll('a').forEach(link => {
-		link.addEventListener('click', () => {
-			navLinks.classList.remove('show');
-		});
-	});
+function menuSchliessen() {
+    navLinks.classList.remove('offen');
+    toggleButton.setAttribute('aria-expanded', 'false');
+    toggleButton.setAttribute('aria-label', 'Menü öffnen');
 }
 
-// Countdown-Funktion: Berechnet und aktualisiert die verbleibende Zeit bis zur nächsten Show
+if (toggleButton && navLinks) {
+    toggleButton.addEventListener('click', () => {
+        const offen = navLinks.classList.toggle('offen');
+        toggleButton.setAttribute('aria-expanded', String(offen));
+        toggleButton.setAttribute('aria-label', offen ? 'Menü schliessen' : 'Menü öffnen');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', menuSchliessen));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') menuSchliessen(); });
+}
+
+// Liegt die Navigation über einer dunklen Fläche? Dann helles Glas-Design.
+const dunkleFlaechen = [...document.querySelectorAll('[data-dunkel], .footer--statisch')];
+function navFarbe() {
+    if (!nav) return;
+    const n = nav.getBoundingClientRect();
+    const y = n.top + n.height / 2;
+    const dunkel = dunkleFlaechen.some(el => {
+        const r = el.getBoundingClientRect();
+        return r.top <= y && r.bottom >= y;
+    });
+    nav.toggleAttribute('data-auf-dunkel', dunkel);
+}
+
+// --- Countdown ----------------------------------------------------------------
+// Zieldatum steht im HTML (data-ziel). Ist es vorbei, wird der Countdown ausgeblendet.
 function initCountdown() {
-    // Ziel-Datum: Datum und Uhrzeit der nächsten Show
-    const targetDate = new Date('2026-01-31T19:00:00').getTime();
+    const countdown = document.getElementById('countdown');
+    if (!countdown) return;
+    const targetDate = new Date(countdown.dataset.ziel).getTime();
+    const felder = ['days', 'hours', 'minutes', 'seconds'].map(id => document.getElementById(id));
 
-    // DOM-Elemente: Referenzen zu den Countdown-Anzeigeelementen
-    const daysElement = document.getElementById('days');
-    const hoursElement = document.getElementById('hours');
-    const minutesElement = document.getElementById('minutes');
-    const secondsElement = document.getElementById('seconds');
-
-    // Prüfung: Beendet Funktion wenn Elemente nicht vorhanden sind
-    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
-        return;
-    }
-
-    // Update-Funktion: Berechnet die verbleibende Zeit und aktualisiert die Anzeige
     function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        // Abgelaufen: Setzt Countdown auf 00 wenn Ziel-Datum erreicht ist
+        const distance = targetDate - Date.now();
         if (distance < 0) {
-            daysElement.textContent = '00';
-            hoursElement.textContent = '00';
-            minutesElement.textContent = '00';
-            secondsElement.textContent = '00';
+            countdown.hidden = true;
+            clearInterval(takt);
             return;
         }
-
-        // Berechnung: Berechnet Tage, Stunden, Minuten und Sekunden aus Millisekunden
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Aktualisierung: Aktualisiert die Anzeige mit führenden Nullen (z.B. "05" statt "5")
-        daysElement.textContent = days.toString().padStart(2, '0');
-        hoursElement.textContent = hours.toString().padStart(2, '0');
-        minutesElement.textContent = minutes.toString().padStart(2, '0');
-        secondsElement.textContent = seconds.toString().padStart(2, '0');
+        const werte = [
+            Math.floor(distance / 86400000),
+            Math.floor((distance % 86400000) / 3600000),
+            Math.floor((distance % 3600000) / 60000),
+            Math.floor((distance % 60000) / 1000),
+        ];
+        felder.forEach((el, i) => { el.textContent = String(werte[i]).padStart(2, '0'); });
     }
-
-    // Initialisierung: Startet Countdown sofort und aktualisiert jede Sekunde
+    const takt = setInterval(updateCountdown, 1000);
     updateCountdown();
-    setInterval(updateCountdown, 1000);
 }
+initCountdown();
 
-initCountdown(); // Startet den Countdown, falls Elemente vorhanden sind
+// --- Cookie-Banner ------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('accept-cookies');
+    const declineBtn = document.getElementById('decline-cookies');
+    if (!banner || !acceptBtn || !declineBtn) return;
 
-//Cookies
-// Cookie-Banner-Verwaltung: Steuert die Anzeige des Cookie-Banners und speichert Nutzerauswahl
+    let gespeichert = null;
+    try { gespeichert = localStorage.getItem('cookiesChoice'); } catch (e) { /* privates Fenster */ }
+    if (!gespeichert) banner.style.display = 'flex';
 
-document.addEventListener("DOMContentLoaded", () => {
-  // DOM-Elemente: Referenzen zu Cookie-Banner und Buttons
-  const banner = document.getElementById("cookie-banner");
-  const acceptBtn = document.getElementById("accept-cookies");
-  const declineBtn = document.getElementById("decline-cookies");
-
-  // Prüfung: Beendet Funktion wenn Elemente nicht vorhanden sind
-  if (!banner || !acceptBtn || !declineBtn) {
-    return;
-  }
-
-  // Banner-Anzeige: Zeigt Banner nur wenn noch keine Auswahl getroffen wurde
-  if (!localStorage.getItem("cookiesChoice")) {
-    banner.style.display = "flex";
-  }
-
-  // Akzeptieren-Button: Speichert Auswahl und versteckt Banner, aktiviert Cookies
-  acceptBtn.addEventListener("click", () => {
-    localStorage.setItem("cookiesChoice", "accepted");
-    banner.style.display = "none";
-    enableCookies(); // Hier würdest du z. B. Analytics aktivieren
-  });
-
-  // Ablehnen-Button: Speichert Auswahl und versteckt Banner
-  declineBtn.addEventListener("click", () => {
-    localStorage.setItem("cookiesChoice", "declined");
-    banner.style.display = "none";
-  });
+    const wahl = wert => {
+        try { localStorage.setItem('cookiesChoice', wert); } catch (e) { /* egal */ }
+        banner.style.display = 'none';
+    };
+    acceptBtn.addEventListener('click', () => { wahl('accepted'); enableCookies(); });
+    declineBtn.addEventListener('click', () => wahl('declined'));
 });
 
-// Cookie-Aktivierung: Funktion die aufgerufen wird wenn Cookies akzeptiert wurden
-function enableCookies() {
-  console.log("Cookies wurden akzeptiert — hier kannst du Scripts starten.");
-}
+// Wird aufgerufen, wenn Cookies akzeptiert wurden (z. B. für Analytics)
+function enableCookies() {}
 
-
-// Intersection Observer: Beobachtet wann hervorgehobene Wörter sichtbar werden und aktiviert Animation
-const target = document.querySelector('.highlight-word');
-
-// Observer: Überwacht ob Element im sichtbaren Bereich ist und fügt/entfernt 'active'-Klasse
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    // Aktivierung: Fügt 'active'-Klasse hinzu wenn Element sichtbar wird
-    if (entry.isIntersecting) target.classList.add('active');
-    // Deaktivierung: Entfernt 'active'-Klasse wenn Element nicht mehr sichtbar ist
-    else target.classList.remove('active');
-  });
+// --- Rückblick-Streifen: Pfeile ----------------------------------------------
+document.querySelectorAll('[data-streifen]').forEach(knopf => {
+    knopf.addEventListener('click', () => {
+        const streifen = knopf.closest('section').querySelector('.streifen');
+        const bild = streifen.querySelector('figure');
+        streifen.scrollBy({ left: Number(knopf.dataset.streifen) * (bild.offsetWidth + 24), behavior: 'smooth' });
+    });
 });
+
+// --- Navigationsfarbe auf Unterseiten (Startseite: zellen.js) ----------------
+if (!document.querySelector('.objekttraeger')) {
+    let geplant = false;
+    const pruefen = () => { geplant = false; navFarbe(); };
+    addEventListener('scroll', () => { if (!geplant) { geplant = true; requestAnimationFrame(pruefen); } }, { passive: true });
+    navFarbe();
+}

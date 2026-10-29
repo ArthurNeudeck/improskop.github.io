@@ -1,653 +1,1104 @@
-/* Google Fonts Import: Lädt externe Schriftarten (DM Serif Display und Open Sans) von Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+/* =====================================================================
+   IMPROSKOP – „Unter dem Objektiv“
+   Farben aus der Mikroskopie (Färbung von Präparaten) + Bühnenlicht.
+   ===================================================================== */
 
-/* CSS-Variablen: Definiert alle Farbwerte der Website für zentrale Verwaltung und einfache Anpassungen */
+@font-face {
+  font-family: "Gloock";
+  src: url("fonts/gloock.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("fonts/hanken-grotesk.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("fonts/hanken-grotesk-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
-  --hintergrundfarbe-seite: #f4f4f4;
-  --hintergrundfarbe-sektion: #ffffff;
-  --hintergrundfarbe-sektion-spezial: #500f0f;
-  --hintergrundfarbe-header-banner: #ffffff;
-  --hintergrundfarbe-block: #f4f4f4;
-  --hintergrundfarbe-countdown-item: #f4f4f4;
-  --hintergrundfarbe-details: #f4f4f4;
-  --hintergrundfarbe-overlay-shop: rgba(0, 0, 0, 0.5);
-  --hintergrundfarbe-overlay-funsection: rgba(0, 0, 0, 0.5);
-  --hintergrundfarbe-cookie-banner: #f6f3ed;
-  --hintergrundfarbe-cookie-button: #ffffff;
-  --hintergrundfarbe-mobile-menu: #ffffff;
+  /* Farben */
+  --glas: #eef1ec;            /* Objektglas: Seitenhintergrund */
+  --glas-tief: #dde3dc;       /* abgesetzte Flächen */
+  --haematoxylin: #3b2a63;    /* Text, dunkle Flächen */
+  --haematoxylin-sanft: #5d5180;
+  --eosin: #e7859b;           /* nur Deko oder grosse Schrift */
+  --licht: #eab25b;           /* Lichtquelle, Buttons */
+  --buehne: #ef8649;          /* Hover/Aktiv */
+  --nacht: #1c1430;           /* dunkle Bühne, = Hintergrund der Blender-Renderings */
 
-  --textfarbe-haupttext: #000000;
-  --textfarbe-shop-hero: #ffffff;
-  --textfarbe-funsection-hero: #ffffff;
-  --textfarbe-button-primär: #f6f3ed;
-  --textfarbe-button-akzent: #eab25b;
-  --textfarbe-countdown-zahl: #eab25b;
-  --textfarbe-highlight-aktiv: #eab25b;
-  --textfarbe-footer-link-hover: #f4c169;
-  --textfarbe-newsletter-focus: #eab25b;
-  --textfarbe-gäste:#eab25b;
+  /* Präparat: der Grund unter dem Mikroskop */
+  --praeparat: #f4eee1;       /* cremeweiss */
+  --beige: #e7dbc4;           /* weiche Flecken */
+  --ocker-hauch: #d8c39c;     /* Verfärbungsränder */
+  --eosin-hauch: #edc9cb;     /* rosa Anfärbung */
+  --lila-hauch: #d3cadf;      /* Hämatoxylin-Anfärbung */
+  --koernung: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='k'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .34 0 0 0 0 .22 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23k)'/%3E%3C/svg%3E");
 
-  --button-hintergrundfarbe-primär: #eab25b;
-  --button-hintergrundfarbe-primär-hover: #ef8649;
-  --button-hintergrundfarbe-primär-glow: #f4c169;
-  --button-hintergrundfarbe-akzent: #eab25b;
-  --button-hintergrundfarbe-akzent-glow: #f4c169;
-  --button-hintergrundfarbe-akzent-hover: #ef8649;
+  /* Schrift */
+  --schrift-titel: "Gloock", "Iowan Old Style", Georgia, serif;
+  --schrift-text: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --t-h1: clamp(2.4rem, 1.5rem + 3.9vw, 4.8rem);
+  --t-h2: clamp(1.9rem, 1.35rem + 2.3vw, 3.2rem);
+  --t-h3: clamp(1.33rem, 1.15rem + 0.75vw, 1.78rem);
+  --t-klein: 0.875rem;
 
-  --rahmenfarbe-standard: #000000;
-  --rahmenfarbe-footer-trenner: #101010;
+  /* Raster */
+  --rand: clamp(16px, 4vw, 48px);
+  --breite: 1240px;
+  --lesebreite: 68ch;
+  --abstand: clamp(4.5rem, 3rem + 7vw, 10rem);   /* zwischen Sektionen */
 
-  --schattenfarbe-bilder: #6b6b6b;
-  --schattenfarbe-countdown: rgba(0, 0, 0, 0.1);
-  --schattenfarbe-mobile-menu: rgba(0, 0, 0, 0.15);
+  --nav-hoehe: 64px;
+  color-scheme: light;
 }
 
-/* Universal Reset: Entfernt Standard-Margins und Paddings aller Elemente, setzt Box-Sizing auf border-box für konsistente Größenberechnung */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ---------- Grundlagen ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* HTML Basis: Definiert Standardschriftart und sanftes Scrollen für die gesamte Seite */
 html {
-    font-family: Helvetica, DM Serif Display, Arial, sans-serif;
-    scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
-/* Body Basis: Setzt Padding und Hintergrundfarbe für den Hauptinhalt der Seite */
 body {
-    padding: 2em 1em;
-    background-color: var(--hintergrundfarbe-seite);
+  background: var(--praeparat);
+  color: var(--haematoxylin);
+  font-family: var(--schrift-text);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.6;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
-/* Überschriften Basis: Definiert Schriftart und Margin für alle Überschriften */
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+button, input { font: inherit; color: inherit; }
+
 h1, h2, h3 {
-    font-family: DM Serif Display, Helvetica;
-    margin: 1em;
+  font-family: var(--schrift-titel);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--t-h1); }
+h2 { font-size: var(--t-h2); }
+h3 { font-size: var(--t-h3); line-height: 1.2; }
+
+p { max-width: var(--lesebreite); text-wrap: pretty; }
+p + p { margin-top: 1em; }
+strong { font-weight: 650; }
+em { font-style: italic; }
+
+:focus-visible {
+  outline: 3px solid var(--eosin);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-/* Überschrift H1: Große Schriftgröße für Hauptüberschriften */
-h1 {
-    font-size: 2.5rem;
+.skip-link {
+  position: absolute; left: 16px; top: -100px; z-index: 100;
+  padding: 0.75em 1.2em; border-radius: 999px;
+  background: var(--haematoxylin); color: var(--glas);
+}
+.skip-link:focus { top: 16px; }
+
+.innen {
+  width: min(100% - 2 * var(--rand), var(--breite));
+  margin-inline: auto;
 }
 
-/* Überschrift H2: Mittlere Schriftgröße für Unterüberschriften */
-h2 {
-    font-size: 2rem;
+.sektion { padding-block: var(--abstand) 0; }
+.sektion--dunkel {
+  background: var(--nacht);
+  color: var(--glas);
+  padding-block: var(--abstand);
+  margin-top: var(--abstand);
 }
 
-/* Text Zentrierung: Zentriert Text horizontal */
-.center-text {
-  text-align: center;
+/* =====================================================================
+   LIQUID GLASS
+   Schwebende Bedienelemente sind Linsen: sie brechen, was darunter liegt.
+   ===================================================================== */
+.glas {
+  --toenung: rgb(255 255 255 / 0.2);
+  --kante-hell: rgb(255 255 255 / 0.62);
+  --kante-dunkel: rgb(28 20 48 / 0.16);
+  position: relative;
+  isolation: isolate;
+  background: var(--toenung);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 var(--kante-hell),
+    inset 0 -1px 0 var(--kante-dunkel),
+    0 12px 32px -14px rgb(28 20 48 / 0.45);
+}
+/* Lichtbrechung (nur Chromium kann SVG-Filter im Hintergrund) */
+.brechung .glas {
+  backdrop-filter: url(#linse) blur(12px) saturate(170%);
+}
+/* Glanzlicht: folgt auf dem Laptop dem Mauszeiger */
+.glas::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(120% 90% at var(--gx, 22%) var(--gy, 0%),
+              rgb(255 255 255 / 0.38), transparent 55%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+/* Kante mit Farbsaum, wie an einer echten Linse */
+.glas::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
   padding: 1px;
+  background: linear-gradient(140deg, rgb(255 255 255 / 0.75), rgb(255 255 255 / 0.06) 38%,
+              rgb(255 255 255 / 0.22) 68%, rgb(231 133 155 / 0.45));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.glas--dunkel {
+  --toenung: rgb(28 20 48 / 0.46);
+  --kante-hell: rgb(255 255 255 / 0.32);
+  color: var(--glas);
+}
+.glas--licht {
+  --toenung: rgb(234 178 91 / 0.86);
+  --kante-hell: rgb(255 250 235 / 0.9);
+  color: var(--haematoxylin);
 }
 
-.gäste-text{
-    color: var(--textfarbe-gäste);
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .glas, .brechung .glas {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--glas);
+    color: var(--haematoxylin);
+  }
+  .glas--dunkel { background: var(--nacht); color: var(--glas); }
+  .glas--licht { background: var(--licht); }
 }
 
-/* Bild Standard: Styling für Bilder in Inhaltsbereichen mit responsiver Größenanpassung, wird beschnitten statt verzerrt */
-.bilder-img {
-    display: block;
-    margin: 0 auto;
-    border-radius: 1em;
-    width: 90%;
-    max-width: 1000px;
-    max-height: 60vh;
-    height: auto;
-    object-fit: cover;
-    box-shadow: 0 4px 20px var(--schattenfarbe-bilder);
+/* ---------- Buttons ---------- */
+.knopf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 50px;
+  padding: 0.7em 1.5em;
+  border: 0;
+  border-radius: 999px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(.3,.7,.4,1.4), background-color 0.2s, box-shadow 0.2s;
 }
+.knopf:hover { --toenung: rgb(255 255 255 / 0.34); }
+.knopf.glas--licht:hover { --toenung: rgb(239 134 73 / 0.9); }
+.knopf.glas--dunkel:hover { --toenung: rgb(28 20 48 / 0.62); }
+.knopf:active { transform: scale(0.97); --kante-hell: #fff; }
+.knopf-reihe { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
-/* Bild Hero: Styling für Bilder im Hero-Bereich, verwendet contain statt cover, füllt aus ohne Beschnitt */
-.bild-front {
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 3rem;
-    border-radius: 1em;
-    width: 90%;
-    max-width: 1000px;
-    height: auto;
-    max-height: 60vh;
-    object-fit: contain;
-}
-
-/* Brand Container: Flexbox-Layout für Logo und Markenname in der Navigation, drückt Rest der Links nach rechts */
-.brand {
+/* =====================================================================
+   NAVIGATION: Glas-Kapsel (Laptop oben, Handy unten)
+   ===================================================================== */
+.nav {
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  top: 16px;
+  translate: -50% 0;
+  width: min(100% - 32px, 760px);
+  height: var(--nav-hoehe);
   display: flex;
   align-items: center;
-  gap: 0.5em;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: var(--textfarbe-haupttext);
+  gap: 1rem;
+  padding: 0 10px 0 14px;
+  border-radius: 999px;
+  color: var(--haematoxylin);
+  transition: color 0.3s;
+}
+.nav:has(.offen) { z-index: 70; }
+.nav[data-auf-dunkel] { --toenung: rgb(28 20 48 / 0.4); --kante-hell: rgb(255 255 255 / 0.3); color: var(--glas); }
+
+.marke {
+  display: flex; align-items: center; gap: 0.55rem;
   margin-right: auto;
+  text-decoration: none;
+}
+.marke img { width: 40px; height: 40px; }
+.marke a, .marke span {
+  font-family: var(--schrift-titel);
+  font-size: 1.35rem;
+  text-decoration: none;
+  line-height: 1;
+}
+.marke .logo-hell { display: none; }
+.nav[data-auf-dunkel] .logo-hell { display: block; }
+.nav[data-auf-dunkel] .logo-dunkel { display: none; }
+
+.nav-liste { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+.nav-liste a {
+  display: block;
+  padding: 0.55em 1em;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.nav-liste a:hover { background: rgb(255 255 255 / 0.22); }
+.nav-liste .nav-tickets a { background: rgb(234 178 91 / 0.92); color: var(--haematoxylin); }
+.nav-liste .nav-tickets a:hover { background: var(--buehne); }
+
+.menu-knopf {
+  display: none;
+  width: 48px; height: 48px;
+  border: 0; border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  place-items: center;
+}
+.menu-knopf span, .menu-knopf span::before, .menu-knopf span::after {
+  display: block; width: 20px; height: 2px; border-radius: 2px;
+  background: currentColor; content: "";
+  transition: transform 0.3s, opacity 0.2s;
+}
+.menu-knopf span { position: relative; }
+.menu-knopf span::before { position: absolute; top: -6px; }
+.menu-knopf span::after { position: absolute; top: 6px; }
+.menu-knopf[aria-expanded="true"] span { background: transparent; }
+.menu-knopf[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.menu-knopf[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+  .nav {
+    top: auto;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: calc(100% - 24px);
+    padding: 0 6px 0 10px;
+  }
+  .marke img { width: 36px; height: 36px; }
+  .menu-knopf { display: grid; }
+  .nav-liste { gap: 0; }
+  .nav-liste li:not(.nav-tickets) { display: none; }
+  .nav-liste .nav-tickets a { padding: 0.6em 1.1em; }
+
+  /* Menü öffnet sich als Iris aus dem Menü-Knopf */
+  .nav-liste.offen {
+    position: fixed;
+    inset: auto 0 0 0;
+    height: 100dvh;
+    z-index: -1;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    gap: 0.25rem;
+    padding: 0 20px calc(var(--nav-hoehe) + 40px);
+    /* deckend: ein Glas im Glas kann den Hintergrund nicht noch einmal brechen */
+    background: rgb(28 20 48 / 0.94);
+    color: var(--glas);
+    animation: iris 0.5s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .nav-liste.offen li { display: block; }
+  .nav-liste.offen a {
+    font-family: var(--schrift-titel);
+    font-weight: 400;
+    font-size: 2.4rem;
+    padding: 0.2em 0.3em;
+  }
+  .nav-liste.offen .nav-tickets a { background: none; color: var(--licht); }
+}
+@keyframes iris {
+  from { clip-path: circle(0 at calc(100% - 44px) calc(100% - 44px)); }
+  to   { clip-path: circle(150% at calc(100% - 44px) calc(100% - 44px)); }
 }
 
-/* Brand Bild: Definiert Größe und Styling des Logos mit leicht abgerundeten Ecken */
-.brand img {
-  width: 60px;
-  height: auto;
-  border-radius: 0.4em;
+/* =====================================================================
+   PRÄPARAT – der Grund unter dem Mikroskop: cremeweiss, beige Flecken,
+   Verfärbungsränder und Luftbläschen
+   ===================================================================== */
+.praeparat-grund, .objekttraeger {
+  background-color: var(--praeparat);
+  background-image: var(--koernung);
+}
+/* Flecken & Ränder (statisch, für Unterseiten und Fallback) */
+.praeparat-flecken {
+  background-image:
+    var(--koernung),
+    radial-gradient(closest-side, transparent 60%, rgb(216 195 156 / 0.42) 72%, rgb(216 195 156 / 0.1) 80%, transparent) 8% 12% / 520px 420px no-repeat,
+    radial-gradient(closest-side, rgb(231 219 196 / 0.9), transparent) 85% 20% / 700px 560px no-repeat,
+    radial-gradient(closest-side, rgb(237 201 203 / 0.55), transparent) 70% 75% / 620px 520px no-repeat,
+    radial-gradient(closest-side, rgb(211 202 223 / 0.6), transparent) 15% 85% / 560px 600px no-repeat,
+    radial-gradient(closest-side, transparent 55%, rgb(216 195 156 / 0.35) 70%, transparent 82%) 92% 92% / 360px 320px no-repeat;
+  background-attachment: fixed;
 }
 
-/* Navigation Container: Zentriert die Navigation mit maximaler Breite */
-nav {
-    margin: 1em auto 1em auto;
-    width: min(1000px, 100%);
+.fleck { position: absolute; border-radius: 50%; pointer-events: none; }
+.fleck--weich { background: radial-gradient(closest-side, var(--fleck-farbe, rgb(231 219 196 / 0.85)), transparent); }
+.fleck--rand {      /* eingetrockneter Rand, wie bei einem Kaffeefleck */
+  background: radial-gradient(closest-side, rgb(231 219 196 / 0.25) 0 50%, transparent 60%,
+              rgb(216 195 156 / 0.5) 72%, rgb(216 195 156 / 0.12) 80%, transparent);
+}
+.blaeschen {        /* Luftbläschen unter dem Deckglas */
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 34% 30%, rgb(255 255 255 / 0.95) 0 5%, transparent 11%),
+    radial-gradient(circle, transparent 0 60%, rgb(59 42 99 / 0.16) 67%, rgb(59 42 99 / 0.42) 71%,
+                    rgb(255 255 255 / 0.85) 75%, transparent 81%);
+}
+.tiefe--vorne .blaeschen { filter: blur(2.5px); opacity: 0.8; }
+.tiefe--hinten .blaeschen { opacity: 0.55; }
+
+/* =====================================================================
+   ZELLEN – die Sektionen als Liquid-Glass-Bakterien
+   ===================================================================== */
+.welt { position: relative; }
+.zelle {
+  --form: 72px 96px 80px 110px / 72px 84px 96px 88px;
+  --zell-farbe: rgb(255 255 255 / 0.52);
+  --blase: 0%;                 /* wie weit die Glas-Blase über den Inhalt hinausragt */
+  position: relative;
+  isolation: isolate;
+  width: min(1080px, 100% - 2 * var(--rand));
+  margin: 0 auto;
+  padding: clamp(28px, 4.5vw, 72px);
+}
+.zelle + .zelle { margin-top: clamp(4rem, 10vw, 8rem); }
+/* Zellkörper: Glas-Blase mit zart angefärbtem Zellkern */
+.zelle::before,
+.zelle::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--blase));
+  border-radius: var(--form);
+  pointer-events: none;
+}
+.zelle::before {
+  z-index: -1;
+  background:
+    radial-gradient(closest-side, rgb(211 202 223 / 0.55), rgb(237 201 203 / 0.25) 60%, transparent)
+      var(--kern-x, 68%) var(--kern-y, 18%) / 38% 32% no-repeat,
+    var(--zell-farbe);
+  box-shadow:
+    inset 0 1.5px 0 rgb(255 255 255 / 0.9),
+    inset 0 -1px 0 rgb(59 42 99 / 0.08),
+    0 0 0 1px rgb(59 42 99 / 0.09),
+    0 50px 100px -60px rgb(59 42 99 / 0.5);
+}
+/* Membran mit Farbsaum, wie an einer Linse */
+.zelle::after {
+  padding: 1.5px;
+  background: linear-gradient(150deg, rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.1) 35%,
+              rgb(231 133 155 / 0.35) 70%, rgb(234 178 91 / 0.35));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.zelle:nth-of-type(2n) { --kern-x: 12%; --kern-y: 62%; }
+.zelle:nth-of-type(3n) { --kern-x: 46%; --kern-y: 84%; }
+.zelle h2 { margin-bottom: 1.5rem; }
+.zelle:focus { outline: none; }
+
+/* Im Kamera-Modus ist die Blase so viel grösser als der Inhalt, dass das Inhalts-Rechteck
+   ganz in der organischen Form liegt (Ellipse um ein Rechteck: Faktor √2 → je 21 % Rand).
+   So bleibt die Bakterienform auch beim Lesen erhalten. */
+.kamera .zelle {
+  --blase: 21%;
+  --form: 34% 46% 30% 52% / 38% 30% 48% 36%;
+}
+.kamera .zelle::before, .kamera .zelle::after { animation: atmen 15s ease-in-out infinite alternate; }
+.kamera .zelle:nth-of-type(2n)::before, .kamera .zelle:nth-of-type(2n)::after { animation-duration: 18s; animation-delay: -6s; }
+.kamera .zelle:nth-of-type(3n)::before, .kamera .zelle:nth-of-type(3n)::after { animation-duration: 13s; animation-delay: -3s; }
+/* Echte Lichtbrechung nur bei Zellen in der Nähe der Kamera (Leistung) */
+.kamera .zelle.nah { --zell-farbe: rgb(255 255 255 / 0.34); }
+.kamera .zelle.nah::before {
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+}
+@keyframes atmen {
+  0%   { border-radius: 34% 46% 30% 52% / 38% 30% 48% 36%; }
+  50%  { border-radius: 48% 30% 44% 34% / 30% 46% 32% 50%; }
+  100% { border-radius: 30% 52% 36% 42% / 46% 34% 52% 30%; }
+}
+/* Deko-Bakterien zwischen den Zellen */
+.bakterie {
+  position: absolute;
+  border-radius: 48% 52% 60% 40% / 55% 45% 55% 45%;
+  background: rgb(255 255 255 / 0.4);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 0 0 1px rgb(59 42 99 / 0.1);
+  animation: atmen-klein 11s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.bakterie::before {
+  content: ""; position: absolute; inset: 28% 34% 30% 30%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(211 202 223 / 0.8), transparent);
+}
+@keyframes atmen-klein {
+  to { border-radius: 60% 40% 45% 55% / 40% 60% 40% 60%; transform: rotate(8deg); }
 }
 
-/* Navigation Container Inner: Flexbox-Layout für Logo und Menü-Links, Logo links, Links rechts */
-.nav-container {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+/* =====================================================================
+   ORGANELLEN – Fotos als treibende Elemente
+   ===================================================================== */
+.organell {
+  --o-form: 46% 54% 52% 48% / 52% 46% 54% 48%;
+  position: relative;
+  margin: 0;
+  border-radius: var(--o-form);
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(calc(var(--grund-dreh, 0deg) + var(--dr, 0deg)));
+  z-index: 0;
+}
+.organell img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+.organell::after {          /* Ring liegt deckungsgleich am Bildrand */
+  content: "";
+  position: absolute; inset: -6px;
+  border-radius: inherit;
+  border: 2px solid var(--eosin);
+  pointer-events: none;
+}
+.organell--plakat {
+  --o-form: 38% 62% 55% 45% / 45% 40% 60% 55%;
+  --grund-dreh: -3deg;
+  width: min(560px, 100%);
+  aspect-ratio: 16 / 9;
+  margin: calc(-1 * clamp(60px, 9vw, 130px)) 0 2rem auto;
+}
+.organell--buehne {
+  --o-form: 120px 60px 140px 80px / 90px 120px 70px 130px;
+  --grund-dreh: 2deg;
+  float: right;
+  width: min(48%, 520px);
+  aspect-ratio: 4 / 3;
+  margin: calc(-1 * clamp(40px, 6vw, 100px)) calc(-1 * clamp(20px, 5vw, 110px)) 1.5rem 2rem;
+  shape-outside: margin-box;
+}
+.organell--rund {
+  --o-form: 50% 48% 52% 50% / 48% 52% 48% 52%;
+  aspect-ratio: 1;
+  width: 100%;
+}
+.organell--band {
+  --o-form: 60px 160px 80px 200px / 70px 120px 90px 150px;
+  width: calc(100% + 2 * clamp(10px, 3vw, 60px));
+  margin: 0 calc(-1 * clamp(10px, 3vw, 60px)) clamp(2rem, 5vw, 4rem);
+  aspect-ratio: 2.1;
 }
 
-/* Navigation Liste: Flexbox-Layout für Navigationslinks, entfernt Bullet-Points */
-nav ul {
-  display: flex;
+/* =====================================================================
+   INHALTE DER ZELLEN
+   ===================================================================== */
+/* Erste Zelle: die nächste Show (Plakat treibt hinter dem Titel) */
+.zelle--show { text-align: left; }
+.zelle--show .organell--plakat { margin-bottom: 0; }
+.zelle-show__titel {
+  position: relative;
+  margin: calc(-1 * clamp(40px, 6vw, 90px)) 0 1rem;
+  font-size: clamp(2.6rem, 1.6rem + 3.6vw, 5.2rem);
+  max-width: 12ch;
+}
+.zelle-show__untertitel { font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem); color: var(--haematoxylin-sanft); }
+.zelle-show__datum { margin: 1rem 0 0; font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.6rem); color: var(--buehne); }
+
+/* Gast & Musik */
+.besetzung {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem var(--rand);
+}
+.besetzung h2 {
+  margin-bottom: 0;
+  font-family: var(--schrift-text);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--haematoxylin-sanft);
+}
+.besetzung .gaeste-name {
+  margin-top: 0.4rem;
+  font-family: var(--schrift-titel);
+  font-size: var(--t-h1);
+  line-height: 1;
+}
+.besetzung > div:nth-child(2) .gaeste-name { color: var(--haematoxylin-sanft); }
+
+/* Newsletter & VIP */
+.newsletter-vip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "news vip" "iphone vip";
+  align-items: start;
+  gap: 1.5rem clamp(2rem, 5vw, 5rem);
+}
+.newsletter { grid-area: news; }
+.iphone-link { grid-area: iphone; justify-self: start; }
+.vip { grid-area: vip; }
+.newsletter h2, .vip h2 { margin-bottom: 1rem; }
+.anmeldung {
+  margin-top: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: 28px;
+  background: rgb(231 219 196 / 0.55);
+}
+.anmeldung h3 { margin-bottom: 1rem; }
+.anmeldung form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.anmeldung label { flex: 1 1 14rem; }
+.anmeldung input[type="email"] {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 1.2em;
+  border: 1px solid rgb(59 42 99 / 0.28);
+  border-radius: 999px;
+  background: var(--praeparat);
+}
+.vip {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-radius: 46% 54% 40px 40px / 26% 22% 40px 40px;   /* angefärbte Zelle */
+  background: var(--haematoxylin);
+  color: var(--glas);
+}
+.vip h2 { color: var(--licht); }
+
+/* Letzte Aufführung: Überschrift steht neben dem Bild, nie darauf */
+.auffuehrung__kopf h2 { font-size: var(--t-h1); }
+.auffuehrung__kopf h3 {
+  margin: 0.5rem 0 1.5rem;
+  font-family: var(--schrift-text);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--haematoxylin-sanft);
+}
+.auffuehrung__text { clear: right; }
+.auffuehrung__text p:first-child { clear: none; }
+
+/* Verein */
+.verein {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
+}
+.verein h2 { font-size: var(--t-h1); }
+.verein .organell { margin-right: calc(-1 * clamp(10px, 6vw, 130px)); }
+
+/* Schauspielende */
+.ensemble__titel { font-size: var(--t-h1); }
+.ensemble {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr) minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+.ensemble h3 { margin-bottom: 1rem; }
+.ensemble .organell { margin-top: 5rem; }
+.ensemble > div:last-child { margin-top: 10rem; }
+
+/* Rückblicke: angefärbte, dunkle Zelle mit Bildstreifen */
+.zelle--rueckblick { --zell-farbe: rgb(59 42 99 / 0.92); color: var(--glas); }
+.kamera .zelle--rueckblick.nah { --zell-farbe: rgb(59 42 99 / 0.86); }
+.rueckblick__kopf { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+.rueckblick__kopf h2 { margin-bottom: 0; }
+.rueckblick__pfeile { display: flex; gap: 0.5rem; }
+.rueckblick__pfeile .knopf { width: 52px; padding: 0; }
+.rueckblick__pfeile svg { width: 22px; height: 22px; }
+.streifen {
+  display: flex;
+  gap: clamp(12px, 2vw, 22px);
+  margin: 2rem calc(-1 * clamp(28px, 4.5vw, 72px)) 1.5rem;
+  padding: 0.5rem clamp(28px, 4.5vw, 72px) 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: clamp(28px, 4.5vw, 72px);
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.streifen::-webkit-scrollbar { display: none; }
+.streifen figure {
+  flex: 0 0 auto;
+  height: clamp(300px, 52vh, 560px);
+  scroll-snap-align: start;
+}
+.streifen img {
+  height: 100%; width: auto;
+  border-radius: 28px 60px 32px 70px / 40px 30px 60px 36px;
+}
+
+/* Orga */
+.orga h2 { font-size: var(--t-h1); }
+.orga__spalten {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+.orga h3 {
+  padding-top: 1.25rem;
+  margin-bottom: 1rem;
+  border-top: 2px solid var(--haematoxylin);
+}
+
+/* Q&A */
+.fragen { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem clamp(2rem, 5vw, 5rem); }
+.fragen h2 { font-size: var(--t-h1); }
+:is(.fragen, .akkordeon) details { border-top: 1px solid rgb(59 42 99 / 0.25); }
+:is(.fragen, .akkordeon) details:last-child { border-bottom: 1px solid rgb(59 42 99 / 0.25); }
+:is(.fragen, .akkordeon) summary {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  padding: 1.25rem 0;
+  font-family: var(--schrift-titel);
+  font-size: var(--t-h3);
+  line-height: 1.25;
+  cursor: pointer;
   list-style: none;
-  gap: 2em;
 }
-
-/* Navigation Liste Item First: Spezielles Styling für ersten Link, drückt Rest nach rechts */
-nav li:first-child {
-    margin-right: auto;
-    font-family: Helvetica;
-    font-weight: bold;
+:is(.fragen, .akkordeon) summary::-webkit-details-marker { display: none; }
+:is(.fragen, .akkordeon) summary::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background:
+    linear-gradient(currentColor 0 0) center / 12px 1.5px no-repeat,
+    linear-gradient(currentColor 0 0) center / 1.5px 12px no-repeat;
+  transition: transform 0.3s;
 }
-
-/* Navigation Link: Styling für alle Links in der Navigation */
-nav a {
-    text-decoration: none;
-    color: var(--textfarbe-haupttext);
+:is(.fragen, .akkordeon) details[open] summary::after { transform: rotate(45deg); }
+:is(.fragen, .akkordeon) .antwort {
+  margin-bottom: 1.25rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: 20px;
+  --toenung: rgb(255 255 255 / 0.5);
 }
+:is(.fragen, .akkordeon) details[open] .antwort { animation: aufklappen 0.35s ease-out; }
+@keyframes aufklappen { from { opacity: 0; transform: translateY(-6px); } }
 
-/* Navigation Link Hover: Unterstreichung beim Überfahren mit Maus */
-nav a:hover {
-    text-decoration: underline;
+/* Funsection: kleine Zelle */
+.zelle--fun {
+  width: min(460px, 100% - 2 * var(--rand));
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1.3;
+  --form: 50% 50% 46% 54% / 56% 48% 52% 44%;
 }
-
-/* Menu Toggle: Mobile Menü-Button, Hamburger-Icon für mobile Ansicht, standardmäßig versteckt */
-.menu-toggle {
-	font-size: 28px;
-	background: none;
-	border: none;
-	cursor: pointer;
-	display: none;
-    color: var(--textfarbe-haupttext);
+.zelle--fun .knopf {
+  font-family: var(--schrift-titel);
+  font-weight: 400;
+  font-size: var(--t-h2);
+  min-height: 0;
+  padding: 0.35em 1em 0.4em;
+  background: var(--haematoxylin);
+  color: var(--glas);
 }
+.zelle--fun .knopf:hover { background: var(--buehne); color: var(--haematoxylin); }
 
-/* Navigation Links Container: Flexbox-Layout für die Menü-Links */
-#nav-links {
-	list-style: none;
-	display: flex;
-	gap: 20px;
+/* =====================================================================
+   BÜHNE, SHOW-PANEL, SHOW-LEISTE, FOOTER
+   Grundzustand = ohne Kamera (kein JS / reduzierte Bewegung):
+   Bühne als erster Bildschirm, Zellen als Liste, Footer als Band.
+   ===================================================================== */
+main { position: relative; }
+body:has(.objekttraeger) { background: var(--nacht); }
+
+.buehne {
+  position: relative;
+  height: 100vh; height: 100svh;
+  overflow: hidden;
+  background: var(--nacht);
 }
-
-/* Navigation Links Anchor: Styling für die einzelnen Menü-Links */
-#nav-links a {
-	text-decoration: none;
-	color: var(--textfarbe-haupttext);
-	font-weight: 500;
+.buehne__standbild, .buehne__film {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
+.buehne__film { display: none; }
 
-/* Responsive Design: Media Query für Bildschirme kleiner als 768px (Tablets und Handys) */
-@media (max-width: 768px) {
-	/* Menu Toggle Mobile: Wird auf mobilen Geräten angezeigt */
-	.menu-toggle {
-		display: block;
-	}
-
-	/* Navigation Links Mobile: Standardmäßig versteckt, wird als Dropdown-Menü angezeigt mit vertikaler Anordnung */
-	#nav-links {
-		display: none;
-		flex-direction: column;
-		gap: 10px;
-		background: var(--hintergrundfarbe-mobile-menu);
-		position: absolute;
-		top: 70px;
-		right: 20px;
-		padding: 15px;
-		border-radius: 10px;
-		box-shadow: 0 4px 10px var(--schattenfarbe-mobile-menu);
-	}
-
-	/* Navigation Links Mobile Show: Zeigt Menü wenn .show-Klasse vorhanden ist */
-	#nav-links.show {
-		display: flex;
-	}
-
-	/* Navigation Mobile: Angepasste Breite für mobile Geräte */
-    nav {
-    margin: 1em auto 1em auto;
-    width: min(700px, 100%);
-    }
+.show-panel {
+  position: absolute;
+  z-index: 40;
+  left: max(var(--rand), (100% - var(--breite)) / 2);
+  top: 50vh; top: 50svh;
+  translate: 0 -50%;
+  width: min(540px, 46vw);
+  display: grid;
+  gap: 1.1rem;
+  padding: clamp(1.6rem, 3vw, 2.6rem);
+  border-radius: 36px;
 }
+.show-panel h2 { font-size: clamp(2.2rem, 1.3rem + 2.8vw, 3.8rem); }
+.show-panel .show__datum { font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem); color: var(--licht); }
+.show-panel .hero-subtitle { font-size: 1.125rem; color: rgb(238 241 236 / 0.86); }
+.show-panel .countdown { justify-content: flex-start; }
 
-/* Sektion Basis: Basis-Styling für alle Content-Sektionen, zentriert mit automatischen Seitenmargins */
-section {
-    margin: 2em auto;
-    width: min(200em, 100%);
-    background-color: var(--hintergrundfarbe-sektion);
-    padding: min(2em, 15%);
-    border-radius: 1em;
-    max-width: 1500px;
+.show-leiste {
+  display: none;
+  position: fixed;
+  z-index: 45;
+  left: 50%;
+  top: calc(16px + var(--nav-hoehe) + 10px);
+  translate: -50% 0;
+  width: min(100% - 32px, 760px);
+  min-height: 58px;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "titel knopf" "datum knopf";
+  align-items: center;
+  column-gap: 1rem;
+  padding: 6px 7px 6px 24px;
+  border-radius: 999px;
+  --toenung: rgb(244 238 225 / 0.72);
 }
+.show-leiste p { margin: 0; line-height: 1.15; }
+.show-leiste__titel { grid-area: titel; font-family: var(--schrift-titel); font-size: 1.15rem; }
+.show-leiste__datum { grid-area: datum; font-size: 0.875rem; color: var(--haematoxylin-sanft); }
+.show-leiste .knopf { grid-area: knopf; min-height: 44px; padding: 0.5em 1.2em; }
 
-/* Sektion Content: Allgemeines Styling für alle Sektionen mit größerem Padding und zentriertem Text */
-section {
-    padding: 3em min(2em, 15%);
-    background-color: var(--hintergrundfarbe-sektion);
-    text-align: center;
-}
-
-/* Sektion My Work: Spezielle Hintergrundfarbe für Rückblicke-Bereich */
-section#mywork {
-    background-color: var(--hintergrundfarbe-sektion-spezial);
-    height: 50vh;
-}
-
-/* Sektion Shop Hero: Hero-Section mit Hintergrundbild für Shop-Seite, zentrierte Inhalte */
-section#shop {
-    background-image: url(Images/Sternentod_Shirt_prof.jpg);
-    background-position: center;
-    background-size: auto 100%;
-    height: 500px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--textfarbe-shop-hero);
-    margin-top: 8em;
-    max-width: 100%;
-}
-
-/* Sektion Shop Content: Container für Shop-Produktbilder und -informationen mit voller Breite */
-section#shopcontent {
-    max-width: 100%;
-}
-
-/* Sektion Shop Content 2: Zusätzlicher Container für Shop-Bereich mit voller Breite */
-section#shopcontent2 {
-    max-width: 100%;
-}
-
-/* Header Basis: Styling für Header-Elemente mit größerem Padding */
-header {
-    margin: 2em auto;
-    width: min(200em, 100%);
-    background-color: var(--hintergrundfarbe-sektion);
-    padding: min(5em, 15%) min(1em, 15%);
-    border-radius: 1em;
-    max-width: 1500px;
-}
-
-/* Header Bild: Styling für Bilder in Header-Bereichen, füllt Container aus mit Fokus auf unteren Bildbereich */
-header img {
-    max-width: 100%;
-    border-radius: 1em;
-    object-fit: cover;
-    object-position: bottom;
-}
-
-/* Header Funsection: Hero-Bereich mit Hintergrundbild für Funsection-Seite, zentrierte Inhalte */
-header#funsec {
-    background-image: url(Images/Ballone.jpg);
-    background-position: center;
-    background-size: auto 100%;
-    height: 500px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--textfarbe-funsection-hero);
-    margin-top: 8em;
-    max-width: 1500px;
-}
-
-/* Header Banner: Fixierte Navigationsleiste am oberen Bildschirmrand, bleibt beim Scrollen sichtbar */
-.header-banner {
-    position: fixed;
-    top: 0;
-    left: 0em;
-    right: 0em;
-    padding: 1em;
-    z-index: 1000;
-    max-width: 1500px;
-    margin: 0em auto auto;
-    border-radius: 0;
-    background-color: var(--hintergrundfarbe-header-banner);
-}
-
-/* Header Banner Shop: Spezielles Styling für Shop-Seite mit voller Breite */
-.header-banner#shopheader {
-    max-width: 100%;
-}
-
-/* Border Block: Styling für umrandete Inhaltsblöcke wie Newsletter-Formular mit Schatten für Tiefeneffekt */
-.border-block {
-    margin: 2em auto;
-    background-color: var(--hintergrundfarbe-block);
-    padding: 15px 20px;
-    border-radius: 1em;
-    box-shadow: 0 4px 20px var(--schattenfarbe-bilder);
-    width: 90%;
-}
-
-/* Flex Container: Flexbox-Layout für flexible Anordnung von Elementen, erlaubt Umbruch bei Platzmangel */
-.flex-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2em;
-}
-
-/* Highlight Wort: Animiertes Highlight für hervorgehobene Wörter mit sanftem Farbübergang */
-.highlight-word {
-  transition: color 1s;
-  color: var(--textfarbe-haupttext);
-}
-
-/* Highlight Wort Aktiv: Farbe ändert sich wenn Element sichtbar wird */
-.highlight-word.active {
-  color: var(--textfarbe-highlight-aktiv);
-}
-
-/* Text Container: Flexbox-Element für Textinhalte mit flexibler Breite, Mindestbreite 300px */
-.text-container {
-    flex: 1 1 300px;
-}
-
-/* Text Container Absatz: Styling für Absätze in Text-Containern mit Blocksatz */
-.text-container p {
-    margin: .75em 0 1em 0;
-    font-size: 1.25rem;
-    text-align: justify;
-}
-
-/* Text Container Shop: Spezielles Styling für Text im Shop-Bereich mit halbtransparentem Hintergrund */
-.text-container-shop {
-    flex: 1 1 300px;
-    background-color: var(--hintergrundfarbe-overlay-shop);
-    border-radius: 1em;
-}
-
-/* Text Container Shop Absatz: Styling für Absätze im Shop-Bereich */
-.text-container-shop p {
-    margin: .75em 0 1em 0;
-    font-size: 1.25rem;
-}
-
-/* Text Container Funsection: Styling für Textinhalte in der Funsection mit Blocksatz */
-.text-container-funsec {
-    flex: 1 1 300px;
-    text-align: justify;
-}
-
-/* Text Container Funsection 2: Spezielles Styling für Einleitungstext mit halbtransparentem Hintergrund */
-.text-container-funsec-2 {
-    flex: 1 1 300px;
-    background-color: var(--hintergrundfarbe-overlay-funsection);
-    border-radius: 1em;
-    text-align: center;
-    padding: 2em;
-}
-
-/* Text Container Funsection 2 Absatz: Styling für Absätze im Einleitungsbereich */
-.text-container-funsec-2 p {
-    margin: .75em 0 1em 0;
-    font-size: 1.25rem;
-}
-
-/* Sektion Absatz: Styling für Absätze in Sektionen */
-section p {
-    margin-top: 1em;
-    font-size: 1.25rem;
-}
-
-/* Grid Container: CSS-Grid-Layout für Bildergalerien, erstes Bild nimmt 2 Spalten ein */
-.grid-container {
-    display: grid;
-    margin-top: 0em;
-    margin-bottom: 2em;
-    width: 100%;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-      "img-1 img-1 img-2"
-      "img-3 img-4 img-4";
-    gap: 1em;
-}
-
-/* Grid Container Bild: Styling für Bilder im Grid-Layout mit sanften Übergängen für Hover-Effekt */
-.grid-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 1em;
-    transition: 100ms ease;
-}
-
-/* Grid Container Bild Hover: Leichte Vergrößerung beim Überfahren mit Maus */
-.grid-container img:hover {
-    scale: 1.05;
-}
-
-/* Details Element: Styling für ausklappbare FAQ-Elemente */
-details {
-    margin-top: 1em;
-    background-color: var(--hintergrundfarbe-details);
-    border-radius: 1em;
-}
-
-/* Details Summary: Styling für die Überschrift der ausklappbaren Bereiche */
-details summary {
-    padding: 1em;
-    font-size: 1.7rem;
-    font-family: DM Serif Display, Helvetica;
-}
-
-/* Details Absatz: Styling für den Inhalt der ausklappbaren Bereiche */
-details p {
-    padding: 0 2em 2em 2em;
-}
-
-/* Hero Titel: Große Überschrift für Hero-Bereiche */
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: var(--textfarbe-haupttext);
-    margin-bottom: 2rem;
-    letter-spacing: -0.02em;
-    align-self: center;
-}
-
-/* Countdown Container: Flexbox-Layout für Countdown-Timer, erlaubt Umbruch bei Platzmangel */
-.countdown {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-}
-
-/* Countdown Item: Styling für einzelne Countdown-Einheiten mit Schatten für Tiefeneffekt */
+.countdown { display: flex; justify-content: center; gap: clamp(0.5rem, 2vw, 1rem); }
+.countdown[hidden] { display: none; }
 .countdown-item {
-    text-align: center;
-    background: var(--hintergrundfarbe-countdown-item);
-    padding: 1.5rem 1rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px var(--schattenfarbe-countdown);
-    min-width: 100px;
+  display: grid; place-content: center;
+  width: clamp(68px, 17vw, 96px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  text-align: center;
 }
-
-/* Countdown Zahl: Große, fette Zahl für die Countdown-Werte */
 .countdown-number {
-    display: block;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--textfarbe-countdown-zahl);
-    line-height: 1;
+  font-family: var(--schrift-titel);
+  font-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.6rem);
+  line-height: 1;
+  color: var(--licht);
+  font-variant-numeric: tabular-nums;
 }
+.countdown-label { font-size: 0.75rem; margin-top: 0.25em; }
 
-/* Countdown Label: Beschriftung unter den Zahlen in Großbuchstaben */
-.countdown-label {
-    font-size: 0.9rem;
-    color: var(--textfarbe-haupttext);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.objekttraeger {
+  position: relative;
+  padding-block: clamp(5rem, 10vw, 9rem);
 }
+.objekttraeger .welt { padding-block: 2rem; }
+.flecken, .tiefe { display: none; }
+.okular-rand { display: none; }
 
-/* Hero Untertitel: Beschreibender Text unter der Hauptüberschrift, zentriert */
-.hero-subtitle {
-    font-size: 1.25rem;
-    color: var(--textfarbe-haupttext);
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+.footer {
+  position: relative;
+  width: auto;
+  padding: clamp(3rem, 6vw, 5rem) var(--rand) calc(var(--nav-hoehe) + 48px);
+  background: var(--nacht);
+  color: var(--glas);
 }
-
-/* Hero Buttons: Container für Call-to-Action-Buttons */
-.hero-buttons {
-    text-align: center;
-    margin: 1em;
-}
-
-/* CTA Button: Styling für Call-to-Action-Buttons, wichtig für <a>-Elemente als inline-block */
-.cta-btn {
-    text-decoration: none;
-    background: var(--button-hintergrundfarbe-primär);
-    color: var(--textfarbe-button-primär);
-    border: none;
-    padding: 16px 32px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px var(--button-hintergrundfarbe-primär-glow);
-    display: inline-block;
-}
-
-/* CTA Button Hover: Hover-Effekt mit Farbwechsel und leichter Bewegung nach oben */
-.cta-btn:hover {
-    background: var(--button-hintergrundfarbe-primär-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px var(--button-hintergrundfarbe-primär);
-}
-
-/* Primary Button: Alternative Button-Farbe für wichtige Aktionen */
-.primary {
-    background-color: var(--button-hintergrundfarbe-akzent);
-    box-shadow: 0 4px 20px var(--button-hintergrundfarbe-akzent-glow);
-}
-
-/* Primary Button Hover: Hover-Effekt für Primary-Buttons mit verstärktem Schatten */
-.primary:hover {
-    background: var(--button-hintergrundfarbe-akzent-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px var(--button-hintergrundfarbe-akzent);
-}
-
-/* Cookie Banner: Fixierte Leiste am unteren Bildschirmrand für Cookie-Hinweis, bleibt beim Scrollen sichtbar */
-.cookie-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--hintergrundfarbe-cookie-banner);
-    color: var(--textfarbe-haupttext);
-    padding: 1em;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-}
-
-/* Cookie Buttons: Styling für Akzeptieren/Ablehnen-Buttons */
-.cookie-buttons button {
-    margin-left: 10px;
-    padding: 0.5em 1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Accept Cookies Button: Styling für Akzeptieren-Button */
-#accept-cookies {
-    background: var(--hintergrundfarbe-cookie-button);
-    color: var(--textfarbe-button-akzent);
-}
-
-/* Decline Cookies Button: Styling für Ablehnen-Button */
-#decline-cookies {
-    background: var(--hintergrundfarbe-cookie-button);
-    color: var(--textfarbe-button-akzent);
-}
-
-/* Footer Content: Flexbox-Layout für Logo und Links im Footer */
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-/* Footer Logo Überschrift: Styling für Überschrift im Footer-Logo-Bereich */
-.footer-logo h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--textfarbe-haupttext);
-}
-
-/* Footer Links: Flexbox-Layout für rechtliche Links im Footer */
-.footer-links {
-    display: flex;
-    gap: 2rem;
-    margin: 1em;
-}
-
-/* Footer Links Anchor: Styling für Links im Footer mit sanftem Farbübergang */
+.footer .container { width: min(100%, var(--breite)); margin-inline: auto; }
+.footer .Logo img { width: 96px; height: 96px; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
 .footer-links a {
-    color: var(--textfarbe-haupttext);
-    text-decoration: none;
-    transition: color 0.3s ease;
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.1);
+  text-decoration: none;
+  font-weight: 600;
+}
+.footer-links a:hover { background: var(--licht); color: var(--haematoxylin); }
+.footer-bottom { margin-top: 1.5rem; font-size: var(--t-klein); color: rgb(238 241 236 / 0.75); }
+.scrollweg { height: 0; }
+
+/* =====================================================================
+   KAMERA-MODUS (zellen.js setzt html.kamera)
+   ===================================================================== */
+.kamera body { overflow-x: hidden; }
+.kamera .buehne {
+  position: fixed; inset: 0;
+  z-index: 2;
+  height: auto;
+  background: transparent;
+  pointer-events: none;
+}
+.kamera .buehne__film { display: block; }
+.kamera .buehne[data-film-bereit] .buehne__standbild { visibility: hidden; }
+.kamera .buehne[hidden] { display: block; visibility: hidden; }
+
+.kamera .objekttraeger {
+  position: fixed; inset: 0;
+  z-index: 1;
+  padding: 0;
+  overflow: hidden;
+  clip-path: circle(var(--loch, 150vmax) at 50% 50%);
+  transform: translate(var(--lx, 0px), var(--ly, 0px)) scale(var(--ls, 1));
+  transform-origin: 50% 50%;
+}
+.kamera .welt, .kamera .tiefe {
+  position: absolute; left: 0; top: 0;
+  width: var(--welt-breite);
+  padding: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.kamera .tiefe { display: block; height: var(--welt-hoehe); pointer-events: none; }
+.kamera .tiefe--vorne { z-index: 3; }
+.kamera .flecken { display: block; position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+.kamera .zelle {
+  width: var(--zell-breite);
+  margin: 0 0 0 calc(var(--x, 0) * (var(--welt-breite) - var(--zell-breite)));
 }
 
-/* Footer Links Anchor Hover: Farbwechsel beim Überfahren mit Maus */
-.footer-links a:hover {
-    color: var(--textfarbe-footer-link-hover);
+.kamera .zelle--fun { width: min(460px, var(--zell-breite)); }
+/* geschwungener Pfad: seitlicher Versatz jeder Zelle (0 = links, 1 = rechts) */
+.kamera .zelle:nth-of-type(1) { --x: 0.2; }
+.kamera .zelle:nth-of-type(2) { --x: 0.85; }
+.kamera .zelle:nth-of-type(3) { --x: 0.35; }
+.kamera .zelle:nth-of-type(4) { --x: 1; }
+.kamera .zelle:nth-of-type(5) { --x: 0.1; }
+.kamera .zelle:nth-of-type(6) { --x: 0.7; }
+.kamera .zelle:nth-of-type(7) { --x: 0; }
+.kamera .zelle:nth-of-type(8) { --x: 0.9; }
+.kamera .zelle:nth-of-type(9) { --x: 0.25; }
+.kamera .zelle:nth-of-type(10) { --x: 0.45; }
+
+.kamera .okular-rand {
+  display: block;
+  position: fixed;
+  z-index: 3;
+  left: 50%; top: 50%;
+  width: calc(var(--rand-r, 0px) / 0.2133);
+  max-width: none;
+  translate: -50% -50%;
+  opacity: var(--rand-o, 0);
+  pointer-events: none;
 }
 
-/* Footer Bottom: Copyright-Bereich am unteren Rand des Footers mit Trennlinie */
-.footer-bottom {
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid var(--rahmenfarbe-footer-trenner);
-    color: var(--textfarbe-haupttext);
+.kamera .show-panel {
+  position: fixed;
+  transform: translate(var(--andock-x, 0px), var(--andock-y, 0px)) scale(var(--andock-s, 1));
+  transform-origin: 0 0;
+  opacity: var(--panel-o, 1);
+}
+.kamera .show-panel[data-weg] { visibility: hidden; }
+.kamera .show-leiste {
+  display: grid;
+  opacity: var(--leiste-o, 0);
+  transform: translateY(calc((1 - var(--leiste-o, 0)) * -10px));
+  visibility: hidden;
+}
+.kamera .show-leiste[data-da] { visibility: visible; }
+
+.kamera .footer {
+  position: fixed;
+  z-index: 40;
+  left: max(var(--rand), (100% - var(--breite)) / 2);
+  top: 50%;
+  translate: 0 -50%;
+  width: min(420px, 100% - 2 * var(--rand));
+  padding: 2rem;
+  border-radius: 32px;
+  background: var(--toenung);
+  opacity: var(--footer-o, 0);
+  transform: translateY(calc((1 - var(--footer-o, 0)) * 24px));
+  visibility: hidden;
+}
+.kamera .footer[data-da] { visibility: visible; }
+.kamera .scrollweg { height: var(--scrollweg, 0px); }
+
+/* =====================================================================
+   COOKIE-BANNER: kleines Deckglas
+   ===================================================================== */
+.cookie-banner {
+  position: fixed;
+  z-index: 60;
+  left: 16px;
+  bottom: 16px;
+  width: min(380px, calc(100% - 32px));
+  display: none;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 24px;
+  font-size: 0.95rem;
+  --toenung: rgb(238 241 236 / 0.78);
+}
+.cookie-buttons { display: flex; gap: 0.5rem; }
+.cookie-buttons .knopf { min-height: 44px; padding: 0.5em 1.1em; flex: 1; }
+@media (max-width: 760px) {
+  /* oben, damit die Show-Infos unten beim ersten Besuch frei bleiben */
+  .cookie-banner { top: max(12px, env(safe-area-inset-top)); bottom: auto; left: 12px; width: calc(100% - 24px); }
 }
 
-/* Newsletter Form Input Email: Styling für E-Mail-Eingabefeld im Newsletter-Formular */
-.newsletter-form input[type="email"] {
-    width: 80%;
-	tab-size: 1em;
-	padding: 15px 20px;
-    margin: 20px;
-	border: 1px solid var(--rahmenfarbe-standard);
-	border-radius: 8px;
-	font-size: 1rem;
+/* =====================================================================
+   UNTERSEITEN
+   ===================================================================== */
+body:not(:has(.objekttraeger)) { background-image: none; }
+body:not(:has(.objekttraeger))::before {      /* Präparat-Flecken hinter den Unterseiten */
+  content: "";
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background-image:
+    var(--koernung),
+    radial-gradient(closest-side, transparent 60%, rgb(216 195 156 / 0.42) 72%, rgb(216 195 156 / 0.1) 80%, transparent) 6% 14% / 520px 420px no-repeat,
+    radial-gradient(closest-side, rgb(231 219 196 / 0.9), transparent) 88% 18% / 700px 560px no-repeat,
+    radial-gradient(closest-side, rgb(237 201 203 / 0.5), transparent) 72% 78% / 620px 520px no-repeat,
+    radial-gradient(closest-side, rgb(211 202 223 / 0.55), transparent) 12% 88% / 560px 600px no-repeat,
+    radial-gradient(circle at 34% 30%, rgb(255 255 255 / 0.95) 0 5%, transparent 11%) 78% 52% / 46px 46px no-repeat,
+    radial-gradient(circle, transparent 0 60%, rgb(59 42 99 / 0.16) 67%, rgb(59 42 99 / 0.4) 71%, rgb(255 255 255 / 0.85) 75%, transparent 81%) 78% 52% / 46px 46px no-repeat,
+    radial-gradient(circle at 34% 30%, rgb(255 255 255 / 0.95) 0 5%, transparent 11%) 22% 40% / 90px 90px no-repeat,
+    radial-gradient(circle, transparent 0 60%, rgb(59 42 99 / 0.14) 67%, rgb(59 42 99 / 0.36) 71%, rgb(255 255 255 / 0.85) 75%, transparent 81%) 22% 40% / 90px 90px no-repeat;
 }
 
-/* Newsletter Form Input Email Focus: Styling wenn Eingabefeld fokussiert ist mit Farbänderung */
-.newsletter-form input[type="email"]:focus {
-	outline: none;
-	border-color: var(--textfarbe-newsletter-focus);
+/* Runde Bilder der Unterseiten: Ring liegt deckungsgleich am Bildrand */
+.sichtfeld { position: relative; aspect-ratio: 1; width: 100%; }
+.sichtfeld img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.sichtfeld::after {
+  content: "";
+  position: absolute; inset: -6px;
+  border: 2px solid var(--eosin);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Statischer Footer der Unterseiten */
+.footer--statisch { margin-top: var(--abstand); }
+.footer--statisch .container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1.5rem 2.5rem;
+}
+.footer--statisch .footer-content { display: contents; }
+.footer--statisch .footer-links { margin-top: 0; justify-content: flex-end; }
+.footer--statisch .footer-bottom { grid-column: 1 / -1; }
+
+.seitenkopf {
+  padding: calc(var(--nav-hoehe) + clamp(4rem, 10vw, 8rem)) 0 0;
+}
+.seitenkopf h1 { font-size: var(--t-h1); max-width: 16ch; }
+.seitenkopf p { margin-top: 1.5rem; font-size: 1.125rem; }
+
+.spiel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+}
+.spiel + .spiel { margin-top: var(--abstand); }
+.spiel h2 { margin-bottom: 1.25rem; }
+.spiel--gespiegelt .sichtfeld { order: 2; }
+.spiel p a, .lesetext a { text-decoration-color: var(--eosin); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+.shop-bilder {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 24px);
+}
+.shop-bilder img { width: 100%; aspect-ratio: 1179 / 1340; object-fit: cover; border-radius: 6px; }
+.shop-text { display: grid; gap: 1.5rem; margin-top: 2.5rem; }
+
+.lesetext { max-width: var(--lesebreite); }
+.lesetext h1 { font-size: var(--t-h1); margin-bottom: 2rem; }
+.lesetext h2 { font-size: var(--t-h3); margin: 2.5rem 0 0.75rem; }
+.lesetext h3 { font-size: 1.15rem; margin: 1.75rem 0 0.5rem; }
+.lesetext ul, .lesetext ol { padding-left: 1.2em; max-width: var(--lesebreite); }
+.lesetext li + li { margin-top: 0.4em; }
+.lesetext section + section { margin-top: 2.5rem; }
+.lesetext section h2 { margin-top: 0; }
+.datenschutz div + div { margin-top: 0.75em; }
+.datenschutz > div { max-width: var(--lesebreite); }
+.akkordeon { max-width: 860px; }
+.akkordeon .antwort > * + * { margin-top: 0.9em; }
+.akkordeon .antwort h3 { margin-top: 1.5em; }
+.video { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px; }
+
+/* =====================================================================
+   HANDY
+   ===================================================================== */
+@media (max-width: 900px) {
+  .ensemble { grid-template-columns: 1fr; }
+  .ensemble .organell { margin-top: 0; width: min(78vw, 360px); justify-self: center; }
+  .ensemble > div:last-child { margin-top: 0; }
+  .orga__spalten { grid-template-columns: 1fr; }
+  .fragen { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  html { scroll-padding-top: 24px; }
+  .zelle { padding: 28px 22px; }
+  .besetzung { grid-template-columns: 1fr; }
+  .newsletter-vip { grid-template-columns: 1fr; grid-template-areas: "news" "iphone" "vip"; }
+  .verein { grid-template-columns: 1fr; }
+  .verein .organell { margin: 0 auto; width: 78vw; }
+  .organell--buehne { float: none; width: calc(100% + 24px); margin: -60px -12px 1.5rem; }
+  .organell--plakat { width: calc(100% + 20px); margin: -70px -10px 1.5rem; }
+  .spiel { grid-template-columns: 1fr; }
+  .spiel--gespiegelt .sichtfeld { order: 0; }
+  .sichtfeld::after { inset: -5px; }
+  .rueckblick__pfeile { display: none; }
+  .streifen { margin-inline: -22px; padding-inline: 22px; scroll-padding-inline: 22px; }
+  .streifen figure { height: 56vh; width: 72vw; }
+  .streifen img { width: 100%; object-fit: cover; }
+
+  .show-panel {
+    left: 12px; right: 12px;
+    width: auto;
+    top: auto;
+    bottom: calc(var(--nav-hoehe) + 24px);
+    translate: none;
+    padding: 1.4rem;
+    border-radius: 28px;
+    gap: 0.8rem;
+  }
+  .buehne + .show-panel { position: absolute; top: calc(100svh - var(--nav-hoehe) - 24px); bottom: auto; translate: 0 -100%; }
+  .kamera .buehne + .show-panel { position: fixed; top: auto; bottom: calc(var(--nav-hoehe) + 24px); translate: none; }
+  .show-panel h2 { font-size: 2.1rem; }
+  .show-panel .show__datum { font-size: 1.35rem; }
+  .show-panel .hero-subtitle { font-size: 1rem; }
+  .show-leiste {
+    top: max(10px, env(safe-area-inset-top));
+    width: calc(100% - 20px);
+    padding-left: 18px;
+    min-height: 54px;
+  }
+  .show-leiste__titel { font-size: 1rem; }
+  .show-leiste__datum { font-size: 0.8rem; }
+  .show-leiste .knopf { min-height: 42px; padding: 0.45em 0.9em; font-size: 0.9rem; }
+
+  .kamera .footer {
+    left: var(--rand);
+    top: auto;
+    bottom: calc(var(--nav-hoehe) + 28px);
+    translate: none;
+    width: calc(100% - 2 * var(--rand));
+    padding: 1.4rem;
+  }
+  .footer .Logo img { width: 64px; height: 64px; }
+  .footer--statisch .container { grid-template-columns: 1fr; }
+  .footer--statisch .footer-links { justify-content: flex-start; }
+}
+
+/* =====================================================================
+   REDUZIERTE BEWEGUNG: zellen.js schaltet die Kamera gar nicht erst ein;
+   hier nur noch die übrigen Animationen abschalten.
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bakterie, .zelle { animation: none !important; }
+  .nav-liste.offen, :is(.fragen, .akkordeon) details[open] .antwort { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
 }

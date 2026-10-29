@@ -1,18 +1,44 @@
 <!DOCTYPE html>
-<html lang="de" xmlns="http://www.w3.org/1999/html">
-
+<html lang="de">
 <head>
-    <!-- Meta-Tags: Definiert Zeichensatz, Beschreibung für Suchmaschinen und Viewport-Einstellungen für responsive Darstellung -->
     <meta charset="UTF-8">
-    <meta content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!"
-          name="description">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Improskop</title>
-    <!-- Stylesheet-Verbindung: Lädt die CSS-Datei für das Styling der Website -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Improskop – Datenschutz</title>
+    <meta name="description" content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!">
+    <meta name="theme-color" content="#eef1ec">
+    <meta property="og:title" content="Improskop – Datenschutz">
+    <meta property="og:description" content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!">
+    <meta property="og:image" content="https://www.improskop.ch/media/og-vorschau.jpg">
+    <link rel="icon" type="image/png" href="media/favicon-48.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+<a class="skip-link" href="#inhalt" data-textcheck="ignore">Zum Inhalt</a>
+
+<header>
+    <nav class="nav glas" aria-label="Hauptnavigation">
+        <div class="marke">
+            <img class="logo-dunkel" src="media/logo-dunkel-160.webp" width="40" height="40" alt="">
+            <img class="logo-hell" src="media/logo-hell-160.webp" width="40" height="40" alt="">
+            <a href="index.html">Improskop</a>
+        </div>
+        <ul class="nav-liste" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="nav-tickets">
+                <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html">
+                    Tickets
+                </a>
+            </li>
+            <li><a href="shop.html">Shop</a></li>
+        </ul>
+        <button class="menu-knopf" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menü öffnen"><span></span></button>
+    </nav>
+</header>
+
+<main id="inhalt">
+<article class="innen lesetext seitenkopf datenschutz">
 <div>
     <h1>Datenschutzrichtlinien für improskop</h1>
 </div>
@@ -117,7 +143,7 @@
     </div>
 </div>
 
-<div class="text-container">
+<div>
     <h2> 5. Cookies </h2>
     <div>
         Unsere Website verwendet Cookies, um:
@@ -173,6 +199,26 @@
     Wir behalten uns das Recht vor, diese Datenschutzrichtlinien jederzeit zu aktualisieren. Das Datum der letzten
     Aktualisierung wird oben angegeben.
 </div>
+</article>
+</main>
 
+<footer class="footer footer--statisch">
+    <div class="container">
+        <div class="footer-content">
+            <div class="Logo">
+                <img src="media/logo-hell-512.webp" width="96" height="96" alt="Improskop Logo" loading="lazy">
+            </div>
+            <div class="footer-links">
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

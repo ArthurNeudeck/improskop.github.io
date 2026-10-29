@@ -1,166 +1,131 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <!-- Meta-Tags: Definiert Zeichensatz, Beschreibung für Suchmaschinen und Viewport-Einstellungen für responsive Darstellung -->
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Improskop – Fun Section</title>
     <meta name="description" content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Titel: Wird im Browser-Tab angezeigt -->
-    <title>Improskop</title>
-    <!-- Stylesheet-Verbindung: Lädt die CSS-Datei für das Styling der Website -->
+    <meta name="theme-color" content="#eef1ec">
+    <meta property="og:title" content="Improskop – Fun Section">
+    <meta property="og:description" content="Improskop – Improvisationstheater in Basel. Shows, Humor, Spontanität und Herz. Jetzt Tickets sichern!">
+    <meta property="og:image" content="https://www.improskop.ch/media/og-vorschau.jpg">
+    <link rel="icon" type="image/png" href="media/favicon-48.png">
+    <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<!-- NAV-LEISTE -->
-<!-- Header-Banner: Fixierte Navigationsleiste am oberen Bildschirmrand, bleibt beim Scrollen sichtbar -->
-<header class="header-banner">
-    <!-- Navigation: Hauptnavigationsbereich mit Logo, Menü-Button und Links -->
-    <nav>
-        <div class="nav-container">
-            <!-- Logo & Branding: Zeigt Logo und Link zur Startseite, bildet die Markenidentität -->
-            <div class="brand">
-                <img width="100px" src="Images/Logo2_final.png" alt="">
-                <a href="index.html">Improskop</a>
-            </div>
+<a class="skip-link" href="#inhalt" data-textcheck="ignore">Zum Inhalt</a>
 
-            <!-- Burger Icon (nur sichtbar auf Handy): Toggle-Button für mobiles Menü, öffnet/schließt Navigation auf kleinen Bildschirmen -->
-            <button class="menu-toggle" id="menu-toggle">☰</button>
-
-            <!-- Navigation Links: Hauptmenü mit Links zu verschiedenen Seitenbereichen -->
-            <ul id="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li>
-                    <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html">
-                        Tickets
-                    </a>
-                </li>
-                <li><a href="shop.html">Shop</a></li>
-            </ul>
+<header>
+    <nav class="nav glas" aria-label="Hauptnavigation">
+        <div class="marke">
+            <img class="logo-dunkel" src="media/logo-dunkel-160.webp" width="40" height="40" alt="">
+            <img class="logo-hell" src="media/logo-hell-160.webp" width="40" height="40" alt="">
+            <a href="index.html">Improskop</a>
         </div>
+        <ul class="nav-liste" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="nav-tickets">
+                <a href="https://eventfrog.ch/de/p/theater-buehne/theater/hanna-max-neujahrsgeschichten-7406655501142852059.html">
+                    Tickets
+                </a>
+            </li>
+            <li><a href="shop.html">Shop</a></li>
+        </ul>
+        <button class="menu-knopf" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menü öffnen"><span></span></button>
     </nav>
 </header>
 
-<!-- Hero-Bereich: Einleitungsbereich der Funsection mit Überschrift und Beschreibung -->
-<header id="funsec">
-    <div class="flex-container">
-        <!-- Einleitungstext: Erklärt den Zweck der Funsection -->
-        <div class="text-container-funsec-2">
-            <h1>FUN SECTION</h1>
-            <p>Hallo und herzlich Willkommen zur Funsection von Improskop! <br> In diesem Part der Website möchten wir euch Improspiele vorstellen,
-                die ihr Zuhause nachspielen könnt!
+<main id="inhalt">
+<section class="innen seitenkopf">
+    <h1>FUN SECTION</h1>
+    <p>Hallo und herzlich Willkommen zur Funsection von Improskop! <br> In diesem Part der Website möchten wir euch Improspiele vorstellen,
+        die ihr Zuhause nachspielen könnt!
+    </p>
+</section>
+
+<section class="sektion">
+    <article class="innen spiel">
+        <div class="sichtfeld">
+            <img class="fokus" src="media/spiel-gespraech-640.webp" srcset="media/spiel-gespraech-640.webp 640w, media/spiel-gespraech-1280.webp 1280w" sizes="(max-width: 760px) 86vw, 44vw" width="1280" height="853" loading="lazy" alt="Illustration: Menschen im Gespräch">
+        </div>
+        <div>
+            <h2>EIN WORT SATZ</h2>
+            <p>Dieses Spiel ist relativ <strong>einfach</strong> und funktioniert wie Folgt:</p>
+            <p>1. Ihr müsst minimum zwei Personen sein <br>
+                2. Nun müsst ihr zu einem gegebenen Thema wie z.B. "Strand" oder "Raketen" Sätze bilden. <br>
+                3. Aber hier liegt der Haken, denn jeder von euch darf nur ein Wort sagen, um bei der Bildung des Satzes zu helfen,
+                bis er wieder dran ist. <br>
+                4. Um nun noch etwas Schwierigkeit hinein zu bringen, könnt ihr euch auf ein gemeinsames Wort einigen, welches nicht gesagt werden darf (Tabuu-Wörter).
+                Wenn es nun doch von einer Person gesagt wird, ist diese draussen. <br>
+                5. Ihr könnt jederzeit weitere "Tabuu-Wörter" hinzufügen. <br>
+                6. Viel Spass beim spielen und schreibt uns auf Insta gerne was für lustige Sätze ihr kreiert habt!
             </p>
         </div>
+    </article>
+
+    <article class="innen spiel spiel--gespiegelt">
+        <div>
+            <h2>ABC-SPIEL</h2>
+            <p>Das jeweils erste Wort im Dialog beginnt mit dem nächsten Buchstaben im Alphabet.
+                Das Spiel geht bis der Buchstabe "Z" erreicht ist. Das ABC-Spiel ist daher auch unter dem
+                Namen Alphabetspiel bekannt. <br>
+
+                Beispiel:<br>
+
+                Erster Spieler: "Abends bekomme ich immer Hunger. Das ist nicht gut für meine Figur!" <br>
+                Zweiter Spieler: "Besonders lecker finde ich Schnitzel."<br>
+                Erster Spieler: "Currywurst esse ich lieber. Am Besten mit Pommes."
+                usw.<br>
+                Für die Zuschauer ist es anschaulich, wenn der jeweils anstehende Buchstabe auf einem vom Moderator
+                gehaltenen DIN-A-4-Blatt zu lesen ist - dh.
+                je Buchstabe ein Blatt! Man kann z.B. mit Hilfe des Schreibprogramms Word einzelne Buchstabe so groß formatieren,
+                dass Sie ausgedruckt genau auf eine Seite passen.</p>
+            <p>Quelle: <a href="https://improwiki.com/de/buchstabenspiele/abc-spiel">Improwiki</a></p>
+        </div>
+        <div class="sichtfeld">
+            <img class="fokus" src="media/spiel-abc-640.webp" srcset="media/spiel-abc-640.webp 640w, media/spiel-abc-1280.webp 1280w" sizes="(max-width: 760px) 86vw, 44vw" width="1280" height="853" loading="lazy" alt="Illustration zum ABC-Spiel">
+        </div>
+    </article>
+
+    <article class="innen spiel spiel--gespiegelt">
+        <div>
+            <h2>DAS UNSICHTBARE OBJEKT</h2>
+            <p>Beim Improvisationsspiel „Unsichtbares Objekt" stellt eine Person ein Objekt dar,
+                das nicht wirklich vorhanden ist, und benutzt es ausschließlich durch Bewegung und Körpersprache.
+                Größe, Gewicht, Form und Beschaffenheit sollen dabei möglichst genau gespielt werden,
+                damit die Mitspielenden erkennen können, um was für eine Art von Objekt es sich handelt.<br>
+                Eine zweite Person übernimmt dieses unsichtbare Objekt und führt die Handlung fort,
+                und entwickelt diese weiter, kann es aber auch bewusst verändern oder neu interpretieren.
+                Das Spiel endet wenn jede Person einmal an der Reihe war.<br>
+                Es geht also um gemeinsames Erfinden und weiterführen.</p>
+            <p>Quelle: <a href="https://improwiki.com/de/buchstabenspiele/abc-spiel">Improwiki</a></p>
+        </div>
+        <div class="sichtfeld">
+            <img class="fokus" src="media/spiel-objekt-640.webp" srcset="media/spiel-objekt-640.webp 640w, media/spiel-objekt-1280.webp 1280w" sizes="(max-width: 760px) 86vw, 44vw" width="1280" height="853" loading="lazy" alt="Illustration: ein unsichtbares Objekt wird weitergegeben">
+        </div>
+    </article>
+</section>
+</main>
+
+<footer class="footer footer--statisch">
+    <div class="container">
+        <div class="footer-content">
+            <div class="Logo">
+                <img src="media/logo-hell-512.webp" width="96" height="96" alt="Improskop Logo" loading="lazy">
+            </div>
+            <div class="footer-links">
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
+        </div>
     </div>
-</header>
+</footer>
 
-<!-- Improspiele-Sektion: Präsentiert verschiedene Improvisationsspiele zum Nachspielen -->
-<section>
-    <!-- Spiel 1: Ein Wort Satz - Erklärt das erste Improspiel mit Regeln und Anleitung -->
-    <details>
-        <summary>EIN WORT SATZ</summary>
-        <div class="flex-container">
-            <!-- Spielbild: Visuelle Darstellung zum Spiel -->
-            <div class="text-container-funsec">
-                <img src="Images/Talking_people.jpg" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png" class="bilder-img">
-            </div>
-            <!-- Spielanleitung: Detaillierte Beschreibung der Spielregeln -->
-            <div class="text-container-funsec">
-                <p>Dieses Spiel ist relativ <strong>einfach</strong> und funktioniert wie Folgt:</p>
-                <p>1. Ihr müsst minimum zwei Personen sein <br>
-                    2. Nun müsst ihr zu einem gegebenen Thema wie z.B. "Strand" oder "Raketen" Sätze bilden. <br>
-                    3. Aber hier liegt der Haken, denn jeder von euch darf nur ein Wort sagen, um bei der Bildung des Satzes zu helfen,
-                    bis er wieder dran ist. <br>
-                    4. Um nun noch etwas Schwierigkeit hinein zu bringen, könnt ihr euch auf ein gemeinsames Wort einigen, welches nicht gesagt werden darf (Tabuu-Wörter).
-                    Wenn es nun doch von einer Person gesagt wird, ist diese draussen. <br>
-                    5. Ihr könnt jederzeit weitere "Tabuu-Wörter" hinzufügen. <br>
-                    6. Viel Spass beim spielen und schreibt uns auf Insta gerne was für lustige Sätze ihr kreiert habt!
-                </p>
-            </div>
-        </div>
-    </details>
-    <!-- Spiel 2: ABC-Spiel - Erklärt das Alphabetspiel mit Beispielen -->
-    <details>
-        <summary>ABC-SPIEL</summary>
-        <div class="flex-container">
-            <!-- Spielanleitung: Beschreibung des ABC-Spiels mit Beispielen und Quelle -->
-            <div class="text-container-funsec">
-                <p>Das jeweils erste Wort im Dialog beginnt mit dem nächsten Buchstaben im Alphabet.
-                    Das Spiel geht bis der Buchstabe "Z" erreicht ist. Das ABC-Spiel ist daher auch unter dem
-                    Namen Alphabetspiel bekannt. <br>
-
-                    Beispiel:<br>
-
-                    Erster Spieler: "Abends bekomme ich immer Hunger. Das ist nicht gut für meine Figur!" <br>
-                    Zweiter Spieler: "Besonders lecker finde ich Schnitzel."<br>
-                    Erster Spieler: "Currywurst esse ich lieber. Am Besten mit Pommes."
-                    usw.<br>
-                    Für die Zuschauer ist es anschaulich, wenn der jeweils anstehende Buchstabe auf einem vom Moderator
-                    gehaltenen DIN-A-4-Blatt zu lesen ist - dh.
-                    je Buchstabe ein Blatt! Man kann z.B. mit Hilfe des Schreibprogramms Word einzelne Buchstabe so groß formatieren,
-                    dass Sie ausgedruckt genau auf eine Seite passen.</p>
-                <!-- Quelle: Verweis auf die Quelle der Spielanleitung -->
-                <p>Quelle: <a href="https://improwiki.com/de/buchstabenspiele/abc-spiel">Improwiki</a></p>
-            </div>
-            <!-- Spielbild: Visuelle Darstellung zum ABC-Spiel -->
-            <div class="text-container-funsec">
-                <img src="Images/ChatGPT%20Image%2023.%20Okt.%202025,%2021_30_58.png" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png" class="bilder-img">
-            </div>
-        </div>
-    </details>
-    <!-- Spiel 3: Das unsichtbare Objekt - Erklärt das Pantomime-Spiel mit Objekten -->
-    <details>
-        <summary>DAS UNSICHTBARE OBJEKT</summary>
-        <div class="flex-container">
-            <!-- Spielanleitung: Beschreibung des Pantomime-Spiels mit unsichtbaren Objekten -->
-            <div class="text-container-funsec">
-                <p>Beim Improvisationsspiel „Unsichtbares Objekt" stellt eine Person ein Objekt dar,
-                    das nicht wirklich vorhanden ist, und benutzt es ausschließlich durch Bewegung und Körpersprache.
-                    Größe, Gewicht, Form und Beschaffenheit sollen dabei möglichst genau gespielt werden,
-                    damit die Mitspielenden erkennen können, um was für eine Art von Objekt es sich handelt.<br>
-                    Eine zweite Person übernimmt dieses unsichtbare Objekt und führt die Handlung fort,
-                    und entwickelt diese weiter, kann es aber auch bewusst verändern oder neu interpretieren.
-                    Das Spiel endet wenn jede Person einmal an der Reihe war.<br>
-                    Es geht also um gemeinsames Erfinden und weiterführen.
-                    <!-- Quelle: Verweis auf die Quelle der Spielanleitung -->
-                <p>Quelle: <a href="https://improwiki.com/de/buchstabenspiele/abc-spiel">Improwiki</a></p>
-                </p>
-            </div>
-            <!-- Spielbild: Visuelle Darstellung zum unsichtbaren Objekt-Spiel -->
-            <div class="text-container-funsec">
-                <img src="Images/Unsichtbare_Objekte.JPG" alt="Images/ChatGPT%20Image%2023.%20Okt.%202025,%2021_30_58.png" class="bilder-img">
-            </div>
-        </div>
-    </details>
-</section>
-
-<!-- Footer -->
-<!-- Footer-Bereich: Enthält Logo, rechtliche Links und Copyright-Informationen -->
-<section>
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <!-- Logo: Zeigt das Vereinslogo im Footer -->
-                <div class="Logo">
-                    <img width="100px" src="Images/Logo2_final.png" alt="Images/ChatGPT Image 23. Okt. 2025, 21_30_58.png">
-                </div>
-                <!-- Footer-Links: Rechtliche Links zu Impressum und Datenschutz -->
-                <div class="footer-links">
-                    <!--<a href="#ueber-uns">Über uns</a>-->
-                    <a href="impressum.html">Impressum</a>
-                    <a href="datenschutz.html">Datenschutz</a>
-                </div>
-            </div>
-            <!-- Copyright: Zeigt Copyright-Informationen -->
-            <div class="footer-bottom">
-                <p>&copy; 2025 Improskop. Alle Rechte vorbehalten.</p>
-            </div>
-        </div>
-    </footer>
-</section>
-
-<!-- JS SCRIPT -->
-<!-- JavaScript-Einbindung: Lädt die JavaScript-Datei für interaktive Funktionen wie Navigation -->
 <script src="script.js"></script>
 </body>
 </html>
