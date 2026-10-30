@@ -28,6 +28,24 @@
 
     html.classList.add('kamera');
 
+    // Notbremse: Scheitert der Kamera-Aufbau (z. B. weil der Browser alte und neue Dateien
+    // mischt), zurück zur normalen Zellen-Liste – die Seite bleibt immer scrollbar.
+    let aus = false;
+    function notbremse(fehler) {
+        if (aus) return;
+        aus = true;
+        console.error('Objektträger deaktiviert:', fehler);
+        html.classList.remove('kamera', 'leicht', 'in-bewegung');
+        buehne.removeAttribute('hidden');
+        document.querySelectorAll('[style*="--"], .welt, .tiefe, .zelle').forEach(el => {
+            el.style.transform = ''; el.style.marginTop = ''; el.style.paddingTop = ''; el.style.paddingBottom = '';
+        });
+    }
+    function sicher(fn) {
+        if (aus) return;
+        try { fn(); } catch (fehler) { notbremse(fehler); }
+    }
+
     // Sparmodus für schwache Geräte: wenig Speicher/Kerne, Datensparen – oder (siehe
     // ruckelWaechter) wenn die Seite beim Scrollen messbar ruckelt. Zum Testen: ?leicht
     let leicht = false;
@@ -36,7 +54,7 @@
         leicht = true;
         html.classList.add('leicht');
         html.classList.remove('brechung');
-        if (format) { bilderLaden(); aufbauen(); planen(); }
+        if (format) { bilderLaden(); sicher(aufbauen); planen(); }
     }
     // Handys (Touch oder schmaler Bildschirm) immer: dort ist der Grafikchip der Engpass,
     // und den kann die Ruckel-Erkennung (misst den Hauptprozessor) nicht sehen.
@@ -486,7 +504,7 @@
 
     let geplant = false;
     function planen() {
-        if (!geplant) { geplant = true; requestAnimationFrame(takt); }
+        if (!geplant && !aus) { geplant = true; requestAnimationFrame(() => sicher(takt)); }
     }
 
     // Ruckel-Wächter: Solange gescrollt wird, misst eine Bildschleife die echten Abstände
@@ -542,8 +560,9 @@
 
     let format0 = null;
     addEventListener('resize', () => {
+        if (aus) return;
         const anteil = gesamt ? scrollY / gesamt : 0;
-        aufbauen();
+        sicher(aufbauen);
         if (format0 !== bildFormat()) { format0 = bildFormat(); bilderLaden(); }
         scrollTo({ top: anteil * gesamt, behavior: 'instant' });
         planen();
@@ -560,9 +579,9 @@
 
     format0 = bildFormat();
     bilderLaden();
-    aufbauen();
+    sicher(aufbauen);
     // Schriften verändern Zellhöhen: danach die Zeitachse neu messen
-    if (document.fonts) document.fonts.ready.then(() => { aufbauen(); planen(); });
-    addEventListener('load', () => { aufbauen(); planen(); });
-    takt();
+    if (document.fonts) document.fonts.ready.then(() => { sicher(aufbauen); planen(); });
+    addEventListener('load', () => { sicher(aufbauen); planen(); });
+    sicher(takt);
 })();

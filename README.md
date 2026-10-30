@@ -92,6 +92,11 @@ Neues Bild: in `tools/optimize_images.py` in der Liste `BILDER` eintragen und au
   Dabei entstehen auch `linse-quer.json` / `linse-hoch.json`: die Lage der Linse in jedem Bild, damit die Website genau ins Okular passt.
 * `blender/build_mikroskop.py` baut die Szene von Grund auf neu und **überschreibt** `mikroskop.blend`. Nach Handarbeit in Blender nicht mehr ausführen.
 
+### Nach Änderungen an CSS oder JavaScript
+In allen HTML-Dateien die Versionsnummer hinter `style.css?v=…`, `script.js?v=…` und `zellen.js?v=…` erhöhen
+(z. B. auf das heutige Datum). Sonst kann ein Browser neue HTML-Seiten mit alten Skripten aus dem Zwischenspeicher
+mischen. Falls das Skript der Startseite trotzdem scheitert, zeigt die Seite automatisch die einfache Zellen-Liste.
+
 ### Text-Prüfung
 `python3 tools/textcheck.py check` vergleicht den sichtbaren Text aller Seiten mit dem Stand vor dem Redesign.
 Nach gewollten Textänderungen mit `python3 tools/textcheck.py snapshot` den neuen Stand als Referenz speichern.
