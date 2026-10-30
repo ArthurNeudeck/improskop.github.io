@@ -26,7 +26,7 @@ Ansprechperson und Entwickler: Mika. Mit Mika auf **Deutsch** kommunizieren.
 
    Nach freigegebenen Textänderungen: `python3 tools/textcheck.py snapshot`.
 2. **Nach jeder Änderung an CSS oder JS die Versionsnummer erhöhen**: `style.css?v=…`, `script.js?v=…`, `zellen.js?v=…`
-   in allen HTML-Dateien (aktuell `v=20261030`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
+   in allen HTML-Dateien (aktuell `v=20261031`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
    Seite wird nicht mehr scrollbar.
 3. **Leistung:** Nie `border-radius`, `width`/`height`, `box-shadow` oder `filter` animieren. Bewegung nur über `transform`/`opacity`.
    Das Animieren der Zellform war der Grund, warum die Seite auf Handys mit 11 statt 60 Bildern/s lief.
@@ -74,17 +74,24 @@ Alles hängt nur an der Scroll-Position (kein Einrasten, kein Scroll-Hijacking).
 1. **hinein**: Start = Mikroskop von aussen (Blender-Bild 96). Das Show-Panel (Titel, Countdown, Untertitel, Datum, Tickets,
    Instagram) ist sofort sichtbar. Beim Scrollen läuft die Bildfolge rückwärts, und in der **durchsichtigen Linse** liegt die echte
    Website (Holdout in Blender, Abgleich über linse-*.json). Das Show-Panel dockt dabei als `.show-leiste` oben an und bleibt bis zum Ende stehen.
-2. **oeffnen**: Der Okular-Kreis (`okular-rand.webp`) öffnet sich auf den Objektträger.
+2. **oeffnen**: Blender-Bild 1 bleibt stehen und wird per `transform: scale` um die Linse vergrössert: Die Kamera fliegt durchs
+   Okular, das Website-Loch wächst mit. Danach wird die Bühne ausgeblendet. (`okular-rand.webp` wird nicht mehr benutzt.)
 3. **zelle / uebergang**: 10 Zellen (`section.zelle` in `.welt`) in dieser Reihenfolge: Show (Wiederholung), Gast & Musik,
    Newsletter + VIP, Letzte Aufführung (`#shows`), Verein (`#ueber-uns`), Schauspielende, Rückblicke (`#my-work`), Orga, Q&A, Funsection.
    Beim Verweilen fährt die Kamera die Zelle ab (normales Lesen); im Übergang zoomt sie heraus, gleitet zur nächsten Zelle und zoomt wieder hinein.
-4. **abschied**: Die letzte Zelle gleitet nach oben weg, der Kreis schliesst sich (bewusst ohne Übersicht aller Zellen: zu teuer).
+4. **abschied**: Die letzte Zelle gleitet nach oben weg, der Kreis schliesst sich, und Bild 1 schrumpft wieder auf Normalgrösse
+   (bewusst ohne Übersicht aller Zellen: zu teuer).
 5. **hinaus**: Die Bildfolge läuft vorwärts, das Footer-Panel erscheint neben dem Mikroskop.
 
 Weitere Mechanik:
 - **Zellen** sind Liquid-Glass-Bakterien. Die Blase (`::before`/`::after`) ragt 21 % über den Inhalt hinaus (`--blase`, in JS `BLASE`),
   damit der Text ganz in der Form liegt. Jede Zelle hat eine feste Form (`--form` je `nth-of-type`). Seitlicher Versatz: `--x`.
-- Es werden nur Zellen im Kamerablick gemalt (`data-fern` → `visibility: hidden`).
+- Es werden nur Zellen im Kamerablick und die Deko-Bakterien direkt daneben gemalt (`data-fern` → `visibility: hidden`).
+  In `hinein`/`hinaus` (`html.im-film`) ist das Atmen angehalten.
+- Werte, die `zellen.js` pro Bild setzt, sind per `@property … inherits: false` nicht vererbt, und `setze()` schreibt nur Änderungen.
+  Neue Werte pro Bild genauso behandeln, sonst rechnet der Browser bei jedem Bild ganze Teilbäume neu.
+- Das Website-Loch folgt immer dem tatsächlich gezeichneten Blender-Bild (`zeichne()` gibt dessen Nummer zurück).
+  Die Leinwand ist nie feiner als das Quellbild.
 - **Sparmodus `html.leicht`**:
   - Wann: Handys (Touch/≤900 px) immer; sonst bei wenig Speicher/Kernen, Datensparen oder gemessenem Ruckeln.
   - Was: kein Live-Glas, kein Atmen, Bildfolge aus `*-leicht/`.

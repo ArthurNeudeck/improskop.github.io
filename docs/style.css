@@ -23,6 +23,22 @@
   font-display: swap;
 }
 
+/* Werte, die zellen.js in jedem Bild setzt, nicht vererben: sonst rechnet der Browser bei jeder
+   Änderung den ganzen Teilbaum neu (z. B. alle Zellen unter .objekttraeger). */
+@property --loch { syntax: "*"; inherits: false; }
+@property --lx { syntax: "*"; inherits: false; }
+@property --ly { syntax: "*"; inherits: false; }
+@property --ls { syntax: "*"; inherits: false; }
+@property --andock-x { syntax: "*"; inherits: false; }
+@property --andock-y { syntax: "*"; inherits: false; }
+@property --andock-s { syntax: "*"; inherits: false; }
+@property --panel-o { syntax: "*"; inherits: false; }
+@property --leiste-o { syntax: "*"; inherits: false; }
+@property --footer-o { syntax: "*"; inherits: false; }
+@property --dx { syntax: "*"; inherits: false; }
+@property --dy { syntax: "*"; inherits: false; }
+@property --dr { syntax: "*"; inherits: false; }
+
 :root {
   /* Farben */
   --glas: #eef1ec;            /* Objektglas: Seitenhintergrund */
@@ -484,8 +500,9 @@ em { font-style: italic; }
   border-radius: 50%;
   background: radial-gradient(closest-side, rgb(211 202 223 / 0.8), transparent);
 }
+/* Nur transform: border-radius zu animieren hiesse, jedes Bild neu zu malen */
 @keyframes atmen-klein {
-  to { border-radius: 60% 40% 45% 55% / 40% 60% 40% 60%; transform: rotate(8deg); }
+  to { transform: rotate(8deg) scale(1.06, 0.95); }
 }
 
 /* =====================================================================
@@ -831,7 +848,6 @@ body:has(.objekttraeger) { background: var(--nacht); }
 }
 .objekttraeger .welt { padding-block: 2rem; }
 .flecken, .tiefe { display: none; }
-.okular-rand { display: none; }
 
 .footer {
   position: relative;
@@ -887,6 +903,10 @@ body:has(.objekttraeger) { background: var(--nacht); }
 .kamera.in-bewegung .welt, .kamera.in-bewegung .tiefe { will-change: transform; }
 /* Zellen ausserhalb des Kamerablicks nicht malen (Platz im Layout bleibt) */
 .kamera .zelle[data-fern] { visibility: hidden; }
+.kamera .bakterie[data-fern] { visibility: hidden; animation-play-state: paused; }
+/* Fahrt ausserhalb des Mikroskops: die Welt ist nur winzig in der Linse, Atmen anhalten */
+.kamera.im-film .welt *, .kamera.im-film .welt *::before, .kamera.im-film .welt *::after,
+.kamera.im-film .welt .zelle::before, .kamera.im-film .welt .zelle::after { animation-play-state: paused; }
 .kamera .tiefe { display: block; height: var(--welt-hoehe); pointer-events: none; }
 .kamera .flecken { display: block; position: absolute; inset: 0; pointer-events: none; z-index: -1; }
 .kamera .zelle {
@@ -906,18 +926,6 @@ body:has(.objekttraeger) { background: var(--nacht); }
 .kamera .zelle:nth-of-type(8) { --x: 0.9; }
 .kamera .zelle:nth-of-type(9) { --x: 0.25; }
 .kamera .zelle:nth-of-type(10) { --x: 0.45; }
-
-.kamera .okular-rand {
-  display: block;
-  position: fixed;
-  z-index: 3;
-  left: 50%; top: 50%;
-  width: calc(var(--rand-r, 0px) / 0.2133);
-  max-width: none;
-  translate: -50% -50%;
-  opacity: var(--rand-o, 0);
-  pointer-events: none;
-}
 
 .kamera .show-panel {
   position: fixed;

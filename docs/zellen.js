@@ -22,7 +22,6 @@
     const panel = document.querySelector('.show-panel');
     const leiste = document.querySelector('.show-leiste');
     const footer = document.querySelector('.footer');
-    const okularRand = document.querySelector('.okular-rand');
     const nav = document.querySelector('.nav');
     const scrollweg = document.querySelector('.scrollweg');
 
@@ -37,6 +36,7 @@
         console.error('Objektträger deaktiviert:', fehler);
         html.classList.remove('kamera', 'leicht', 'in-bewegung');
         buehne.removeAttribute('hidden');
+        leinwand.style.transform = '';
         document.querySelectorAll('[style*="--"], .welt, .tiefe, .zelle').forEach(el => {
             el.style.transform = ''; el.style.marginTop = ''; el.style.paddingTop = ''; el.style.paddingBottom = '';
         });
@@ -90,6 +90,10 @@
     let letztesBild = -1;
 
     const bildFormat = () => (innerWidth / innerHeight < 0.9 ? 'hoch' : 'quer');
+    const bildMasse = () => (format === 'quer' ? { iw: 1600, ih: 900 } : { iw: 900, ih: 1600 });
+    // Immer nur jedes 2. Bild (48 statt 96: halbe Bildrate, halber Speicher)
+    const vorhanden = i => i % 2 === 0 || i === BILDER - 1;
+    let folgeFertig = false;    // alle Bilder geladen und dekodiert
 
     function bilderLaden() {
         format = bildFormat();
@@ -103,10 +107,9 @@
             .catch(() => { /* ohne Linsendaten bleibt der Objektträger bis zur Linse verborgen */ });
 
         // Schlussbild zuerst (erster Bildschirm), dann grob nach fein.
-        // Immer nur jedes 2. Bild (48 statt 96: halbe Bildrate, halber Speicher).
-        // Sparmodus: zusätzlich 60 % Grösse (Ordner *-leicht).
+        // Sparmodus: 60 % Grösse (Ordner *-leicht).
         const quelle = leicht ? `${ordner}-leicht` : ordner;
-        const vorhanden = i => i % 2 === 0 || i === BILDER - 1;
+        folgeFertig = false;
         const reihenfolge = [BILDER - 1];
         if (!datenSparen) {
             for (const schritt of [16, 8, 4, 2, 1])
@@ -115,7 +118,8 @@
         }
         let naechstes = 0;
         const laden = () => {
-            if (naechstes >= reihenfolge.length || ordner !== format || quelle !== (leicht ? `${format}-leicht` : format)) return;
+            if (ordner !== format || quelle !== (leicht ? `${format}-leicht` : format)) return;
+            if (naechstes >= reihenfolge.length) { folgeFertig = true; return; }
             const i = reihenfolge[naechstes++];
             const img = new Image();
             img.decoding = 'async';
@@ -124,7 +128,8 @@
                 img.bereit = true; letztesBild = -1; planen(); laden();
             });
             img.onerror = laden;
-            img.src = `media/outro/${quelle}/${String(i + 1).padStart(4, '0')}.webp`;
+            // Schlussbild immer in voller Grösse: Das hat der Browser als Standbild schon geladen
+            img.src = `media/outro/${i === BILDER - 1 ? ordner : quelle}/${String(i + 1).padStart(4, '0')}.webp`;
             bilder[i] = img;
         };
         // Erst das Schlussbild (= erster Bildschirm), den Rest erst nach dem Laden der Seite
@@ -158,22 +163,24 @@
         return { x: (cw - iw * s) / 2, y: (ch - ih * s) / 2, w: iw * s, h: ih * s };
     }
 
+    // Zeichnet das nächste geladene Bild und gibt dessen Nummer zurück (-1: noch keins da)
     function zeichne(index) {
         const i = naechstesGeladenes(index);
-        if (i < 0 || i === letztesBild) return;
+        if (i < 0 || i === letztesBild) return i;
         const img = bilder[i];
         const m = abdeckung(img.naturalWidth, img.naturalHeight, leinwand.width, leinwand.height);
         stift.clearRect(0, 0, leinwand.width, leinwand.height);
         stift.drawImage(img, m.x, m.y, m.w, m.h);
+        if (letztesBild < 0 && !buehne.hasAttribute('data-film-bereit')) buehne.setAttribute('data-film-bereit', '');
         letztesBild = i;
-        buehne.setAttribute('data-film-bereit', '');
+        return i;
     }
 
     // Linse in Bild i, in CSS-Pixeln
     function linse(i) {
         if (!linsen) return null;
         const l = linsen[begrenze(Math.round(i), 0, BILDER - 1)];
-        const iw = format === 'quer' ? 1600 : 900, ih = format === 'quer' ? 900 : 1600;
+        const { iw, ih } = bildMasse();
         const m = abdeckung(iw, ih, innerWidth, innerHeight);
         return { x: m.x + l.x * m.w, y: m.y + l.y * m.h, r: Math.max(l.rx * m.w, l.ry * m.h) };
     }
@@ -197,6 +204,8 @@
         return el;
     }
 
+    let bakterien = [];         // Deko-Bakterie i liegt zwischen Zelle i und i + 1
+
     function praeparatAnlegen(breite, hoehe) {
         const z = zufall(7);
         const farben = ['rgb(231 219 196 / 0.9)', 'rgb(237 201 203 / 0.55)', 'rgb(211 202 223 / 0.6)', 'rgb(216 195 156 / 0.4)'];
@@ -215,13 +224,17 @@
             flecken.append(element('blaeschen', z() * breite, z() * hoehe, g));
         }
         // Deko-Bakterien in den Lücken zwischen den Zellen
+        bakterien = [];
+        letzteSichtbare = '';
         zellen.slice(0, -1).forEach((zelle, i) => {
             const frei0 = zelle.offsetTop + zelle.offsetHeight * (1 + BLASE);
             const frei1 = zellen[i + 1].offsetTop - zellen[i + 1].offsetHeight * BLASE;
             const y = frei0 + (frei1 - frei0) * (0.3 + z() * 0.4);
             const g = 50 + z() * 110;
-            flecken.append(element('bakterie', z() * (breite - g), y - g / 2, g,
-                `height:${g * (0.55 + z() * 0.3)}px;animation-delay:${-z() * 10}s`));
+            const bakterie = element('bakterie', z() * (breite - g), y - g / 2, g,
+                `height:${g * (0.55 + z() * 0.3)}px;animation-delay:${-z() * 10}s`);
+            bakterien.push(bakterie);
+            flecken.append(bakterie);
         });
         const [hinten] = tiefen;
         for (let i = 0; i < 10; i++) {
@@ -238,11 +251,12 @@
     let vw = 0, vh = 0, oben = 0, unten = 0;
     let einstieg, abschied, rVoll;
     let andock = null;
+    let ankerX = 0, ankerY = 0;
 
     function andockMessen() {
-        panel.style.setProperty('--andock-x', '0px');
-        panel.style.setProperty('--andock-y', '0px');
-        panel.style.setProperty('--andock-s', '1');
+        setze(panel, '--andock-x', '0px');
+        setze(panel, '--andock-y', '0px');
+        setze(panel, '--andock-s', '1');
         const p = panel.getBoundingClientRect();
         const l = leiste.getBoundingClientRect();
         const s = begrenze((l.height * 2.4) / p.height, 0.2, 1);
@@ -316,9 +330,12 @@
         achse.forEach(a => { a.start = pos; pos += a.laenge; });
         gesamt = pos;
         scrollweg.style.setProperty('--scrollweg', `${gesamt + vh}px`);
-        welt.dataset.anker = `${ax},${ay}`;
+        ankerX = ax; ankerY = ay;
 
-        const dpr = leicht ? 1 : Math.min(devicePixelRatio || 1, 1.5);
+        // Nie feiner als das Quellbild: mehr Leinwand-Pixel machen das Bild nicht schärfer, nur teurer
+        const { iw, ih } = bildMasse();
+        const dpr = Math.min(leicht ? 1 : Math.min(devicePixelRatio || 1, 1.5),
+            (leicht ? 0.6 : 1) / Math.max(vw / iw, vh / ih));
         leinwand.width = Math.round(vw * dpr);
         leinwand.height = Math.round(vh * dpr);
         letztesBild = -1;
@@ -331,10 +348,23 @@
     // =================================================================
     // Ein Bild berechnen
     // =================================================================
-    function setze(el, name, wert) { el.style.setProperty(name, wert); }
+    // Nur schreiben, was sich ändert: jede Stil-Änderung kostet den Browser eine Neuberechnung
+    const gesetzt = new WeakMap();
+    function setze(el, name, wert) {
+        let alt = gesetzt.get(el);
+        if (!alt) gesetzt.set(el, (alt = {}));
+        if (alt[name] === wert) return;
+        alt[name] = wert;
+        el.style.setProperty(name, wert);
+    }
+    function loesche(el, name) {
+        const alt = gesetzt.get(el);
+        if (alt) delete alt[name];
+        el.style.removeProperty(name);
+    }
 
     function weltZeigen(kam) {
-        const [ax, ay] = welt.dataset.anker.split(',').map(Number);
+        const ax = ankerX, ay = ankerY;
         const genau = kam.s > 0.999;
         const tx = ax - kam.x * kam.s, ty = ay - kam.y * kam.s;
         welt.style.transform = genau
@@ -385,7 +415,7 @@
         bewegt.forEach(i => {
             if (ausser.includes(i)) return;
             organellenJeZelle[i].forEach(o => {
-                o.style.removeProperty('--dx'); o.style.removeProperty('--dy'); o.style.removeProperty('--dr');
+                loesche(o, '--dx'); loesche(o, '--dy'); loesche(o, '--dr');
             });
             bewegt.delete(i);
         });
@@ -398,6 +428,8 @@
         if (schluessel === letzteSichtbare) return;
         letzteSichtbare = schluessel;
         zellen.forEach((z, k) => z.toggleAttribute('data-fern', !liste.includes(k)));
+        // Bakterien in den Lücken direkt neben den sichtbaren Zellen
+        bakterien.forEach((b, k) => b.toggleAttribute('data-fern', !liste.includes(k) && !liste.includes(k + 1)));
     }
 
     let letzteAktive = null;
@@ -429,23 +461,24 @@
         const a = achse.find(s => y < s.start + s.laenge) || achse[achse.length - 1];
         const t = a.laenge ? bereich(y, a.start, a.start + a.laenge) : 1;
 
-        let film = null, dunkel = false, randR = 0, randO = 0, footerO = 0, sichtbar = [0];
+        // film: Nummer des Blender-Bildes (null = Bühne aus). zoom > 0: Bild 1 wird um die Linse
+        // vergrössert – die Kamera fliegt durchs Okular, statt dass das Mikroskop plötzlich verschwindet.
+        let film = null, zoom = 0, dunkel = false, footerO = 0, sichtbar = [0];
         andocken(a.typ === 'hinein' ? sanft(bereich(t, 0, 0.6)) : 1);
 
         switch (a.typ) {
             case 'hinein':
                 film = (BILDER - 1) * (1 - t);
                 weltZeigen(einstieg);
-                inLinse(film);
                 dunkel = true;
                 aktiveZelle(-1, 0);
                 break;
             case 'oeffnen': {
                 const r0 = (linse(0) || { r: vh * 0.25 }).r;
                 const loch = mix(r0, rVoll, sanft(t));
-                frei(loch);
+                frei(loch * 1.02);   // etwas grösser als das Loch im Bild: kein dunkler Saum
+                if (loch < rVoll) { film = 0; zoom = loch / r0; }
                 weltZeigen(mixKamera(a.von, a.nach, t));
-                randR = loch; randO = 1 - bereich(t, 0.55, 0.95);
                 dunkel = loch < rVoll * 0.55;
                 aktiveZelle(t > 0.8 ? 0 : -1, 0);
                 break;
@@ -473,9 +506,9 @@
                 // nach oben hinaus: die letzte Zelle gleitet hoch, der Okular-Kreis schliesst sich
                 const r0 = (linse(0) || { r: vh * 0.25 }).r;
                 const loch = mix(rVoll, r0, sanft(bereich(t, 0.3, 1)));
-                frei(loch);
+                frei(loch * 1.02);
+                if (loch < rVoll) { film = 0; zoom = loch / r0; }
                 weltZeigen(mixKamera(a.von, a.nach, t));
-                randR = loch; randO = bereich(t, 0.35, 0.7);
                 dunkel = loch < rVoll * 0.55;
                 aktiveZelle(t < 0.2 ? zellen.length - 1 : -1, zellen.length - 1);
                 organellenRuhig([]);
@@ -486,20 +519,36 @@
                 film = (BILDER - 1) * t;
                 weltZeigen(abschied);
                 sichtbar = [zellen.length - 1];
-                inLinse(film);
                 dunkel = true;
                 footerO = sanft(bereich(t, 0.7, 1));
                 break;
         }
 
         zellenZeigen(sichtbar);
+        imFilm(a.typ === 'hinein' || a.typ === 'hinaus');
+        const gezeigt = film === null ? -1 : zeichne(Math.round(film));
+        const l0 = linse(0);
+        if (zoom) {
+            // Bild 1 (oder die Linsendaten) noch nicht da: nur der Kreis, ohne Mikroskop
+            if (gezeigt !== 0 || !l0) film = null;
+            else setze(leinwand, 'transform-origin', `${l0.x}px ${l0.y}px`);
+        } else if (film !== null) {
+            // Loch genau in das Bild legen, das wirklich gezeichnet ist (ohne Bild: das Standbild 96)
+            inLinse(gezeigt >= 0 ? gezeigt : BILDER - 1);
+        }
+        setze(leinwand, 'transform', zoom && film !== null ? `scale(${zoom})` : 'none');
         buehne.toggleAttribute('hidden', film === null);
-        if (film !== null) zeichne(Math.round(film));
-        setze(okularRand, '--rand-r', `${randR}px`);
-        setze(okularRand, '--rand-o', String(randO));
         setze(footer, '--footer-o', String(footerO));
         footer.toggleAttribute('data-da', footerO > 0.01);
         nav.toggleAttribute('data-auf-dunkel', dunkel);
+    }
+
+    // Während der Fahrt ausserhalb liegt die Welt winzig in der Linse: Atmen dort anhalten
+    let imFilmJetzt = null;
+    function imFilm(an) {
+        if (an === imFilmJetzt) return;
+        imFilmJetzt = an;
+        html.classList.toggle('im-film', an);
     }
 
     let geplant = false;
@@ -514,7 +563,8 @@
     let letzterScroll = 0, schleifeLaeuft = false;
     function messen(t, vorher) {
         if (leicht) return;
-        if (vorher !== undefined) {
+        // Erst messen, wenn die Bildfolge fertig dekodiert ist: Laden ist kein Ruckeln des Geräts
+        if (vorher !== undefined && folgeFertig) {
             abstaende.push(t - vorher);
             if (abstaende.length > 30) abstaende.shift();      // gleitendes Fenster: letzte 30 Bilder
             if (abstaende.length === 30 && [...abstaende].sort((x, y) => x - y)[15] > 30) { sparmodus(); return; }
