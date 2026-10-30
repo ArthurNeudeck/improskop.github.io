@@ -366,7 +366,6 @@ em { font-style: italic; }
     radial-gradient(circle, transparent 0 60%, rgb(59 42 99 / 0.16) 67%, rgb(59 42 99 / 0.42) 71%,
                     rgb(255 255 255 / 0.85) 75%, transparent 81%);
 }
-.tiefe--vorne .blaeschen { filter: blur(2.5px); opacity: 0.8; }
 .tiefe--hinten .blaeschen { opacity: 0.55; }
 
 /* =====================================================================
@@ -470,7 +469,6 @@ em { font-style: italic; }
 .leicht .zelle.nah { --zell-farbe: rgb(255 255 255 / 0.55); }
 .leicht .zelle--rueckblick.nah { --zell-farbe: rgb(59 42 99 / 0.92); }
 .leicht .bakterie { animation: none; }
-.leicht .tiefe--vorne { display: none; }
 .leicht .zelle::before { box-shadow: inset 0 1.5px 0 rgb(255 255 255 / 0.9), 0 0 0 1px rgb(59 42 99 / 0.12); }
 /* Deko-Bakterien zwischen den Zellen */
 .bakterie {
@@ -885,10 +883,11 @@ body:has(.objekttraeger) { background: var(--nacht); }
   width: var(--welt-breite);
   padding: 0;
   transform-origin: 0 0;
-  will-change: transform;
 }
+.kamera.in-bewegung .welt, .kamera.in-bewegung .tiefe { will-change: transform; }
+/* Zellen ausserhalb des Kamerablicks nicht malen (Platz im Layout bleibt) */
+.kamera .zelle[data-fern] { visibility: hidden; }
 .kamera .tiefe { display: block; height: var(--welt-hoehe); pointer-events: none; }
-.kamera .tiefe--vorne { z-index: 3; }
 .kamera .flecken { display: block; position: absolute; inset: 0; pointer-events: none; z-index: -1; }
 .kamera .zelle {
   width: var(--zell-breite);

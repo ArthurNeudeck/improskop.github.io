@@ -59,9 +59,11 @@ in der durchsichtigen Linse liegt die echte Website – und gleitet dann über d
   Reihenfolge im HTML ist die Reihenfolge der Reise. Seitlicher Versatz: `--x` in `docs/style.css` (Abschnitt KAMERA-MODUS).
 * Fotos in Zellen sind „Organellen“: `<figure class="organell …" data-tiefe="1.3">` (höhere Tiefe = treibt im Übergang stärker).
 * Die Kamera steckt in `docs/zellen.js`. Ohne JavaScript oder bei „Bewegung reduzieren“ erscheinen die Zellen als einfache Liste.
-* **Sparmodus für schwache Handys** (`html.leicht`): schaltet sich automatisch ein bei wenig Speicher/Kernen, bei
+* **Sparmodus** (`html.leicht`): auf Handys (Touch / schmaler Bildschirm) immer; sonst automatisch bei wenig Speicher/Kernen, bei
   „Datensparen“ oder wenn die Seite beim Scrollen ruckelt (unter ~33 Bilder/s). Dann: Glas ohne Live-Unschärfe,
-  kein Atmen der Zellen, halb so viele Blender-Bilder in 60 % Grösse (`docs/media/outro/*-leicht/`).
+  kein Atmen der Zellen, Blender-Bilder in 60 % Grösse (`docs/media/outro/*-leicht/`).
+* Die Blender-Fahrt nutzt auf allen Geräten nur jedes 2. Bild (48 von 96). Zellen ausserhalb des Kamerablicks
+  werden nicht gemalt (`data-fern`). Am Ende gleitet die letzte Zelle nach oben weg (keine Übersicht aller Zellen).
   Zum Ausprobieren: `index.html?leicht`.
 * Wichtig für die Leistung: Zellformen (`border-radius`) nie animieren – das zwingt den Browser, die grossen
   Glasflächen bei jedem Bild neu zu malen. Bewegung nur über `transform` oder `opacity`.

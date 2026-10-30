@@ -38,7 +38,10 @@
         html.classList.remove('brechung');
         if (format) { bilderLaden(); aufbauen(); planen(); }
     }
+    // Handys (Touch oder schmaler Bildschirm) immer: dort ist der Grafikchip der Engpass,
+    // und den kann die Ruckel-Erkennung (misst den Hauptprozessor) nicht sehen.
     if (datenSparen || location.search.includes('leicht') ||
+        matchMedia('(pointer: coarse), (max-width: 900px)').matches ||
         (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
         (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)) {
         leicht = true;
@@ -82,9 +85,10 @@
             .catch(() => { /* ohne Linsendaten bleibt der Objektträger bis zur Linse verborgen */ });
 
         // Schlussbild zuerst (erster Bildschirm), dann grob nach fein.
-        // Sparmodus: nur jedes 2. Bild in 60 % Grösse (Ordner *-leicht) → ¼ des Speichers.
+        // Immer nur jedes 2. Bild (48 statt 96: halbe Bildrate, halber Speicher).
+        // Sparmodus: zusätzlich 60 % Grösse (Ordner *-leicht).
         const quelle = leicht ? `${ordner}-leicht` : ordner;
-        const vorhanden = i => !leicht || i % 2 === 0 || i === BILDER - 1;
+        const vorhanden = i => i % 2 === 0 || i === BILDER - 1;
         const reihenfolge = [BILDER - 1];
         if (!datenSparen) {
             for (const schritt of [16, 8, 4, 2, 1])
@@ -97,7 +101,10 @@
             const i = reihenfolge[naechstes++];
             const img = new Image();
             img.decoding = 'async';
-            img.onload = () => { letztesBild = -1; planen(); laden(); };
+            // vor dem ersten Zeichnen dekodieren, damit das nicht mitten im Scrollen passiert
+            img.onload = () => img.decode().catch(() => {}).then(() => {
+                img.bereit = true; letztesBild = -1; planen(); laden();
+            });
             img.onerror = laden;
             img.src = `media/outro/${quelle}/${String(i + 1).padStart(4, '0')}.webp`;
             bilder[i] = img;
@@ -117,7 +124,7 @@
         else addEventListener('load', () => setTimeout(rest, 300), { once: true });
     }
 
-    const geladen = i => bilder[i] && bilder[i].complete && bilder[i].naturalWidth;
+    const geladen = i => bilder[i] && bilder[i].bereit;
 
     function naechstesGeladenes(ziel) {
         for (let d = 0; d < BILDER; d++) {
@@ -177,7 +184,7 @@
         const farben = ['rgb(231 219 196 / 0.9)', 'rgb(237 201 203 / 0.55)', 'rgb(211 202 223 / 0.6)', 'rgb(216 195 156 / 0.4)'];
         flecken.replaceChildren();
         tiefen.forEach(t => t.replaceChildren());
-        for (let i = 0; i < 22; i++) {
+        for (let i = 0; i < 12; i++) {
             const g = 320 + z() * 900;
             const rand = z() < 0.35;
             flecken.append(element(rand ? 'fleck fleck--rand' : 'fleck fleck--weich',
@@ -185,7 +192,7 @@
                 rand ? `transform:scale(1,${0.7 + z() * 0.5}) rotate(${z() * 180}deg)`
                      : `--fleck-farbe:${farben[i % farben.length]};transform:scale(1,${0.6 + z() * 0.6})`));
         }
-        for (let i = 0; i < 34; i++) {
+        for (let i = 0; i < 18; i++) {
             const g = 10 + Math.pow(z(), 2) * 130;
             flecken.append(element('blaeschen', z() * breite, z() * hoehe, g));
         }
@@ -198,14 +205,10 @@
             flecken.append(element('bakterie', z() * (breite - g), y - g / 2, g,
                 `height:${g * (0.55 + z() * 0.3)}px;animation-delay:${-z() * 10}s`));
         });
-        const [hinten, vorne] = tiefen;
-        for (let i = 0; i < 26; i++) {
+        const [hinten] = tiefen;
+        for (let i = 0; i < 10; i++) {
             const g = 8 + Math.pow(z(), 2) * 90;
             hinten.append(element('blaeschen', z() * breite, z() * hoehe, g));
-        }
-        for (let i = 0; i < 9; i++) {
-            const g = 70 + z() * 180;
-            vorne.append(element('blaeschen', z() * breite * 1.2, z() * hoehe * 1.2, g));
         }
     }
 
@@ -215,7 +218,7 @@
     let achse = [];
     let gesamt = 0;
     let vw = 0, vh = 0, oben = 0, unten = 0;
-    let einstieg, uebersicht, rVoll;
+    let einstieg, abschied, rVoll;
     let andock = null;
 
     function andockMessen() {
@@ -275,8 +278,9 @@
         });
         const tiefster = handy ? 0.55 : 0.42;
         einstieg = { x: stationen[0].anfang.x, y: zellen[0].offsetTop + zellen[0].offsetHeight / 2, s: handy ? 0.7 : 0.6 };
-        const s = Math.min((vw * 0.92) / weltBreite, (H * 0.92) / weltHoehe);
-        uebersicht = { x: weltBreite / 2, y: weltHoehe / 2, s };
+        // Ende: von der letzten Zelle aus nach oben hinaus – der Objektträger gleitet hoch und weg
+        const letzte = zellen[zellen.length - 1];
+        abschied = { x: stationen[stationen.length - 1].ende.x, y: letzte.offsetTop + letzte.offsetHeight * (1 + BLASE) + H * 0.9, s: 0.6 };
         rVoll = Math.hypot(vw, vh) / 2 + 4;
 
         achse = [];
@@ -288,8 +292,7 @@
             if (i < stationen.length - 1)
                 neu('uebergang', vh * 0.9, { von: st.ende, nach: stationen[i + 1].anfang, tiefster, zelle: i });
         });
-        neu('uebersicht', vh * 0.8, { von: stationen[stationen.length - 1].ende, nach: uebersicht });
-        neu('schliessen', vh * 0.5);
+        neu('abschied', vh * 0.9, { von: stationen[stationen.length - 1].ende, nach: abschied });
         neu('hinaus', vh * 1.3);
         let pos = 0;
         achse.forEach(a => { a.start = pos; pos += a.laenge; });
@@ -370,6 +373,15 @@
         });
     }
 
+    // Nur Zellen malen, die die Kamera gerade sieht (Layout bleibt, nur das Malen entfällt)
+    let letzteSichtbare = '';
+    function zellenZeigen(liste) {
+        const schluessel = liste.join(',');
+        if (schluessel === letzteSichtbare) return;
+        letzteSichtbare = schluessel;
+        zellen.forEach((z, k) => z.toggleAttribute('data-fern', !liste.includes(k)));
+    }
+
     let letzteAktive = null;
     function aktiveZelle(i, nahBei) {
         const schluessel = `${i}|${nahBei}`;
@@ -399,7 +411,7 @@
         const a = achse.find(s => y < s.start + s.laenge) || achse[achse.length - 1];
         const t = a.laenge ? bereich(y, a.start, a.start + a.laenge) : 1;
 
-        let film = null, dunkel = false, randR = 0, randO = 0, footerO = 0;
+        let film = null, dunkel = false, randR = 0, randO = 0, footerO = 0, sichtbar = [0];
         andocken(a.typ === 'hinein' ? sanft(bereich(t, 0, 0.6)) : 1);
 
         switch (a.typ) {
@@ -424,6 +436,7 @@
                 frei(rVoll);
                 weltZeigen(mixKamera(a.von, a.nach, t));
                 aktiveZelle(a.zelle, a.zelle);
+                sichtbar = [a.zelle];
                 organellenRuhig([]);
                 break;
             case 'uebergang':
@@ -435,32 +448,33 @@
                 });
                 aktiveZelle(t < 0.15 ? a.zelle : t > 0.85 ? a.zelle + 1 : -1, t < 0.5 ? a.zelle : a.zelle + 1);
                 organellenRuhig([a.zelle, a.zelle + 1]);
-                organellenTreiben(a, t);
+                if (!leicht) organellenTreiben(a, t);
+                sichtbar = [a.zelle, a.zelle + 1];
                 break;
-            case 'uebersicht':
-                frei(rVoll);
-                weltZeigen(mixKamera(a.von, a.nach, t));
-                aktiveZelle(t < 0.1 ? zellen.length - 1 : -1, zellen.length - 1);
-                organellenRuhig([]);
-                break;
-            case 'schliessen': {
+            case 'abschied': {
+                // nach oben hinaus: die letzte Zelle gleitet hoch, der Okular-Kreis schliesst sich
                 const r0 = (linse(0) || { r: vh * 0.25 }).r;
-                const loch = mix(rVoll, r0, sanft(t));
+                const loch = mix(rVoll, r0, sanft(bereich(t, 0.3, 1)));
                 frei(loch);
-                weltZeigen(uebersicht);
-                randR = loch; randO = bereich(t, 0.05, 0.45);
+                weltZeigen(mixKamera(a.von, a.nach, t));
+                randR = loch; randO = bereich(t, 0.35, 0.7);
                 dunkel = loch < rVoll * 0.55;
+                aktiveZelle(t < 0.2 ? zellen.length - 1 : -1, zellen.length - 1);
+                organellenRuhig([]);
+                sichtbar = [zellen.length - 1];
                 break;
             }
             case 'hinaus':
                 film = (BILDER - 1) * t;
-                weltZeigen(uebersicht);
+                weltZeigen(abschied);
+                sichtbar = [zellen.length - 1];
                 inLinse(film);
                 dunkel = true;
                 footerO = sanft(bereich(t, 0.7, 1));
                 break;
         }
 
+        zellenZeigen(sichtbar);
         buehne.toggleAttribute('hidden', film === null);
         if (film !== null) zeichne(Math.round(film));
         setze(okularRand, '--rand-r', `${randR}px`);
@@ -534,6 +548,14 @@
         scrollTo({ top: anteil * gesamt, behavior: 'instant' });
         planen();
     });
+    // Grosse Ebenen nur während der Bewegung auf dem Grafikchip halten; in Ruhe freigeben
+    // (spart Grafikspeicher, und der Browser malt den Text danach einmal gestochen scharf).
+    let ruheTimer = 0;
+    addEventListener('scroll', () => {
+        html.classList.add('in-bewegung');
+        clearTimeout(ruheTimer);
+        ruheTimer = setTimeout(() => html.classList.remove('in-bewegung'), 200);
+    }, { passive: true });
     addEventListener('scroll', planen, { passive: true });
 
     format0 = bildFormat();
