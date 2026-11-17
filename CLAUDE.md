@@ -26,7 +26,7 @@ Ansprechperson und Entwickler: Mika. Mit Mika auf **Deutsch** kommunizieren.
 
    Nach freigegebenen Textänderungen: `python3 tools/textcheck.py snapshot`.
 2. **Nach jeder Änderung an CSS oder JS die Versionsnummer erhöhen**: `style.css?v=…`, `script.js?v=…`, `zellen.js?v=…`
-   in allen HTML-Dateien (aktuell `v=20261117`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
+   in allen HTML-Dateien (aktuell `v=20261118`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
    Seite wird nicht mehr scrollbar.
 3. **Leistung:** Nie `border-radius`, `width`/`height`, `box-shadow` oder `filter` animieren. Bewegung nur über `transform`/`opacity`.
    Das Animieren der Zellform war der Grund, warum die Seite auf Handys mit 11 statt 60 Bildern/s lief.
@@ -97,6 +97,10 @@ Weitere Mechanik:
   - Was: kein Live-Glas, kein Atmen, Bildfolge aus `*-leicht/`.
   - Zum Testen: `index.html?leicht`.
 - Die Blender-Bildfolge nutzt immer nur jedes 2. Bild (48 von 96) und dekodiert vorab.
+  Die Frames werden zusätzlich als `ImageBitmap` (auf Leinwandgrösse verkleinert) festgehalten, weil der Browser ein
+  dekodiertes `<img>` wieder verwerfen darf und es dann mitten im Scrollen neu dekodiert (gemessen: Spitzen bis 40 ms).
+  Die Bitmaps gibt es nur nahe der Bildfolge (Anfang/Ende); zwischen den Zellen werden sie freigegeben (`bitmapsPflegen`).
+  Speicher: Handy ca. 80 MB, Laptop ca. 280 MB. Ohne Bitmap wird wie früher das `<img>` gezeichnet.
 - **Notbremse**: Scheitert der Aufbau, fällt die Seite auf die einfache, scrollbare Zellen-Liste zurück. Dieselbe Liste
   erscheint ohne JS und bei `prefers-reduced-motion`.
 - Navigationslinks und Tab-Fokus scrollen die Kamera zur passenden Zelle.

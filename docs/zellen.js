@@ -98,6 +98,7 @@
     function bilderLaden() {
         format = bildFormat();
         const ordner = format;
+        bitmapsFreigeben();
         bilder = new Array(BILDER).fill(null);
         letztesBild = -1;
         linsen = null;
@@ -126,6 +127,7 @@
             // vor dem ersten Zeichnen dekodieren, damit das nicht mitten im Scrollen passiert
             img.onload = () => img.decode().catch(() => {}).then(() => {
                 img.bereit = true; letztesBild = -1; planen(); laden();
+                bitmapEinreihen(i);
             });
             img.onerror = laden;
             // Schlussbild immer in voller Grösse: Das hat der Browser als Standbild schon geladen
@@ -149,6 +151,82 @@
 
     const geladen = i => bilder[i] && bilder[i].bereit;
 
+    // Fest dekodierte Bilder (ImageBitmap). Ein <img> darf der Browser nach decode() wieder
+    // verwerfen; dann dekodiert er es beim Zeichnen neu, mitten im Scrollen (gemessen: bis 40 ms).
+    // Ein ImageBitmap bleibt dekodiert. Es wird gleich auf Leinwandgrösse verkleinert und nur
+    // gehalten, solange die Bildfolge nah ist (Anfang und Ende). Zwischen den Zellen: freigeben.
+    const BITMAP_OK = typeof createImageBitmap === 'function';
+    let bitmaps = new Array(BILDER).fill(null);
+    let bmRunde = 0;            // steigt bei jeder Freigabe: laufende Aufträge verfallen
+    let bmWarteschlange = [];
+    let bmLaeuft = false;
+    let bmVerkleinern = true;   // false: Browser kann beim Erzeugen nicht verkleinern
+    let bmFlaeche = 0;          // Leinwandfläche, für die die Bitmaps gebaut wurden
+    let filmNah = true;         // Start = Bildfolge
+
+    function bitmapsFreigeben() {
+        bmRunde++;
+        bitmaps.forEach(b => b && b.close());
+        bitmaps = new Array(BILDER).fill(null);
+        bmWarteschlange = [];
+        letztesBild = -1;
+    }
+
+    function bitmapsAnlegen() {
+        bilder.forEach((img, i) => { if (geladen(i)) bitmapEinreihen(i); });
+    }
+
+    function bitmapEinreihen(i) {
+        if (!BITMAP_OK || !filmNah || bitmaps[i] || bmWarteschlange.includes(i)) return;
+        bmWarteschlange.push(i);
+        bitmapNaechstes();
+    }
+
+    // Eins nach dem anderen (Dekodieren läuft im Hintergrund, aber nicht alles auf einmal)
+    function bitmapNaechstes() {
+        if (bmLaeuft || !bmWarteschlange.length) return;
+        // das Bild, das gerade (bzw. als Nächstes: Bild 0) gebraucht wird, zuerst
+        const ziel = letztesBild >= 0 ? letztesBild : 0;
+        bmWarteschlange.sort((a, b) => Math.abs(a - ziel) - Math.abs(b - ziel));
+        const i = bmWarteschlange.shift();
+        const img = bilder[i];
+        if (!geladen(i) || bitmaps[i]) { bitmapNaechstes(); return; }
+        const runde = bmRunde;
+        const s = Math.min(1, Math.max(leinwand.width / img.naturalWidth, leinwand.height / img.naturalHeight));
+        const masse = {
+            resizeWidth: Math.max(1, Math.round(img.naturalWidth * s)),
+            resizeHeight: Math.max(1, Math.round(img.naturalHeight * s)),
+            resizeQuality: 'medium',
+        };
+        bmLaeuft = true;
+        (bmVerkleinern ? createImageBitmap(img, masse) : createImageBitmap(img))
+            .catch(fehler => {
+                if (!bmVerkleinern) throw fehler;
+                bmVerkleinern = false;          // ältere Browser: dann eben in Originalgrösse
+                return createImageBitmap(img);
+            })
+            .then(b => {
+                if (runde !== bmRunde || bilder[i] !== img) { b.close(); return; }
+                bitmaps[i] = b;
+                if (i === letztesBild) { letztesBild = -1; planen(); }
+            }, () => { /* kein Bitmap: es bleibt beim <img> */ })
+            .then(() => { bmLaeuft = false; bitmapNaechstes(); });
+    }
+
+    // Läuft bei jedem Bild: Bitmaps rechtzeitig vor der Bildfolge anlegen, danach freigeben
+    function bitmapsPflegen(y) {
+        if (!BITMAP_OK) return;
+        const oe = achse.find(a => a.typ === 'oeffnen');
+        const ab = achse.find(a => a.typ === 'abschied');
+        if (!oe || !ab) return;
+        const rand = vh * (filmNah ? 3 : 2);    // etwas Spiel, damit es an der Grenze nicht pendelt
+        const nah = y < oe.start + oe.laenge + rand || y > ab.start - rand * 1.5;
+        if (nah === filmNah) return;
+        filmNah = nah;
+        if (nah) bitmapsAnlegen();
+        else bitmapsFreigeben();
+    }
+
     function naechstesGeladenes(ziel) {
         for (let d = 0; d < BILDER; d++) {
             if (geladen(ziel - d)) return ziel - d;
@@ -167,10 +245,12 @@
     function zeichne(index) {
         const i = naechstesGeladenes(index);
         if (i < 0 || i === letztesBild) return i;
-        const img = bilder[i];
-        const m = abdeckung(img.naturalWidth, img.naturalHeight, leinwand.width, leinwand.height);
+        const quelle = bitmaps[i] || bilder[i];
+        const qw = bitmaps[i] ? quelle.width : quelle.naturalWidth;
+        const qh = bitmaps[i] ? quelle.height : quelle.naturalHeight;
+        const m = abdeckung(qw, qh, leinwand.width, leinwand.height);
         stift.clearRect(0, 0, leinwand.width, leinwand.height);
-        stift.drawImage(img, m.x, m.y, m.w, m.h);
+        stift.drawImage(quelle, m.x, m.y, m.w, m.h);
         if (letztesBild < 0 && !buehne.hasAttribute('data-film-bereit')) buehne.setAttribute('data-film-bereit', '');
         letztesBild = i;
         return i;
@@ -339,6 +419,13 @@
         leinwand.width = Math.round(vw * dpr);
         leinwand.height = Math.round(vh * dpr);
         letztesBild = -1;
+        const flaeche = leinwand.width * leinwand.height;
+        if (!bmFlaeche) bmFlaeche = flaeche;
+        else if (flaeche > bmFlaeche * 1.3 || flaeche < bmFlaeche / 1.3) {
+            bmFlaeche = flaeche;
+            bitmapsFreigeben();
+            if (filmNah) bitmapsAnlegen();
+        }
         andockMessen();
     }
 
@@ -458,6 +545,7 @@
         geplant = false;
         if (!achse.length) return;
         const y = begrenze(scrollY, 0, gesamt);
+        bitmapsPflegen(y);
         const a = achse.find(s => y < s.start + s.laenge) || achse[achse.length - 1];
         const t = a.laenge ? bereich(y, a.start, a.start + a.laenge) : 1;
 
