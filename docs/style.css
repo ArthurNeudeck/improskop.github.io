@@ -569,6 +569,8 @@ em { font-style: italic; }
   font-size: clamp(2.6rem, 1.6rem + 3.6vw, 5.2rem);
   max-width: 12ch;
 }
+.zelle-show__titel:first-child { margin-top: 0; }   /* ohne Plakat darüber */
+.zelle-show__name { margin: 0 0 0.6rem; font-family: var(--schrift-titel); font-size: clamp(2rem, 1.4rem + 2.2vw, 3.4rem); line-height: 1.05; color: var(--haematoxylin); }
 .zelle-show__untertitel { font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem); color: var(--haematoxylin-sanft); }
 .zelle-show__datum { margin: 1rem 0 0; font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.6rem); color: var(--buehne); }
 
@@ -798,6 +800,7 @@ body:has(.objekttraeger) { background: var(--nacht); }
   border-radius: 36px;
 }
 .show-panel h2 { font-size: clamp(2.2rem, 1.3rem + 2.8vw, 3.8rem); }
+.show-panel .show__name { margin: 0; font-family: var(--schrift-titel); font-size: clamp(1.8rem, 1.2rem + 1.8vw, 2.8rem); line-height: 1.05; color: var(--eosin); }
 .show-panel .show__datum { font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem); color: var(--licht); }
 .show-panel .hero-subtitle { font-size: 1.125rem; color: rgb(238 241 236 / 0.86); }
 .show-panel .countdown { justify-content: flex-start; }
@@ -820,7 +823,7 @@ body:has(.objekttraeger) { background: var(--nacht); }
   --toenung: rgb(244 238 225 / 0.72);
 }
 .show-leiste p { margin: 0; line-height: 1.15; }
-.show-leiste__titel { grid-area: titel; font-family: var(--schrift-titel); font-size: 1.15rem; }
+.show-leiste__titel { grid-area: titel; font-family: var(--schrift-titel); font-size: 1.15rem; text-wrap: balance; }
 .show-leiste__datum { grid-area: datum; font-size: 0.875rem; color: var(--haematoxylin-sanft); }
 .show-leiste .knopf { grid-area: knopf; min-height: 44px; padding: 0.5em 1.2em; }
 
@@ -1106,6 +1109,7 @@ body:not(:has(.objekttraeger))::before {      /* Präparat-Flecken hinter den Un
   .buehne + .show-panel { position: absolute; top: calc(100svh - var(--nav-hoehe) - 24px); bottom: auto; translate: 0 -100%; }
   .kamera .buehne + .show-panel { position: fixed; top: auto; bottom: calc(var(--nav-hoehe) + 24px); translate: none; }
   .show-panel h2 { font-size: 2.1rem; }
+  .show-panel .show__name { font-size: 1.7rem; }
   .show-panel .show__datum { font-size: 1.35rem; }
   .show-panel .hero-subtitle { font-size: 1rem; }
   .show-leiste {

@@ -26,7 +26,7 @@ Ansprechperson und Entwickler: Mika. Mit Mika auf **Deutsch** kommunizieren.
 
    Nach freigegebenen Textänderungen: `python3 tools/textcheck.py snapshot`.
 2. **Nach jeder Änderung an CSS oder JS die Versionsnummer erhöhen**: `style.css?v=…`, `script.js?v=…`, `zellen.js?v=…`
-   in allen HTML-Dateien (aktuell `v=20261031`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
+   in allen HTML-Dateien (aktuell `v=20261117`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
    Seite wird nicht mehr scrollbar.
 3. **Leistung:** Nie `border-radius`, `width`/`height`, `box-shadow` oder `filter` animieren. Bewegung nur über `transform`/`opacity`.
    Das Animieren der Zellform war der Grund, warum die Seite auf Handys mit 11 statt 60 Bildern/s lief.
@@ -76,7 +76,7 @@ Alles hängt nur an der Scroll-Position (kein Einrasten, kein Scroll-Hijacking).
    Website (Holdout in Blender, Abgleich über linse-*.json). Das Show-Panel dockt dabei als `.show-leiste` oben an und bleibt bis zum Ende stehen.
 2. **oeffnen**: Blender-Bild 1 bleibt stehen und wird per `transform: scale` um die Linse vergrössert: Die Kamera fliegt durchs
    Okular, das Website-Loch wächst mit. Danach wird die Bühne ausgeblendet. (`okular-rand.webp` wird nicht mehr benutzt.)
-3. **zelle / uebergang**: 10 Zellen (`section.zelle` in `.welt`) in dieser Reihenfolge: Show (Wiederholung), Gast & Musik,
+3. **zelle / uebergang**: 9 Zellen (`section.zelle` in `.welt`) in dieser Reihenfolge: Show (Wiederholung),
    Newsletter + VIP, Letzte Aufführung (`#shows`), Verein (`#ueber-uns`), Schauspielende, Rückblicke (`#my-work`), Orga, Q&A, Funsection.
    Beim Verweilen fährt die Kamera die Zelle ab (normales Lesen); im Übergang zoomt sie heraus, gleitet zur nächsten Zelle und zoomt wieder hinein.
 4. **abschied**: Die letzte Zelle gleitet nach oben weg, der Kreis schliesst sich, und Bild 1 schrumpft wieder auf Normalgrösse
@@ -102,8 +102,10 @@ Weitere Mechanik:
 - Navigationslinks und Tab-Fokus scrollen die Kamera zur passenden Zelle.
 
 ## Inhalte pflegen
-- **Nächste Show:** Das Datum steht an **drei** Stellen in `docs/index.html`: im Show-Panel, in der `.show-leiste` und in der Zelle
-  `#zelle-1`. Dazu `data-ziel` am `#countdown` (nach dem Datum blendet sich der Countdown aus) und der Eventfrog-Link
+- **Nächste Show:** Showname und Datum stehen an **drei** Stellen in `docs/index.html`: im Show-Panel (`.show__name`, `.show__datum`),
+  in der `.show-leiste` (Kurzform „Fr., 18. Dez. 2026, 18 Uhr“, sonst bricht sie auf dem Handy um) und in der Zelle `#zelle-1`.
+  Die Zelle „Gast & Musik“ (`.zelle--besetzung`) ist bis zu neuen Infos auskommentiert; das Plakat (`.organell--plakat`) ist aus `#zelle-1` entfernt.
+  Beim Wiedereinblenden verschieben sich die Zellformen (`nth-of-type`), mit `--form`/`--x` abgleichen. Dazu `data-ziel` am `#countdown` (nach dem Datum blendet sich der Countdown aus) und der Eventfrog-Link
   (Show-Panel, Leiste und Navigation **aller** Seiten).
 - **Bilder:** Original nach `originale/`, in `tools/optimize_images.py` (Liste `BILDER`) eintragen, dann:
   `/Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup --python tools/optimize_images.py`
@@ -141,5 +143,8 @@ Weitere Mechanik:
   - „wie Folgt“, „Tabuu“, „beim spielen“
   - „nachfolgenen“
   - „wir eindrucksvoll“ (wie)
-- Das Showdatum (31.01.2026) liegt in der Vergangenheit. Der Countdown ist deshalb ausgeblendet.
+- Nächste Show: **X-Mas Show, Freitag, 18. Dezember 2026, 18 Uhr** (Countdown bis 18:00). Noch offen: Eventfrog-Link
+  (zeigt noch auf Hanna & Max – Neujahrsgeschichten), Plakat, Gast & Musik.
+- „Letzte Aufführung“ beschreibt noch die Show vom 25.10.2025 (eigentlich zuletzt: Hanna & Max – Neujahrsgeschichten, 31.01.2026).
+- `media/og-vorschau.jpg` (Linkvorschau) ist vorerst das neutrale Verbeugungsfoto statt eines Showplakats.
 - `fun/impro-resources.html` ist unfertig („tbd“) und nicht verlinkt.

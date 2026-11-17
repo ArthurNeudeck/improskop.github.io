@@ -151,7 +151,7 @@ for farbe, hexwert in {"dunkel": "3B2A63", "hell": "EEF1EC"}.items():
         bpy.data.images.remove(c)
 
 # Vorschaubild fuer Links (Open Graph)
-og = bpy.data.images.load(str(SRC / "Show_2/hanna & Max.png"))
+og = bpy.data.images.load(str(SRC / "Rueckblicke/Lang1.jpg"))  # neutral, bis es ein Plakat zur naechsten Show gibt
 c = scaled_copy(og, 1200)
 fmt.file_format = "JPEG"
 fmt.quality = 82
