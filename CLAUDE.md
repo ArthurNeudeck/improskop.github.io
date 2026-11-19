@@ -22,11 +22,11 @@ Ansprechperson und Entwickler: Mika. Mit Mika auf **Deutsch** kommunizieren.
    Erwartete, gewollte Abweichungen:
    - `☰` fehlt (ist jetzt ein gezeichnetes Icon).
    - Impressum und Datenschutz haben zusätzlich Navigation und Footer.
-   - Die Show-Zelle und die Show-Leiste wiederholen den Show-Text; sie sind mit `data-textcheck="ignore"` markiert.
+   - Die Show-Leiste und die ersten Zeilen der Show-Zelle wiederholen den Show-Text; sie sind einzeln mit `data-textcheck="ignore"` markiert.
 
    Nach freigegebenen Textänderungen: `python3 tools/textcheck.py snapshot`.
 2. **Nach jeder Änderung an CSS oder JS die Versionsnummer erhöhen**: `style.css?v=…`, `script.js?v=…`, `zellen.js?v=…`
-   in allen HTML-Dateien (aktuell `v=20261118`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
+   in allen HTML-Dateien (aktuell `v=20261119`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
    Seite wird nicht mehr scrollbar.
 3. **Leistung:** Nie `border-radius`, `width`/`height`, `box-shadow` oder `filter` animieren. Bewegung nur über `transform`/`opacity`.
    Das Animieren der Zellform war der Grund, warum die Seite auf Handys mit 11 statt 60 Bildern/s lief.
@@ -107,9 +107,11 @@ Weitere Mechanik:
 
 ## Inhalte pflegen
 - **Nächste Show:** Showname und Datum stehen an **drei** Stellen in `docs/index.html`: im Show-Panel (`.show__name`, `.show__datum`),
-  in der `.show-leiste` (Kurzform „Fr., 18. Dez. 2026, 18 Uhr“, sonst bricht sie auf dem Handy um) und in der Zelle `#zelle-1`.
+  in der `.show-leiste` (Kurzform „Fr., 18. Dez. 2026, 19:30 Uhr“, sonst bricht sie auf dem Handy um) und in der Zelle `#zelle-1`.
+  `#zelle-1` ist der ausführliche Show-Bereich (Bild `.organell--show` quer/quadratisch, `.show-fakten`, `.show-text`, Ticket-Button).
+  Dazu passen: Open Graph (`og:*`, Bild `media/og-<show>.jpg`) und das Event-JSON-LD im `<head>`.
   Die Zelle „Gast & Musik“ (`.zelle--besetzung`) ist bis zu neuen Infos auskommentiert; das Plakat (`.organell--plakat`) ist aus `#zelle-1` entfernt.
-  Beim Wiedereinblenden verschieben sich die Zellformen (`nth-of-type`), mit `--form`/`--x` abgleichen. Dazu `data-ziel` am `#countdown` (nach dem Datum blendet sich der Countdown aus) und der Eventfrog-Link
+  Beim Wiedereinblenden verschieben sich die Zellformen (`nth-of-type`), mit `--form`/`--x` abgleichen. Dazu `data-ziel` am `#countdown` (mit Zeitzone, z. B. `2026-12-18T19:30:00+01:00`; nach dem Datum blendet sich der Countdown aus) und der Eventfrog-Link
   (Show-Panel, Leiste und Navigation **aller** Seiten).
 - **Bilder:** Original nach `originale/`, in `tools/optimize_images.py` (Liste `BILDER`) eintragen, dann:
   `/Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup --python tools/optimize_images.py`
@@ -147,8 +149,10 @@ Weitere Mechanik:
   - „wie Folgt“, „Tabuu“, „beim spielen“
   - „nachfolgenen“
   - „wir eindrucksvoll“ (wie)
-- Nächste Show: **X-Mas Show, Freitag, 18. Dezember 2026, 18 Uhr** (Countdown bis 18:00). Noch offen: Eventfrog-Link
-  (zeigt noch auf Hanna & Max – Neujahrsgeschichten), Plakat, Gast & Musik.
+- Nächste Show: **Hanna & Max: Bescherung, Freitag, 18. Dezember 2026**, Türöffnung 19:00, Beginn 19:30 (Countdown bis 19:30).
+  Gäste nie namentlich nennen. Originale in `originale/show/2026/xmas/`.
+- VIP-Sitzplätze (Newsletter-Zelle und Q&A) sind auskommentiert, bis bestätigt ist, dass es sie bei dieser Show gibt.
+  Beim Wiedereinblenden die Klasse `newsletter-vip--ohne-vip` entfernen.
 - „Letzte Aufführung“ beschreibt noch die Show vom 25.10.2025 (eigentlich zuletzt: Hanna & Max – Neujahrsgeschichten, 31.01.2026).
-- `media/og-vorschau.jpg` (Linkvorschau) ist vorerst das neutrale Verbeugungsfoto statt eines Showplakats.
+- Linkvorschau: aktuell `media/og-bescherung.jpg`; nach der Show wieder auf das neutrale `media/og-vorschau.jpg` (Verbeugungsfoto) zurückstellen.
 - `fun/impro-resources.html` ist unfertig („tbd“) und nicht verlinkt.

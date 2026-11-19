@@ -31,6 +31,9 @@ BILDER = {
     "Unsichtbare_Objekte.JPG": ("spiel-objekt", [640, 1280]),
     "Sternentod_Shirt_prof.jpg": ("shop-shirt", [640, 1179]),
     "Sternentod_motiv_prof.jpg": ("shop-motiv", [640, 1179]),
+    # Hanna & Max: Bescherung (18.12.2026). Erzeugt wurden sie mit cwebp -q 82 -sharp_yuv (Schrift bleibt scharf).
+    "show/2026/xmas/hum-2026-xmas-eventfrog.png": ("show-bescherung-quer", [800, 1568]),
+    "show/2026/xmas/hum-2026-xmas-online.png": ("show-bescherung-quadrat", [540, 1080]),
 }
 
 scene = bpy.context.scene

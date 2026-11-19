@@ -573,6 +573,38 @@ em { font-style: italic; }
 .zelle-show__name { margin: 0 0 0.6rem; font-family: var(--schrift-titel); font-size: clamp(2rem, 1.4rem + 2.2vw, 3.4rem); line-height: 1.05; color: var(--haematoxylin); }
 .zelle-show__untertitel { font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem); color: var(--haematoxylin-sanft); }
 .zelle-show__datum { margin: 1rem 0 0; font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.6rem); color: var(--buehne); }
+/* Showbild: sanfte Ecken, damit Schrift und Logo im Bild nicht abgeschnitten werden */
+.organell--show {
+  --o-form: 34px 56px 40px 64px / 48px 36px 60px 40px;
+  --grund-dreh: -1.2deg;
+  width: 100%;
+  aspect-ratio: 1568 / 958;
+  margin: clamp(1.75rem, 4vw, 3rem) 0;
+  background: var(--nacht);
+}
+.organell--show picture { display: contents; border-radius: inherit; }   /* sonst bleibt das Bild eckig */
+.show-fakten {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem clamp(1.5rem, 4vw, 3rem);
+  margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
+}
+.show-fakten > div:first-child { grid-column: 1 / -1; }
+.show-fakten dt {
+  margin-bottom: 0.2rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--haematoxylin-sanft);
+}
+.show-fakten dd { margin: 0; color: var(--haematoxylin); }
+.show-text { max-width: 62ch; }
+.show-text p + p { margin-top: 1rem; }
+.show-text__einstieg { font-family: var(--schrift-titel); font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.8rem); line-height: 1.2; color: var(--haematoxylin); }
+.show-text__tipp { padding-left: 1rem; border-left: 3px solid var(--eosin); }
+.zelle--show .knopf-reihe { margin-top: clamp(1.5rem, 4vw, 2.5rem); }
+.show-panel .show__tueroeffnung { margin: 0.35rem 0 0; font-size: 0.95rem; color: rgb(238 241 236 / 0.86); }
 
 /* Gast & Musik */
 .besetzung {
@@ -607,6 +639,9 @@ em { font-style: italic; }
 .newsletter { grid-area: news; }
 .iphone-link { grid-area: iphone; justify-self: start; }
 .vip { grid-area: vip; }
+/* Solange der VIP-Block ausgeblendet ist: Newsletter über die ganze Breite */
+.newsletter-vip--ohne-vip { grid-template-columns: minmax(0, 1fr); grid-template-areas: "news" "iphone"; }
+.newsletter-vip--ohne-vip .newsletter { max-width: 46rem; }
 .newsletter h2, .vip h2 { margin-bottom: 1rem; }
 .anmeldung {
   margin-top: 2rem;
@@ -1084,6 +1119,9 @@ body:not(:has(.objekttraeger))::before {      /* Präparat-Flecken hinter den Un
   .zelle { padding: 28px 22px; }
   .besetzung { grid-template-columns: 1fr; }
   .newsletter-vip { grid-template-columns: 1fr; grid-template-areas: "news" "iphone" "vip"; }
+  .newsletter-vip--ohne-vip { grid-template-areas: "news" "iphone"; }
+  .organell--show { aspect-ratio: 1; width: min(100%, 440px); margin-inline: auto; }
+  .show-fakten { grid-template-columns: 1fr; }
   .verein { grid-template-columns: 1fr; }
   .verein .organell { margin: 0 auto; width: 78vw; }
   .organell--buehne { float: none; width: calc(100% + 24px); margin: -60px -12px 1.5rem; }
