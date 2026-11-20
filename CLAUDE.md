@@ -161,5 +161,5 @@ Weitere Mechanik:
 - „Letzte Aufführung“ und Archiv-Eintrag Neujahrsgeschichten (31.01.2026) sind bewusst kurz und nennen nur belegte Fakten; ein längerer Text fehlt noch.
   Das Foto darin stammt vermutlich von der Show im Oktober 2025.
 - Linkvorschau: aktuell `media/shows/2026-12-bescherung/og.jpg`; nach der Show wieder auf das neutrale `media/marke/og-vorschau.jpg` (Verbeugungsfoto) zurückstellen.
-- Plakat „Zu Besuch bei Hanna & Max“ schreibt „Matthias Bauman“, der Text „Matthias Baumann“. Richtige Schreibweise klären.
+- Richtig ist „Matthias Baumann“. Das Plakat „Zu Besuch bei Hanna & Max“ schreibt „Bauman“ (im Bild, bleibt so); Text und Alt-Text sind korrekt.
 - `fun/impro-resources.html` ist unfertig („tbd“) und nicht verlinkt.
