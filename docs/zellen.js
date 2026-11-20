@@ -696,6 +696,14 @@
         zuZelle(i, versatz - (vh - oben - unten) * 0.3, 'instant');
     });
 
+    // Aufklappen (Q&A, «Weiterlesen») ändert die Zellhöhe: Zeitachse neu messen,
+    // sonst fährt die Kamera den neuen Text nicht ab. (toggle steigt nicht auf, daher capture)
+    document.addEventListener('toggle', e => {
+        if (aus || !e.target.closest || !e.target.closest('.zelle')) return;
+        sicher(aufbauen);
+        planen();
+    }, true);
+
     let format0 = null;
     addEventListener('resize', () => {
         if (aus) return;

@@ -26,7 +26,7 @@ Ansprechperson und Entwickler: Mika. Mit Mika auf **Deutsch** kommunizieren.
 
    Nach freigegebenen Textänderungen: `python3 tools/textcheck.py snapshot`.
 2. **Nach jeder Änderung an CSS oder JS die Versionsnummer erhöhen**: `style.css?v=…`, `script.js?v=…`, `zellen.js?v=…`
-   in allen HTML-Dateien (aktuell `v=20261119`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
+   in allen HTML-Dateien (aktuell `v=20261119-2`). Sonst mischt der Browser neue HTML mit alten Skripten, und die
    Seite wird nicht mehr scrollbar.
 3. **Leistung:** Nie `border-radius`, `width`/`height`, `box-shadow` oder `filter` animieren. Bewegung nur über `transform`/`opacity`.
    Das Animieren der Zellform war der Grund, warum die Seite auf Handys mit 11 statt 60 Bildern/s lief.
@@ -41,11 +41,15 @@ docs/                 ← wird veröffentlicht
   style.css           ein Stylesheet für alle Seiten
   script.js           alle Seiten: Navigation/Burger, Countdown, Cookie-Banner, Glanzlicht, Rückblick-Pfeile
   zellen.js           nur Startseite: Kamera, Zeitachse, Blender-Bildfolge, Sparmodus
-  media/              optimierte WebP-Bilder, Logos, Favicons, og-vorschau.jpg
+  media/              optimierte Bilder, nach Thema sortiert:
+    marke/            Logos, Favicons, og-vorschau.jpg (neutrale Linkvorschau)
+    shows/JJJJ-MM-name/  Plakate je Show (z. B. 2026-12-bescherung/ mit quer-*, quadrat-*, og.jpg)
+    rueckblick/  verein/  spiele/ (Funsection)  shop/
   media/outro/        Blender-Bildfolge: quer/ (1600×900), hoch/ (900×1600), *-leicht/ (60 %, jedes 2. Bild),
                       linse-quer.json / linse-hoch.json (Lage der Linse in jedem Bild)
   fonts/              Gloock + Hanken Grotesk, selbst gehostet
-originale/            Original-Fotos (nicht veröffentlicht)
+originale/            Originale (nicht veröffentlicht), gleich gegliedert wie docs/media/; dazu unbenutzt/ (aussortiert)
+doku/                 Bilder zur Einrichtung (DNS)
 blender/              mikroskop.blend, build_mikroskop.py, render_web.py
 tools/                optimize_images.py (Bildpipeline), textcheck.py
 ```
@@ -75,7 +79,7 @@ Alles hängt nur an der Scroll-Position (kein Einrasten, kein Scroll-Hijacking).
    Instagram) ist sofort sichtbar. Beim Scrollen läuft die Bildfolge rückwärts, und in der **durchsichtigen Linse** liegt die echte
    Website (Holdout in Blender, Abgleich über linse-*.json). Das Show-Panel dockt dabei als `.show-leiste` oben an und bleibt bis zum Ende stehen.
 2. **oeffnen**: Blender-Bild 1 bleibt stehen und wird per `transform: scale` um die Linse vergrössert: Die Kamera fliegt durchs
-   Okular, das Website-Loch wächst mit. Danach wird die Bühne ausgeblendet. (`okular-rand.webp` wird nicht mehr benutzt.)
+   Okular, das Website-Loch wächst mit. Danach wird die Bühne ausgeblendet. (`okular-rand.webp` wird nicht mehr benutzt, liegt in `originale/unbenutzt/`.)
 3. **zelle / uebergang**: 9 Zellen (`section.zelle` in `.welt`) in dieser Reihenfolge: Show (Wiederholung),
    Newsletter + VIP, Letzte Aufführung (`#shows`), Verein (`#ueber-uns`), Schauspielende, Rückblicke (`#my-work`), Orga, Q&A, Funsection.
    Beim Verweilen fährt die Kamera die Zelle ab (normales Lesen); im Übergang zoomt sie heraus, gleitet zur nächsten Zelle und zoomt wieder hinein.
@@ -109,11 +113,14 @@ Weitere Mechanik:
 - **Nächste Show:** Showname und Datum stehen an **drei** Stellen in `docs/index.html`: im Show-Panel (`.show__name`, `.show__datum`),
   in der `.show-leiste` (Kurzform „Fr., 18. Dez. 2026, 19:30 Uhr“, sonst bricht sie auf dem Handy um) und in der Zelle `#zelle-1`.
   `#zelle-1` ist der ausführliche Show-Bereich (Bild `.organell--show` quer/quadratisch, `.show-fakten`, `.show-text`, Ticket-Button).
-  Dazu passen: Open Graph (`og:*`, Bild `media/og-<show>.jpg`) und das Event-JSON-LD im `<head>`.
+  Dazu passen: Open Graph (`og:*`, Bild `media/shows/<show>/og.jpg`) und das Event-JSON-LD im `<head>`.
+- **Nach einer Show:** Sie wird „Letzte Aufführung“ (`#shows`) und kommt zusätzlich **oben** ins Archiv „Vergangene Shows“
+  in der Rückblicke-Zelle (`.archiv-show`: Plakat als `.organell--archiv` mit `--seiten` = Seitenverhältnis, Titel, Datum, Text;
+  langer Text ab dem 2. Absatz in `<details class="archiv-show__mehr">`). Aufklappen misst die Zeitachse neu (`toggle` in zellen.js).
   Die Zelle „Gast & Musik“ (`.zelle--besetzung`) ist bis zu neuen Infos auskommentiert; das Plakat (`.organell--plakat`) ist aus `#zelle-1` entfernt.
   Beim Wiedereinblenden verschieben sich die Zellformen (`nth-of-type`), mit `--form`/`--x` abgleichen. Dazu `data-ziel` am `#countdown` (mit Zeitzone, z. B. `2026-12-18T19:30:00+01:00`; nach dem Datum blendet sich der Countdown aus) und der Eventfrog-Link
   (Show-Panel, Leiste und Navigation **aller** Seiten).
-- **Bilder:** Original nach `originale/`, in `tools/optimize_images.py` (Liste `BILDER`) eintragen, dann:
+- **Bilder:** Original in den passenden Unterordner von `originale/`, in `tools/optimize_images.py` (Liste `BILDER`) eintragen, dann:
   `/Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup --python tools/optimize_images.py`
   (Blender dient nur als Bildwerkzeug; ffmpeg hat hier kein WebP. Handyfotos werden per EXIF gedreht.)
 - **Mikroskop:** Blender 5.1 ist installiert, Blender MCP **nicht** verbunden; gesteuert wird per Python.
@@ -144,8 +151,6 @@ Weitere Mechanik:
   - „unterstüzt“
   - „Der 16-jähriger“
   - „eine beeindruckendes Talent“
-  - „dieses Mal in mit neuem Format“
-  - „Zu Besuch bei Hanna & |“ (es fehlt „Max“)
   - „wie Folgt“, „Tabuu“, „beim spielen“
   - „nachfolgenen“
   - „wir eindrucksvoll“ (wie)
@@ -153,6 +158,8 @@ Weitere Mechanik:
   Gäste nie namentlich nennen. Originale in `originale/show/2026/xmas/`.
 - VIP-Sitzplätze (Newsletter-Zelle und Q&A) sind auskommentiert, bis bestätigt ist, dass es sie bei dieser Show gibt.
   Beim Wiedereinblenden die Klasse `newsletter-vip--ohne-vip` entfernen.
-- „Letzte Aufführung“ beschreibt noch die Show vom 25.10.2025 (eigentlich zuletzt: Hanna & Max – Neujahrsgeschichten, 31.01.2026).
-- Linkvorschau: aktuell `media/og-bescherung.jpg`; nach der Show wieder auf das neutrale `media/og-vorschau.jpg` (Verbeugungsfoto) zurückstellen.
+- „Letzte Aufführung“ und Archiv-Eintrag Neujahrsgeschichten (31.01.2026) sind bewusst kurz und nennen nur belegte Fakten; ein längerer Text fehlt noch.
+  Das Foto darin stammt vermutlich von der Show im Oktober 2025.
+- Linkvorschau: aktuell `media/shows/2026-12-bescherung/og.jpg`; nach der Show wieder auf das neutrale `media/marke/og-vorschau.jpg` (Verbeugungsfoto) zurückstellen.
+- Plakat „Zu Besuch bei Hanna & Max“ schreibt „Matthias Bauman“, der Text „Matthias Baumann“. Richtige Schreibweise klären.
 - `fun/impro-resources.html` ist unfertig („tbd“) und nicht verlinkt.

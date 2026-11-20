@@ -733,6 +733,42 @@ em { font-style: italic; }
   border-radius: 28px 60px 32px 70px / 40px 30px 60px 36px;
 }
 
+/* Rückblicke: Archiv der vergangenen Shows */
+.archiv { margin-top: clamp(3rem, 6vw, 5rem); }
+.archiv__titel { margin-bottom: 0; font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.8rem); color: var(--licht); }
+.archiv-show {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgb(238 241 236 / 0.2);
+}
+.organell--archiv {
+  --o-form: 24px 40px 28px 44px / 34px 26px 42px 30px;   /* sanft: Schrift im Plakat bleibt ganz */
+  --grund-dreh: -1deg;
+  width: 100%;
+  aspect-ratio: var(--seiten, 1);
+}
+.archiv-show h4 { margin: 0; font-family: var(--schrift-titel); font-size: var(--t-h3); line-height: 1.2; }
+.archiv-show__datum { margin: 0.3rem 0 1rem; color: rgb(238 241 236 / 0.75); }
+.archiv-show__text p + p, .archiv-show__mehr p { margin-top: 1rem; }
+.archiv-show__mehr summary {
+  display: inline-flex; align-items: center; gap: 0.5em;
+  margin-top: 1rem;
+  min-height: 44px;
+  font-weight: 700;
+  color: var(--licht);
+  cursor: pointer;
+  list-style: none;
+}
+.archiv-show__mehr summary::-webkit-details-marker { display: none; }
+.archiv-show__mehr summary::after { content: "+"; font-size: 1.3em; line-height: 1; }
+.archiv-show__mehr[open] summary::after { content: "–"; }
+.archiv-show__mehr .auf, .archiv-show__mehr[open] .zu { display: none; }
+.archiv-show__mehr[open] .auf { display: inline; }
+
 /* Orga */
 .orga h2 { font-size: var(--t-h1); }
 .orga__spalten {
@@ -1130,6 +1166,8 @@ body:not(:has(.objekttraeger))::before {      /* Präparat-Flecken hinter den Un
   .spiel--gespiegelt .sichtfeld { order: 0; }
   .sichtfeld::after { inset: -5px; }
   .rueckblick__pfeile { display: none; }
+  .archiv-show { grid-template-columns: 1fr; }
+  .organell--archiv { width: min(100%, 380px); }
   .streifen { margin-inline: -22px; padding-inline: 22px; scroll-padding-inline: 22px; }
   .streifen figure { height: 56vh; width: 72vw; }
   .streifen img { width: 100%; object-fit: cover; }

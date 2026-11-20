@@ -6,7 +6,7 @@
   Blender --background blender/mikroskop.blend --python blender/render_web.py -- --nur leicht # nur Sparversion neu erzeugen
 
 Ergebnis:
-  docs/media/okular-rand.webp          Okular-Rand mit transparenter Mitte (Seiteneinstieg)
+  originale/unbenutzt/okular-rand.webp Okular-Rand (nur mit --nur okular; auf der Seite nicht mehr benutzt)
   docs/media/outro/quer/0001-0096.webp Rueckfahrt fuer Laptop (1600x900)
   docs/media/outro/hoch/0001-0096.webp Rueckfahrt fuer Handy (900x1600)
   docs/media/outro/*-leicht/           Sparversion fuer schwache Geraete: jedes 2. Bild, 60 % Groesse
@@ -132,8 +132,8 @@ if TEST:
     rueckfahrt("CAM_Rueckfahrt_Hoch", 900, 1600, test / "hoch", [1, 96])
 else:
     alle = range(scene.frame_start, scene.frame_end + 1)
-    if NUR in (None, "okular"):
-        okular_rand(MEDIA / "okular-rand.webp")
+    if NUR == "okular":   # wird auf der Seite nicht mehr benutzt, deshalb nur auf Wunsch
+        okular_rand(HIER.parent / "originale" / "unbenutzt" / "okular-rand.webp")
     if NUR in (None, "quer"):
         rueckfahrt("CAM_Rueckfahrt_Quer", 1600, 900, MEDIA / "outro" / "quer", alle)
     if NUR in (None, "hoch"):

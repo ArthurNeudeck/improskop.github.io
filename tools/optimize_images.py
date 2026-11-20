@@ -16,24 +16,30 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 # Quelle -> (Name, Breiten)
 BILDER = {
-    "Show_2/hanna & Max.png": ("show-hanna-max", [800, 1600, 2400]),
-    "DRAUSSEN_HM_Lachen.png": ("hanna-max-lachen", [640, 908]),
-    "HuM_Txt2.JPG": ("arthur-lea", [640, 1280]),
-    "HuM_LeaCut.JPG": ("arthur-lea-breit", [960, 1600, 2400]),
-    "Rueckblicke/Lang1.jpg": ("rueckblick-verbeugung", [640, 1280, 2000]),
-    "Rueckblicke/Lang2.jpg": ("rueckblick-boden", [640, 1280, 2000]),
-    "Rueckblicke/Hoch0.jpg": ("rueckblick-flasche", [480, 960, 1440]),
-    "Rueckblicke/Hoch1.jpg": ("rueckblick-staunen", [480, 960, 1440]),
-    "Rueckblicke/Hoch2.jpg": ("rueckblick-umarmung", [480, 960, 1440]),
-    "Rueckblicke/Hoch3.jpg": ("rueckblick-applaus", [480, 960, 1440]),
-    "Talking_people.jpg": ("spiel-gespraech", [640, 1280]),
-    "ChatGPT Image 23. Okt. 2025, 21_30_58.png": ("spiel-abc", [640, 1280]),
-    "Unsichtbare_Objekte.JPG": ("spiel-objekt", [640, 1280]),
-    "Sternentod_Shirt_prof.jpg": ("shop-shirt", [640, 1179]),
-    "Sternentod_motiv_prof.jpg": ("shop-motiv", [640, 1179]),
-    # Hanna & Max: Bescherung (18.12.2026). Erzeugt wurden sie mit cwebp -q 82 -sharp_yuv (Schrift bleibt scharf).
-    "show/2026/xmas/hum-2026-xmas-eventfrog.png": ("show-bescherung-quer", [800, 1568]),
-    "show/2026/xmas/hum-2026-xmas-online.png": ("show-bescherung-quadrat", [540, 1080]),
+    # Shows (je Show ein Ordner: JJJJ-MM-name)
+    "shows/2025-10-zu-besuch/Showposter_25_1.png": ("shows/2025-10-zu-besuch/plakat", [480, 960]),
+    "shows/2026-01-neujahr/hanna & Max.png": ("shows/2026-01-neujahr/plakat", [800, 1600, 1920]),
+    # Bescherung: erzeugt mit cwebp -q 82 -sharp_yuv (Schrift bleibt schaerfer als mit Blender)
+    "shows/2026-12-bescherung/hum-2026-xmas-eventfrog.png": ("shows/2026-12-bescherung/quer", [800, 1568]),
+    "shows/2026-12-bescherung/hum-2026-xmas-online.png": ("shows/2026-12-bescherung/quadrat", [540, 1080]),
+    # Verein
+    "verein/DRAUSSEN_HM_Lachen.png": ("verein/hanna-max-lachen", [640, 908]),
+    "verein/HuM_Txt2.JPG": ("verein/arthur-lea", [640, 1280]),
+    "verein/HuM_LeaCut.JPG": ("verein/arthur-lea-breit", [960, 1600, 2400]),
+    # Rueckblick
+    "rueckblick/Lang1.jpg": ("rueckblick/verbeugung", [640, 1280, 2000]),
+    "rueckblick/Lang2.jpg": ("rueckblick/boden", [640, 1280, 2000]),
+    "rueckblick/Hoch0.jpg": ("rueckblick/flasche", [480, 960, 1440]),
+    "rueckblick/Hoch1.jpg": ("rueckblick/staunen", [480, 960, 1440]),
+    "rueckblick/Hoch2.jpg": ("rueckblick/umarmung", [480, 960, 1440]),
+    "rueckblick/Hoch3.jpg": ("rueckblick/applaus", [480, 960, 1440]),
+    # Funsection
+    "spiele/Talking_people.jpg": ("spiele/gespraech", [640, 1280]),
+    "spiele/ChatGPT Image 23. Okt. 2025, 21_30_58.png": ("spiele/abc", [640, 1280]),
+    "spiele/Unsichtbare_Objekte.JPG": ("spiele/objekt", [640, 1280]),
+    # Shop
+    "shop/Sternentod_Shirt_prof.jpg": ("shop/shirt", [640, 1179]),
+    "shop/Sternentod_motiv_prof.jpg": ("shop/motiv", [640, 1179]),
 }
 
 scene = bpy.context.scene
@@ -104,6 +110,7 @@ for rel, (name, widths) in BILDER.items():
     img = bpy.data.images.load(str(SRC / rel))
     if rel.lower().endswith((".jpg", ".jpeg")):
         img = aufrichten(img, exif_drehung(SRC / rel))
+    (OUT / name).parent.mkdir(parents=True, exist_ok=True)
     for w in widths:
         w = min(w, img.size[0])
         c = scaled_copy(img, w)
@@ -113,7 +120,9 @@ for rel, (name, widths) in BILDER.items():
     bpy.data.images.remove(img)
 
 # Logo in Markenfarben einfaerben (Form = Alpha * Dunkelheit)
-logo_roh = bpy.data.images.load(str(SRC / "Logo2_final.png"))
+MARKE = OUT / "marke"
+MARKE.mkdir(exist_ok=True)
+logo_roh = bpy.data.images.load(str(SRC / "marke/Logo2_final.png"))
 # Leeren Rand abschneiden (Bounding-Box der sichtbaren Form), quadratisch auffuellen
 lw, lh = logo_roh.size
 lp = np.empty(lw * lh * 4, dtype=np.float32)
@@ -141,7 +150,8 @@ for farbe, hexwert in {"dunkel": "3B2A63", "hell": "EEF1EC"}.items():
         a = px[:, 3] * (1 - lum)
         px[:, 0], px[:, 1], px[:, 2], px[:, 3] = rgb[0], rgb[1], rgb[2], a
         c.pixels.foreach_set(px.ravel())
-        save(c, OUT / f"logo-{farbe}-{w}.webp", quality=90, alpha=True)
+        if not (farbe == "dunkel" and w == 512):  # logo-dunkel-512 wird nicht benutzt
+            save(c, MARKE / f"logo-{farbe}-{w}.webp", quality=90, alpha=True)
         if farbe == "dunkel" and w == 512:
             # Favicon / Touch-Icon als PNG
             fmt.file_format = "PNG"
@@ -149,15 +159,15 @@ for farbe, hexwert in {"dunkel": "3B2A63", "hell": "EEF1EC"}.items():
             for s, n in ((180, "apple-touch-icon.png"), (48, "favicon-48.png")):
                 ic = c.copy()
                 ic.scale(s, s)
-                ic.save_render(str(OUT / n), scene=scene)
+                ic.save_render(str(MARKE / n), scene=scene)
             fmt.file_format = "WEBP"
         bpy.data.images.remove(c)
 
 # Vorschaubild fuer Links (Open Graph)
-og = bpy.data.images.load(str(SRC / "Rueckblicke/Lang1.jpg"))  # neutral, bis es ein Plakat zur naechsten Show gibt
+og = bpy.data.images.load(str(SRC / "rueckblick/Lang1.jpg"))  # neutrale Linkvorschau (Unterseiten)
 c = scaled_copy(og, 1200)
 fmt.file_format = "JPEG"
 fmt.quality = 82
 fmt.color_mode = "RGB"
-c.save_render(str(OUT / "og-vorschau.jpg"), scene=scene)
+c.save_render(str(MARKE / "og-vorschau.jpg"), scene=scene)
 print("fertig")
